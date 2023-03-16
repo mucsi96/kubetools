@@ -1,0 +1,6 @@
+- name: Deploy Postgres monitoring resources
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+  with_items:
+    - postgres_monitoring/grafana_dashboard.yaml

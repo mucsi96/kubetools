@@ -1,0 +1,5 @@
+k8s_name: spring-app
+app_env: {}
+app_port: 8080
+spring_actuator_port: 8082
+base_path: /

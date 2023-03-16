@@ -1,0 +1,51 @@
+- name: Deploy Kube Prometheus Stack
+  kubernetes.core.helm:
+    name: kube-prometheus-stack
+    chart_repo_url: https://prometheus-community.github.io/helm-charts
+    chart_ref: kube-prometheus-stack
+    chart_version: 45.5.0
+    wait: true
+    release_namespace: "{{ k8s_namespace }}"
+    release_values:
+      prometheus:
+        prometheusSpec:
+          podMonitorSelectorNilUsesHelmValues: false
+          serviceMonitorSelectorNilUsesHelmValues: false
+
+      grafana:
+        ## Configure additional grafana datasources (passed through tpl)
+        ## ref: http://docs.grafana.org/administration/provisioning/#datasources
+        additionalDataSources:
+          - name: Loki
+            type: loki
+            isDefault: false
+            access: proxy
+            url: http://loki-stack.monitoring:3100
+            version: 1
+
+        grafana.ini:
+          auth.proxy:
+            enabled: true
+            header_name: X-WEBAUTH-USER
+            header_property: username
+            auto_sign_up: true
+
+- name: Deploy Prometheus resources
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+  with_items:
+    - prometheus/redirect_middleware.yaml
+    - prometheus/route.yaml
+  vars:
+    app_host: "prometheus.{{ hostname }}"
+
+- name: Deploy Grafana resources
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+  with_items:
+    - grafana/auth_middleware.yaml
+    - grafana/route.yaml
+  vars:
+    app_host: "grafana.{{ hostname }}"

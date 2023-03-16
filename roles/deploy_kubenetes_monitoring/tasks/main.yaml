@@ -1,0 +1,35 @@
+- name: Create {{ k8s_namespace }} namespace
+  kubernetes.core.k8s:
+    state: present
+    kind: namespace
+    name: "{{ k8s_namespace }}"
+
+- name: Deploy Traefik dashboard
+  ansible.builtin.import_tasks: traefik_dashboard.yaml
+
+- name: Deploy Kube Prometheus Stack
+  ansible.builtin.import_tasks: kube_prometheus_stack.yaml
+
+- name: Deploy LokiStack
+  ansible.builtin.import_tasks: loki_stack.yaml
+
+- name: Deploy Kubernetes Dashboard
+  ansible.builtin.import_tasks: kubernetes_dashboard.yaml
+
+- name: Deploy Traefik monitoring
+  ansible.builtin.import_tasks: traefik.yaml
+  
+- name: Deploy Spring Boot monitoring
+  ansible.builtin.import_tasks: spring_boot_monitoring.yaml
+
+- name: Deploy Nginx monitoring
+  ansible.builtin.import_tasks: nginx_monitoring.yaml
+
+- name: Deploy Postgres monitoring
+  ansible.builtin.import_tasks: postgres_monitoring.yaml
+
+- name: Deploy logs monitoring
+  ansible.builtin.import_tasks: logs.yaml
+
+- name: Deploy Spring Boot Admin
+  ansible.builtin.import_tasks: spring_boot_admin.yaml

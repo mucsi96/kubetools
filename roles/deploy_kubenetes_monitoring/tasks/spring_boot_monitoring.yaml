@@ -1,0 +1,6 @@
+- name: Deploy Spring Boot monitoring resources
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+  with_items:
+    - spring_boot_monitoring/grafana_dashboard.yaml

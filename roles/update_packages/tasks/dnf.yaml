@@ -1,0 +1,27 @@
+- name: Upgrade all packages
+  become: true
+  ansible.builtin.dnf:
+    name:  "*"
+    state: latest
+- name: Install yum-utils to be able to use needs-restarting command
+  become: true
+  ansible.builtin.package:
+    name: yum-utils
+    state: present
+- name: Check if a reboot is needed
+  become: true
+  command: "/usr/bin/needs-restarting -r"
+  register: reboot_required
+  ignore_errors: true
+  changed_when: false
+  failed_when: reboot_required.rc == 2
+- name: Reboot if kernel updated
+  become: true
+  ansible.builtin.reboot:
+    msg: "Reboot initiated by Ansible for kernel updates"
+    connect_timeout: 5
+    reboot_timeout: 300
+    pre_reboot_delay: 0
+    post_reboot_delay: 30
+    test_command: uptime
+  when: reboot_required.rc == 1

@@ -1,0 +1,25 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  # https://artifacthub.io/packages/helm/traefik/traefik/20.3.1
+  # additionalArguments: https://doc.traefik.io/traefik/reference/static-configuration/cli/
+  valuesContent: |-
+    providers:
+      kubernetesCRD:
+        allowCrossNamespace: true
+    ports:
+      traefik:
+        expose: true
+    deployment:
+      additionalVolumes:
+      - name: plugins
+    additionalVolumeMounts:
+    - name: plugins
+      mountPath: /plugins-storage
+    additionalArguments: 
+      - --entryPoints.web.forwardedHeaders.insecure
+      - --experimental.plugins.pathauth.moduleName=github.com/nilskohrs/pathauth
+      - --experimental.plugins.pathauth.version=v0.1.5

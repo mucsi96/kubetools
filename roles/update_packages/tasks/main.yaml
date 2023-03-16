@@ -1,0 +1,11 @@
+- name: Check internet connection
+  ansible.builtin.include_role:
+    name: check_internet_connection
+    
+- name: Update packages with APT
+  ansible.builtin.import_tasks: apt.yaml
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Update packages with DNF
+  ansible.builtin.import_tasks: dnf.yaml
+  when: ansible_os_family == 'RedHat'

@@ -1,0 +1,15 @@
+- name: Install pip3
+  become: true
+  ansible.builtin.dnf:
+    name: python3-pip
+    state: present
+- name: Install kubernetes client
+  become: true
+  ansible.builtin.pip:
+    name:
+      - kubernetes == {{ kubernetes_client_version }}
+- name: Get node details
+  kubernetes.core.k8s_info:
+    kind: Node
+  register: this
+  failed_when: "'linux' != this.resources[0].status.nodeInfo.operatingSystem"

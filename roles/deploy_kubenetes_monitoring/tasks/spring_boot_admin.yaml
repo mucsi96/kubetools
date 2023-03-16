@@ -1,0 +1,12 @@
+- name: Deploy Spring Boot Admin resources
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+    wait_timeout: 240
+  with_items:
+    - spring_boot_admin/deployment.yaml
+    - spring_boot_admin/service.yaml
+    - spring_boot_admin/redirect_middleware.yaml
+    - spring_boot_admin/route.yaml
+  vars:
+    app_host: "spring.{{ hostname }}"

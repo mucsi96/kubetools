@@ -1,0 +1,16 @@
+---
+argument_specs:
+  main:
+    options:
+      hostname:
+        type: str
+        required: true
+      auth_middelware_name:
+        type: str
+        required: true
+      sso_username:
+        type: str
+        required: true
+      sso_password:
+        type: str
+        required: true

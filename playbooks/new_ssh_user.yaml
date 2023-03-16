@@ -1,0 +1,11 @@
+- name: Create new SSH
+  hosts: cluster
+  gather_facts: false
+  roles:
+    - role: new_ssh_user
+      vars:
+        username: deploy
+        private_key_file: "{{ inventory_dir }}/.ssh/id_ed25519"
+        ansible_user: root
+        ansible_ssh_pass: "123"
+        ansible_port: 22

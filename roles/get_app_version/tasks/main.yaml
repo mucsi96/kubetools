@@ -1,0 +1,8 @@
+- name: Get app version
+  get_version:
+    tag_prefix: "{{ tag_prefix }}"
+  register: this
+  delegate_to: 127.0.0.1
+- name: Set app_version to {{ this.version }}
+  ansible.builtin.set_fact:
+    app_version: "{{ this.version }}"

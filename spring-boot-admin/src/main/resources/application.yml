@@ -1,0 +1,7 @@
+server:
+  port : 8099
+  shutdown: graceful
+management:
+  health:
+    probes:
+      enabled: true

@@ -1,0 +1,19 @@
+- name: Add Docker CE Stable yum repository
+  become: true
+  ansible.builtin.yum_repository:
+    name: docker-ce-stable
+    description: Docker CE Stable - {{ ansible_architecture }}
+    baseurl: https://download.docker.com/linux/centos/8/{{ ansible_architecture }}/stable
+    gpgcheck: true
+    gpgkey: https://download.docker.com/linux/centos/gpg
+- name: Install docker
+  become: true
+  ansible.builtin.dnf:
+    name: docker-ce
+  notify:
+    - Start Docker service
+- name: Add user to docker group
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    group: docker

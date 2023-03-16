@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ auth_middelware_name }}
+  namespace: {{ k8s_namespace }}
+spec:
+  forwardAuth:
+    address: http://{{ k8s_name }}.{{ k8s_namespace }}.svc:{{ app_port }}/api/verify?rd=https://{{ app_domain }}.{{ hostname }}
+    trustForwardHeader: true
+    authResponseHeaders:
+      - Remote-User
+      - Remote-Groups
+      - Remote-Name
+      - Remote-Email

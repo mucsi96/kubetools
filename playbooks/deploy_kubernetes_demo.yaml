@@ -1,0 +1,34 @@
+- name: Deploy Kubernetes demo
+  hosts: cluster
+  gather_facts: false
+  vars_files:
+    - ../vars/vault.yaml
+    - ../vars/defaults.yaml
+  tasks:
+    - name: Deploy db
+      ansible.builtin.include_role:
+        name: deploy_postgres_db
+      vars:
+        k8s_name: "{{ db_host }}"
+    - name: Deploy server
+      ansible.builtin.include_role:
+        name: deploy_spring_app
+      vars:
+        image: mucsi96/kubetools-demo-app-server
+        tag_prefix: demo-app-server
+        app_host: "demo.{{ hostname }}"
+        base_path: /api
+        app_env:
+          POSTGRES_DB: "{{ db_name }}"
+          POSTGRES_HOSTNAME: "{{ db_host }}"
+          POSTGRES_PORT: "{{ db_port }}"
+          POSTGRES_USER: "{{ db_username }}"
+          POSTGRES_PASSWORD: "{{ db_password }}"
+          MESSAGE: Hello from Ansible Roles Spring Demo!
+    - name: Deploy client
+      ansible.builtin.include_role:
+        name: deploy_client_app
+      vars:
+        image: mucsi96/kubetools-demo-app-client
+        tag_prefix: demo-app-client
+        app_host: "demo.{{ hostname }}"

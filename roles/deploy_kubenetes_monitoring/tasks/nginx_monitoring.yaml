@@ -1,0 +1,6 @@
+- name: Deploy Nginx monitoring resources
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+  with_items:
+    - nginx_monitoring/grafana_dashboard.yaml

@@ -1,0 +1,28 @@
+---
+argument_specs:
+  main:
+    options:
+      k8s_name:
+        type: str
+      k8s_namespace:
+        type: str
+        required: true
+      db_host:
+        type: str
+        required: true
+      db_port:
+        type: str
+        required: true
+      db_name:
+        type: str
+        required: true
+      db_username:
+        type: str
+        required: true
+      db_password:
+        type: str
+        required: true
+      db_metrics_port:
+        type: str
+      init_db_sql:
+        type: str

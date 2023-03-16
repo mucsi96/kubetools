@@ -1,0 +1,8 @@
+- name: SSH hardening
+  hosts: cluster
+  gather_facts: false
+  roles:
+    - role: ssh_hardening
+      vars:
+        ssh_port: 53024
+        ansible_port: 22

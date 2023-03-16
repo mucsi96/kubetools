@@ -1,0 +1,25 @@
+- name: Configure timezone
+  become: true
+  community.general.timezone:
+    name: Europe/Zurich
+  notify: restart chrony
+
+- name: Install Chrony NTP server
+  become: true
+  ansible.builtin.dnf:
+    name: chrony
+  notify: restart chrony
+
+- name: Turning "set-ntp" on
+  become: true
+  ansible.builtin.command:
+    cmd: /usr/bin/timedatectl set-ntp on
+  notify: restart chrony
+
+- name: Configure RTC
+  become: true
+  ansible.builtin.command:
+    cmd: /usr/bin/timedatectl set-local-rtc 0
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

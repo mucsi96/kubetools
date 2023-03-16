@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ k8s_name }}
+  namespace: {{ k8s_namespace }}
+data:
+  config.yaml: |-
+    logDirectory: /var/log/cloudflared
+    tunnel: {{ tunnel_credentials.TunnelID }}
+    credentials-file: /etc/cloudflared/credentials.json
+
+    ingress:
+      - hostname: '*.{{ hostname }}'
+        service: http://traefik.kube-system
+      - service: http_status:404

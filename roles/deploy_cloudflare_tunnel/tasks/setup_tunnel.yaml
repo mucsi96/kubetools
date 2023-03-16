@@ -1,0 +1,58 @@
+
+- name: Find tunnel credentials file
+  ansible.builtin.find:
+    paths: ~/.cloudflared
+    patterns: "*.json"
+  register: matches
+- name: Get tunnel credentials
+  ansible.builtin.set_fact:
+    tunnel_credentials: "{{ matches.files[0].path if matches.matched > 0 else '' }}"
+- name: Create cloudflared certificate folder
+  ansible.builtin.file:
+    path: ~/.cloudflared
+    state: directory
+    mode: 0770
+- name: Create cloudflared certificate
+  ansible.builtin.copy:
+    dest: ~/.cloudflared/cert.pem
+    content: "{{ cloudflare_cert }}"
+    mode: 0660
+  changed_when: false
+- name: Check if "{{ tunnel_name }}" tunnel already exists
+  ansible.builtin.shell:
+    cmd: cloudflared tunnel list | grep -E  "(\s){{ tunnel_name }}(\s)"
+  changed_when: false
+  failed_when: false
+  register: tunnel_info
+- name: Create fact
+  ansible.builtin.set_fact:
+    create_tunnel: "{{ tunnel_info.stdout == '' }}"
+- name: Delete tunnel with name "{{ tunnel_name }}"
+  ansible.builtin.shell:
+    cmd: cloudflared tunnel cleanup {{ tunnel_name }} && cloudflared tunnel delete {{ tunnel_name }}
+  when: not create_tunnel and not tunnel_credentials
+- name: Create tunnel with name "{{ tunnel_name }}"
+  ansible.builtin.shell:
+    cmd: cloudflared tunnel create {{ tunnel_name }}
+  when: create_tunnel or not tunnel_credentials
+- name: Setup tunnel DNS entry
+  ansible.builtin.shell:
+    cmd: cloudflared tunnel route dns --overwrite-dns {{ tunnel_name }} *.{{ hostname }}
+  when: create_tunnel or not tunnel_credentials
+- name: Remove certificates
+  ansible.builtin.file:
+    path: ~/.cloudflared/cert.pem
+    state: absent
+  changed_when: false
+- name: Find new tunnel credentials file
+  ansible.builtin.find:
+    paths: ~/.cloudflared
+    patterns: "*.json"
+  register: matches
+- name: Read tunnel credentials
+  ansible.builtin.slurp:
+    src: "{{ matches.files[0].path }}"
+  register: tunnel_credentials_output
+- name: Get tunnel credentials content
+  ansible.builtin.set_fact:
+    tunnel_credentials: "{{ tunnel_credentials_output.content | b64decode | from_json }}"

@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: 
+  group: any
+  cancel-in-progress: true
+
+jobs:
+  build-docker-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get Ansible Vault key
+        run: |
+          mkdir .ansible
+          echo "${{ secrets.ANSIBLE_VAULT_KEY }}" > .ansible/vault_key
+      
+      - name: Install Python requirements
+        run: pip install -r requirements.txt
+
+      - name: Build Docker images
+        run: python scripts/build.py
+
+  local-ansible-deploy:
+    runs-on: macos-12
+    needs: build-docker-images
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get Ansible Vault key
+        run: |
+          mkdir .ansible
+          echo "${{ secrets.ANSIBLE_VAULT_KEY }}" > .ansible/vault_key
+
+      - name: Install sshpass # https://sourceforge.net/projects/sshpass/files/sshpass/
+        run: |
+          curl --location --output sshpass.tar.gz https://sourceforge.net/projects/sshpass/files/sshpass/1.09/sshpass-1.09.tar.gz
+          tar --extract --verbose --gzip --file sshpass.tar.gz
+          cd sshpass-*/
+          ./configure
+          sudo make install
+
+      - name: Install Python requirements
+        run: pip3 install -r requirements.txt
+
+      - name: Show Ansible version
+        run: ansible --version
+
+      - name: Show Vagrant version
+        run: vagrant --version
+
+      - name: Run vagrant up
+        run: vagrant up
+
+      - name: Provision
+        run: |
+          ansible-playbook \
+                --extra-vars "subdomain=kubetools-ci tunnel_name=kubetools-ci" \
+                playbooks/enable_root_login.yaml \
+                playbooks/new_ssh_user.yaml \
+                playbooks/ssh_hardening.yaml \
+                playbooks/update_packages.yaml \
+                playbooks/install_kubernetes.yaml \
+                playbooks/deploy_kubernetes_sso_portal.yaml \
+                playbooks/deploy_cloudflare_tunnel.yaml \
+                playbooks/deploy_kubernetes_monitoring.yaml \
+                playbooks/deploy_kubernetes_demo.yaml
+
+      - name: Test
+        env:
+          SUBDOMAIN: kubetools-ci
+        run: pytest --junitxml=junit/test-results.xml
+      - name: Upload test artifacts
+        uses: actions/upload-artifact@v3
+        if: ${{ always() }}
+        with:
+          name: Test Report
+          path: |
+            reports
+            junit/test-results.xml

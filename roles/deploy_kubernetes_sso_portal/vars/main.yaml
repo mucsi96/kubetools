@@ -1,0 +1,8 @@
+k8s_name: authelia
+k8s_namespace: authelia
+jwt_secret_seed: "{{ inventory_hostname }}-jwt_secret"
+session_secret_seed: "{{ inventory_hostname }}-session_secret"
+jwt_secret: "{{ lookup('ansible.builtin.password', '/dev/null chars=ascii_letters,digits length=64', seed=jwt_secret_seed) }}"
+session_secret: "{{ lookup('ansible.builtin.password', '/dev/null chars=ascii_letters,digits length=64', seed=session_secret_seed) }}"
+app_port: 9091
+app_domain: auth

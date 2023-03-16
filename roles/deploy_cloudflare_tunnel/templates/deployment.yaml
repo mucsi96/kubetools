@@ -1,0 +1,63 @@
+Kubernetes apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ k8s_name }}
+  namespace: {{ k8s_namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ k8s_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ k8s_name }}
+      annotations:
+        checksum/secret: {{ secret_checksum }}
+        checksum/config-map: {{ config_map_checksum }}
+    spec:
+      containers:
+        - name: {{ k8s_name }}
+          image: cloudflare/cloudflared:latest
+          args:
+            - tunnel
+            - --no-autoupdate
+            - --metrics
+            - 0.0.0.0:2000
+            - --config
+            - /etc/cloudflared/config.yaml
+            - run
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: 500m
+          livenessProbe:
+            httpGet:
+            # Cloudflared has a /ready endpoint which returns 200 if and only if
+            # it has an active connection to the edge.
+              path: /ready
+              port: 2000
+            failureThreshold: 1
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: cloudflared-config
+              mountPath: /etc/cloudflared/config.yaml
+              subPath: config.yaml
+            - name: cloudflared-credentials
+              mountPath: /etc/cloudflared/credentials.json
+              subPath: credentials.json
+      volumes:
+        - name: cloudflared-config
+          configMap:
+            name: {{ k8s_name }}
+            defaultMode: 420
+            optional: false
+        - name: cloudflared-credentials
+          secret:
+            secretName: {{ k8s_name }}
+            defaultMode: 420
+            optional: false
+

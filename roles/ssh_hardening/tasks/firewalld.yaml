@@ -1,0 +1,52 @@
+- name: Check if firewalld is installed
+  become: true
+  ansible.builtin.command:
+    cmd: rpm -q firewalld
+  changed_when: false
+  failed_when: false
+  register: firewalld_installed
+- name: Disable firewalld
+  become: true
+  ansible.builtin.service:
+    name: firewalld
+    enabled: false
+    state: stopped
+  when: firewalld_installed.rc == 0
+- name: Uninstall firewalld
+  become: true
+  ansible.builtin.dnf:
+    name: firewalld
+    state: absent
+
+# - name: Set SSH port
+#   become: true
+#   ansible.builtin.lineinfile:
+#     dest: /usr/lib/firewalld/services/ssh.xml
+#     regexp: <port protocol="tcp" port="22"/>
+#     line: <port protocol="tcp" port="{{ ssh_port }}"/>
+#     state: present
+#   notify: Restart firewalld
+
+# - name: Start and set up firewalld
+#   become: true
+#   ansible.builtin.service:
+#     name: firewalld
+#     enabled: true
+#     state: started
+
+# - name: Enable SSH
+#   become: true
+#   ansible.posix.firewalld:
+#     zone: public
+#     service: ssh
+#     permanent: true
+#     state: enabled
+#   notify: Restart firewalld
+# - name: Kubernetes Api Server
+#   become: true
+#   ansible.posix.firewalld:
+#     zone: public
+#     service: kube-apiserver
+#     permanent: true
+#     state: enabled
+#   notify: Restart firewalld

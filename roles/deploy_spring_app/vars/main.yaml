@@ -1,0 +1,2 @@
+
+spring_admin_server_host: "{{ spring_admin_server_name }}.{{ spring_admin_server_namespace }}"

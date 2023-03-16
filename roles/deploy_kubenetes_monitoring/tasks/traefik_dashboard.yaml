@@ -1,0 +1,9 @@
+- name: Deploy Traefik dashboard resources
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+  with_items:
+    - traefik_dashboard/redirect_middleware.yaml
+    - traefik_dashboard/route.yaml
+  vars:
+    app_host: "traefik.{{ hostname }}"

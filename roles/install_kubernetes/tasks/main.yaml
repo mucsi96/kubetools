@@ -1,0 +1,44 @@
+- name: Check internet connection
+  ansible.builtin.include_role:
+    name: check_internet_connection
+
+- name: Install Docker
+  ansible.builtin.include_role:
+    name: install_docker
+
+- name: Disable swap
+  ansible.builtin.include_role:
+    name: disable_swap
+
+- name: Install K3s
+  ansible.builtin.import_tasks: install_k3s.yaml
+
+- name: Install Helm
+  ansible.builtin.import_tasks: install_helm.yaml
+
+- name: Create Kubernetes config
+  ansible.builtin.import_tasks: create_kube_config.yaml
+
+- name: Install Kubernetes client with APT
+  ansible.builtin.import_tasks: install_kube_client_apt.yaml
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Install Kubernetes client with DNF
+  ansible.builtin.import_tasks: install_kube_client_dnf.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Wait for the Traefik CRD to be created
+  become: true
+  ansible.builtin.command:
+    cmd: /usr/local/bin/kubectl get crd/ingressroutes.traefik.containo.us
+  register: crd
+  changed_when: false
+  until: crd.rc == 0
+  delay: 3
+  retries: 30
+
+- name: Configure Traefik
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('ansible.builtin.template', 'traefik_config.yaml') }}"
+    wait: true

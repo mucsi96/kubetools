@@ -1,0 +1,7 @@
+- name: Deploy Traefik dashboard resources
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+  with_items:
+    - traefik/pod_monitor.yaml
+    - traefik/grafana_dashboard.yaml

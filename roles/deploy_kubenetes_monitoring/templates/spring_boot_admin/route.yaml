@@ -1,0 +1,21 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: spring-boot-admin-route
+  namespace: {{ k8s_namespace }}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`{{ app_host }}`)
+      middlewares:
+        - name: {{ auth_middelware_name }}
+          namespace: {{ auth_middelware_namespace }}
+        - name: spring-boot-admin-redirect
+          namespace: {{ k8s_namespace }}
+      services:
+        - kind: Service
+          name: {{ spring_admin_server_name }}
+          namespace: {{ k8s_namespace }}
+          port: http

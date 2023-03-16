@@ -1,0 +1,25 @@
+- name: Get SWAP file
+  become: true
+  ansible.builtin.shell:
+    cmd: "cat /etc/fstab | grep swap | awk '{print $1}'"
+  register: swap_file
+  changed_when: false
+- name: Disable SWAP
+  become: true
+  ansible.builtin.command:
+    cmd: swapoff --all
+  when: ansible_swaptotal_mb > 0
+- name: Delete SWAP file
+  become: true
+  ansible.builtin.file:
+    path: "{{ swap_file.stdout }}"
+    state: absent
+- name: Remove swapfile from /etc/fstab
+  become: true
+  ansible.posix.mount:
+    name: "{{ item }}"
+    fstype: swap
+    state: absent
+  with_items:
+    - swap
+    - none

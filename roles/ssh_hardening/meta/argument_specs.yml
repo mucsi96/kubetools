@@ -1,0 +1,7 @@
+---
+argument_specs:
+  main:
+    options:
+      ssh_port:
+        type: int
+        required: true

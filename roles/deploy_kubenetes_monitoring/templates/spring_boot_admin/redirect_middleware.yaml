@@ -1,0 +1,9 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: spring-boot-admin-redirect
+  namespace: {{ k8s_namespace }}
+spec:
+  redirectRegex:
+    regex: https?://{{ app_host | regex_escape }}/?$
+    replacement: https://{{ app_host }}/wallboard

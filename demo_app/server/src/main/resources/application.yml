@@ -1,0 +1,28 @@
+app:
+  message: ${MESSAGE}
+server:
+  shutdown: graceful
+management:
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOSTNAME}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+springdoc:
+  swagger-ui:
+    path: /

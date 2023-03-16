@@ -1,0 +1,10 @@
+- name: Deploy Kubernetes monitoring stack
+  hosts: cluster
+  gather_facts: false
+  vars_files:
+    - ../vars/vault.yaml
+    - ../vars/defaults.yaml
+  tasks:
+    - name: Deploy K8S monitoring
+      ansible.builtin.include_role:
+        name: deploy_kubenetes_monitoring

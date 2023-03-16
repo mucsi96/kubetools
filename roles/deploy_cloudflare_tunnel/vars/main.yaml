@@ -1,0 +1,4 @@
+k8s_name: cloudflared
+k8s_namespace: cloudflare-tunnel
+secret_checksum: "{{ lookup('ansible.builtin.template', 'secret.yaml') | checksum }}"
+config_map_checksum: "{{ lookup('ansible.builtin.template', 'config-map.yaml') | checksum }}"

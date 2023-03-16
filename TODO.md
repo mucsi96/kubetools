@@ -1,0 +1,11 @@
+- Make sure all controllers and errors retuns JSON
+- Add test for message controller
+- Add test for health endpoint
+- Create me controller
+- Pass list of users as role args
+- Move Authelia related classes to a lib here
+- Publis to ansible galaxy, pypi and maven
+- Use buildpacks
+- Rename repo to k8s-libs
+- Add authorization for monitoring endpoints https://github.com/nilskohrs/pathauth
+- Fix STS

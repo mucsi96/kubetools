@@ -1,0 +1,12 @@
+- name: Add Cloudflared Stable yum repository
+  become: true
+  ansible.builtin.yum_repository:
+    name: cloudflared-stable
+    description: Docker CE Stable - {{ ansible_architecture }}
+    baseurl: https://pkg.cloudflare.com/cloudflared/rpm
+    gpgcheck: true
+    gpgkey: https://pkg.cloudflare.com/cloudflare-ascii-pubkey.gpg
+- name: Install cloudflared
+  become: true
+  ansible.builtin.dnf:
+    name: cloudflared

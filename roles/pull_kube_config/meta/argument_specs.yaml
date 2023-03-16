@@ -1,0 +1,7 @@
+---
+argument_specs:
+  main:
+    options:
+      local_kube_config:
+        type: path
+        required: true

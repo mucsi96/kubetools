@@ -1,0 +1,21 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-dashboard-route
+  namespace: {{ k8s_namespace }}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`{{ app_host }}`)
+      middlewares:
+        - name: {{ auth_middelware_name }}
+          namespace: {{ auth_middelware_namespace }}
+        - name: {{ k8s_name }}-kubernetes-dashboard-redirect
+          namespace: {{ k8s_namespace }}
+      services:
+        - kind: Service
+          name: kubernetes-dashboard
+          namespace: {{ k8s_namespace }}
+          port: http

@@ -1,0 +1,24 @@
+- name: SSH Port Juggle
+  wait_for_connection:
+    timeout: 1
+  ignore_errors: true
+  register: _ssh_port_result
+- name: Update Root user's Password
+  become: true
+  ansible.builtin.user:
+    name: root
+    state: present
+    password: "{{ root_password | ansible.builtin.password_hash('sha512', 65534 | random(seed=inventory_hostname) | string) }}"
+  when: _ssh_port_result is succeeded
+- name: Enable Root SSH Login
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#?PermitRootLogin"
+    line: "PermitRootLogin yes"
+    state: present
+  notify:
+    - Restart sshd
+  when: _ssh_port_result is succeeded
+- name: Flush handlers
+  meta: flush_handlers

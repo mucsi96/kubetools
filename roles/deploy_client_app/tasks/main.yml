@@ -1,0 +1,23 @@
+- name: Create k8s namespace
+  kubernetes.core.k8s:
+    state: present
+    kind: namespace
+    name: "{{ k8s_namespace }}"
+- name: Get checksums
+  ansible.builtin.set_fact:
+    secret_checksum: "{{ lookup('ansible.builtin.template', 'secret.yaml') | checksum }}"
+- name: Get app version
+  ansible.builtin.include_role:
+    name: get_app_version
+- name: Add kubernetes resources
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+  with_items:
+    - secret.yaml
+    - deployment.yaml
+    - service.yaml
+    - stripprefix_middleware.yaml
+    - route.yaml
+    - service_monitor.yaml

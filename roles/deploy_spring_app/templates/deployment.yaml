@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ k8s_name }}
+  namespace: {{ k8s_namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ k8s_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ k8s_name }}
+      annotations:
+        checksum/secret: {{ secret_checksum }}
+    spec:
+      containers:
+      - name: {{ k8s_name }}
+        image: {{ image }}:{{ app_version }}
+        resources:
+          requests:
+            memory: 500Mi
+            cpu: 500m
+          limits:
+            memory: 1Gi
+            cpu: 1000m
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: actuator
+          containerPort: {{ spring_actuator_port }}
+        envFrom:
+          - secretRef:
+              name: {{ k8s_name }}
+        env:
+          - name: SPRING_ACTUATOR_PORT
+            value: "{{ spring_actuator_port }}"
+          - name: SPRING_ADMIN_SERVER_HOST
+            value: {{ spring_admin_server_host }}
+          - name: SPRING_ADMIN_SERVER_PORT
+            value: "{{ spring_admin_server_port }}"
+          - name: K8S_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: {{ spring_actuator_port }}
+          initialDelaySeconds: 15
+        startupProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: {{ spring_actuator_port }}
+          initialDelaySeconds: 10
+          failureThreshold: 30
+        lifecycle:
+          preStop:
+            exec:
+              command: ["sh", "-c", "sleep 10"]

@@ -1,0 +1,43 @@
+- name: SSH Port Juggle | Try configured ansible_port {{ ansible_port }}
+  wait_for_connection:
+    timeout: 1
+  ignore_errors: true
+  register: _ssh_port_result
+
+- name: SSH Port Juggle | Set the ansible_port to expected ssh port {{ ssh_port }}
+  set_fact:
+    ansible_port: "{{ ssh_port }}"
+  when:
+    - _ssh_port_result is failed
+
+- name: Change root password
+  ansible.builtin.import_tasks: root_pwd.yaml
+
+- name: Setup SSH
+  ansible.builtin.import_tasks: ssh.yaml
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Switch to new SSH port
+  ansible.builtin.set_fact:
+    ansible_port: "{{ ssh_port }}"
+
+# - name: Setup UFW
+#   ansible.builtin.import_tasks: ufw.yaml
+#   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Disable firewalld
+  ansible.builtin.import_tasks: firewalld.yaml
+  # when: ansible_os_family == 'RedHat'
+
+- name: Setup iptables
+  ansible.builtin.import_tasks: iptables.yaml
+  # when: ansible_os_family == 'RedHat'
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Check internet connection
+  ansible.builtin.include_role:
+    name: check_internet_connection

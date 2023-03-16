@@ -1,0 +1,6 @@
+namespace: mucsi96
+name: ansible_roles
+version: 1.0.0
+readme: README.md
+authors:
+- Igor Bari

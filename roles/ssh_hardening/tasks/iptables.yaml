@@ -1,0 +1,37 @@
+- name: Install iptables service
+  become: true
+  ansible.builtin.dnf:
+    name: iptables-services
+    state: present
+- name: Remove persisted rules v4
+  become: true
+  ansible.builtin.file:
+    path: /etc/sysconfig/iptables
+    state: absent
+- name: Remove persisted rules v6
+  become: true
+  ansible.builtin.file:
+    path: /etc/sysconfig/ip6tables
+    state: absent
+- name: Setup iptables v4
+  ansible.builtin.include_tasks: iptables_rules.yaml
+  vars:
+    ip_version: ipv4
+- name: Setup iptables v6
+  ansible.builtin.include_tasks: iptables_rules.yaml
+  vars:
+    ip_version: ipv6
+- name: Save iptables v4
+  become: true
+  ansible.builtin.shell:
+    cmd: iptables-save > /etc/sysconfig/iptables
+- name: Save iptables v6
+  become: true
+  ansible.builtin.shell:
+    cmd: ip6tables-save > /etc/sysconfig/ip6tables
+- name: Restart iptables services
+  become: true
+  ansible.builtin.service:
+    name: iptables
+    enabled: true
+    state: restarted

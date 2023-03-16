@@ -1,0 +1,45 @@
+- name: Setup time sync
+  ansible.builtin.include_role:
+    name: setup_time_sync
+- name: Ensure docker deamon is running
+  become: true
+  ansible.builtin.service:
+    name: docker
+    state: started
+- name: Hash user password
+  become: true
+  ansible.builtin.shell:
+    cmd: "docker run authelia/authelia:latest authelia crypto hash generate argon2 --password {{ sso_password }}"
+  register: this
+  changed_when: false
+- name: Get user password hash
+  ansible.builtin.set_fact:
+    password_hash: "{{this.stdout_lines[0] | split(': ') | last }}"
+- name: Create k8s namespace
+  kubernetes.core.k8s:
+    state: present
+    kind: namespace
+    name: "{{ k8s_namespace }}"
+- name: Get checksums
+  ansible.builtin.set_fact:
+    secret_checksum: "{{ lookup('ansible.builtin.template', 'secret.yaml') | checksum }}"
+- name: Apply K8s resources
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+  with_items:
+    - secret.yaml
+    - deployment.yaml
+    - service.yaml
+    - forward_auth_middleware.yaml
+    - ingress_route.yaml
+- name: Get an existing Service object
+  kubernetes.core.k8s_info:
+    kind: Service
+    name: traefik
+    namespace: kube-system
+  register: load_balancer
+- name: Set load balancer ip
+  ansible.builtin.set_fact:
+    load_balancer_ip: "{{ load_balancer.resources[0].status.loadBalancer.ingress[0].ip }}"
