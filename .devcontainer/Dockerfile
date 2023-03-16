@@ -60,6 +60,9 @@ RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/s
 # Install cloudflared
 RUN wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && dpkg -i cloudflared-linux-amd64.deb
 
+# Install pack
+RUN curl -sSL https://github.com/buildpacks/pack/releases/download/v0.28.0/pack-v0.28.0-linux.tgz | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack
+
 ENV ANSIBLE_CONFIG=${WORKSPACE_HOME}/ansible.cfg
 ENV KUBECONFIG=${WORKSPACE_HOME}/.kube/config
 ENV CHROME_BIN=/usr/bin/chromium

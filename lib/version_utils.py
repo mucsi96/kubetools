@@ -18,7 +18,7 @@ def has_source_code_changed(src: Path, prev_tag: str, ignore: List[str]):
     ignore_str = ' '.join(map(lambda x: f'\':!{x}\'', ignore))
     try:
         subprocess.check_output(
-            f'git diff --quiet HEAD {prev_tag} -- . {ignore_str}',
+            f'git diff --quiet {prev_tag} -- . {ignore_str}',
             shell=True,
             text=True,
             stderr=STDOUT,

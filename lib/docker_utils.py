@@ -1,7 +1,7 @@
 
+import subprocess
 from pathlib import Path
 from typing import List
-from docker.client import from_env
 from lib.version_utils import get_version, set_version
 
 def build_and_push_img(
@@ -23,41 +23,13 @@ def build_and_push_img(
 
     print(f'Changes detected for {tag_prefix}. New version: {version}')
 
-    client = from_env()
+    subprocess.run(['docker', 'login', '--username', docker_username, '--password-stdin'], input=docker_password.encode(), check=True)
 
-    for build_log in client.api.build(
-        path=str(docker_context_path),
-        tag=f'{image_name}:latest',
-        rm=True
-    ):
-        print(build_log.decode().strip())
+    build_command = ['pack', 'build', f'{image_name}:latest', '--path', str(docker_context_path), '--tag', f'{image_name}:{version}']
+    print(' '.join(build_command))
+    subprocess.run(build_command, check=True)
 
-    image = client.images.get(f'{image_name}:latest')
-    image.tag(image_name, tag=version)
-
-    print("Docker image built.")
-
-    for push_log in client.images.push(
-        repository=image_name,
-        tag='latest',
-        auth_config={
-            'username': docker_username,
-            'password': docker_password
-        },
-        stream=True
-    ):
-        print(push_log.decode().strip())
-
-    for push_log in client.images.push(
-        repository=image_name,
-        tag=version,
-        auth_config={
-            'username': docker_username,
-            'password': docker_password
-        },
-        stream=True
-    ):
-        print(push_log.decode().strip())
+    subprocess.run(['docker', 'push', f'{image_name}:latest', '--all-tags'], check=True)
         
     set_version(tag_prefix=tag_prefix, version=version)
     print(f'Docker image pushed successfully for {tag_prefix}:{version}')

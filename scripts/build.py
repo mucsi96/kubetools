@@ -24,7 +24,7 @@ build_and_push_img(
 )
 
 build_and_push_img(
-    src=root_directory / 'demo_app/server/src',
+    src=root_directory / 'demo_app/server',
     docker_context_path=root_directory / 'demo_app/server',
     tag_prefix='demo-app-server',
     image_name='mucsi96/kubetools-demo-app-server',
@@ -33,7 +33,7 @@ build_and_push_img(
 )
 
 build_and_push_img(
-    src=root_directory / 'spring-boot-admin/src',
+    src=root_directory / 'spring-boot-admin',
     docker_context_path=root_directory / 'spring-boot-admin',
     tag_prefix='spring-boot-admin',
     image_name='mucsi96/kubetools-spring-boot-admin',
