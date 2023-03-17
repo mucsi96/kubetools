@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import subprocess
+from subprocess import run
 import re
 from ansible.module_utils.basic import AnsibleModule
 
@@ -12,9 +12,9 @@ def main():
     module = AnsibleModule(argument_spec=fields)
     tag_prefix = module.params['tag_prefix']
 
-    subprocess.getoutput('git fetch --tags')
-    tag = subprocess.getoutput(f'git describe --tags --match={tag_prefix}-* --abbrev=0')
-    version = int(re.sub(rf'^{tag_prefix}-', '', tag))
+    run('git', 'fetch', '--tags')
+    result = run(['git', 'describe', '--tags', f'--match={tag_prefix}-*', '--abbrev=0'], capture_output=True, check=True)
+    version = int(re.sub(rf'^{tag_prefix}-', '', result.stdout.decode()))
 
     module.exit_json(version=version);
 

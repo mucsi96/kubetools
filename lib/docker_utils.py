@@ -1,5 +1,5 @@
 
-import subprocess
+from subprocess import run
 from pathlib import Path
 from typing import List
 from lib.version_utils import get_version, set_version
@@ -22,9 +22,9 @@ def build_and_push_img(
 
     print(f'Changes detected for {tag_prefix}. New version: {version}', flush=True)
 
-    subprocess.run(['docker', 'login', '--username', docker_username, '--password-stdin'], input=docker_password.encode(), check=True)
-    subprocess.run(['pack', 'build', f'{image_name}:latest', '--path', str(src), '--tag', f'{image_name}:{version}'], check=True)
-    subprocess.run(['docker', 'push', image_name, '--all-tags'], check=True)
+    run(['docker', 'login', '--username', docker_username, '--password-stdin'], input=docker_password.encode(), check=True)
+    run(['pack', 'build', f'{image_name}:latest', '--path', str(src), '--tag', f'{image_name}:{version}'], check=True)
+    run(['docker', 'push', image_name, '--all-tags'], check=True)
         
     set_version(tag_prefix=tag_prefix, version=version)
     print(f'Docker image pushed successfully for {tag_prefix}:{version}', flush=True)

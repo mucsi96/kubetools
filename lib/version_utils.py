@@ -1,17 +1,18 @@
 from pathlib import Path
-import subprocess
+from subprocess import run
 import re
 from typing import List
 
 
 def get_previous_tag(tag_prefix):
-    [status, prev_tag] = subprocess.getstatusoutput(
-        f'git describe --tags --match={tag_prefix}-[1-9]* --abbrev=0')
-
-    if status or not prev_tag:
+    result = run(['git', 'describe', '--tags', f'--match={tag_prefix}-[1-9]*', '--abbrev=0'], capture_output=True)
+    if result.stderr:
+        print(result.stderr.decode(), flush=True)
+    
+    if result.returncode or not result.stdout:
         return None
 
-    return prev_tag
+    return result.stdout.decode()
 
 
 def has_source_code_changed(src: Path, prev_tag: str, ignore: List[str]):
@@ -19,23 +20,28 @@ def has_source_code_changed(src: Path, prev_tag: str, ignore: List[str]):
     print(f'Detecting changes in {src} since {prev_tag}', flush=True)
     args = list(filter(bool, ['git', 'diff', '--name-only',
                               'HEAD', prev_tag, '--', '.', ignore_str]))
-    changed_files = subprocess.run(args, cwd=src, capture_output=True)
-    if changed_files.stderr:
-        print(changed_files.stderr.decode())
-    if changed_files.stdout:
-        print(changed_files.stdout.decode())
-    return bool(changed_files.stdout)
+    result = run(args, cwd=src, capture_output=True)
+
+    if result.stderr:
+        print(result.stderr.decode(), flush=True)
+
+    if result.stdout:
+        print(result.stdout.decode(), flush=True)
+
+    return bool(result.stdout)
 
 
 def get_latest_version(tag_prefix: str):
-    [status, tags] = subprocess.getstatusoutput(
-        f'git tag --list --sort=taggerdate {tag_prefix}-[1-9]*')
+    result = run(['git', 'tag', '--list', '--sort=taggerdate', f'{tag_prefix}-[1-9]*'], capture_output=True)
 
-    if status or not tags:
+    if result.stderr:
+        print(result.stderr.decode(), flush=True)
+
+    if result.returncode or not result.stdout:
         return None
 
     return int(
-        re.sub(rf'^{tag_prefix}-', '', tags.splitlines()[-1]))
+        re.sub(rf'^{tag_prefix}-', '', result.stdout.decode().splitlines()[-1]))
 
 
 def get_version(src: Path, tag_prefix: str, ignore: List[str]) -> tuple[bool, int]:
@@ -58,5 +64,5 @@ def get_version(src: Path, tag_prefix: str, ignore: List[str]) -> tuple[bool, in
 
 def set_version(tag_prefix: str, version: int) -> None:
     print(f'Tagging with {tag_prefix}-{version}', flush=True)
-    subprocess.run(['git', 'tag', f'{tag_prefix}-{version}'], check=True)
-    subprocess.run(['git', 'push'], check=True)
+    run(['git', 'tag', f'{tag_prefix}-{version}'], check=True)
+    run(['git', 'push'], check=True)
