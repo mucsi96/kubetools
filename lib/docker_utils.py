@@ -29,7 +29,7 @@ def build_and_push_img(
 
     subprocess.run(build_command, check=True)
 
-    subprocess.run(['docker', 'push', f'{image_name}', '--all-tags'], check=True)
+    subprocess.run(['docker', 'push', image_name, '--all-tags'], check=True)
         
     set_version(tag_prefix=tag_prefix, version=version)
     print(f'Docker image pushed successfully for {tag_prefix}:{version}', flush=True)
