@@ -1,6 +1,5 @@
 from pathlib import Path
 import subprocess
-from subprocess import STDOUT, CalledProcessError
 import re
 from typing import List
 
@@ -16,11 +15,8 @@ def get_previous_tag(tag_prefix):
 
 def has_source_code_changed(src: Path, prev_tag: str, ignore: List[str]):
     ignore_str = ' '.join(map(lambda x: f'\':!{x}\'', ignore))
-    changed_files = subprocess.run(filter(bool, ['git', 'diff', '--name-only', 'HEAD', prev_tag, '--', '.', ignore_str]), cwd=src)
-    if changed_files:
-        print('The following changes has been detected:', flush=True)
-        print(changed_files, flush=True)
-        
+    print(f'Detecting changes in {src} since {prev_tag}', flush=True)
+    changed_files = subprocess.run(list(filter(bool, ['git', 'diff', '--name-only', 'HEAD', prev_tag, '--', '.', ignore_str])), cwd=src).stdout        
     return bool(changed_files)
 
 def get_latest_version(tag_prefix: str):
