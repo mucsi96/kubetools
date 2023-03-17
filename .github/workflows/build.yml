@@ -17,6 +17,8 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: buildpacks/github-actions/setup-pack@v5.0.0
+
       - name: Get Ansible Vault key
         run: |
           mkdir .ansible
