@@ -56,9 +56,6 @@ def get_version(src: Path, tag_prefix: str, ignore: List[str]) -> tuple[bool, in
     return True, new_version
 
 
-def set_version(tag_prefix: str, version: int) -> str:
-    subprocess.getstatusoutput(f'git tag "{tag_prefix}-{version}"')
-    [status, output] = subprocess.getstatusoutput(
-        'git push --tags > /dev/null')
-
-    return output if status else ''
+def set_version(tag_prefix: str, version: int) -> None:
+    subprocess.run(['git', 'tag', f'{tag_prefix}-{version}'], check=True)
+    subprocess.run(['git', 'push'], check=True)
