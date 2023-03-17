@@ -17,8 +17,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: buildpacks/github-actions/setup-pack@v5.0.0
-
       - name: Get Ansible Vault key
         run: |
           mkdir .ansible
@@ -26,6 +24,8 @@ jobs:
       
       - name: Install Python requirements
         run: pip install -r requirements.txt
+        
+      - uses: buildpacks/github-actions/setup-pack@v5.0.0
 
       - name: Build Docker images
         run: python scripts/build.py
