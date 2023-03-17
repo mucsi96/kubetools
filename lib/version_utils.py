@@ -16,19 +16,12 @@ def get_previous_tag(tag_prefix):
 
 def has_source_code_changed(src: Path, prev_tag: str, ignore: List[str]):
     ignore_str = ' '.join(map(lambda x: f'\':!{x}\'', ignore))
-    try:
-        subprocess.run(['git', 'diff', 'HEAD', prev_tag, '--', '.', ignore_str], cwd=src)
-        subprocess.check_output(
-            f'git diff --quiet HEAD {prev_tag} -- . {ignore_str}',
-            shell=True,
-            text=True,
-            stderr=STDOUT,
-            cwd=src
-        )
-        return False
-    except CalledProcessError:
-        return True
-
+    changed_files = subprocess.getoutput(f'git diff --name-only HEAD {prev_tag} -- . {ignore_str}', cwd=src)
+    if changed_files:
+        print('The following changes has been detected:', flush=True)
+        print(changed_files, flush=True)
+        
+    return bool(changed_files)
 
 def get_latest_version(tag_prefix: str):
     [status, tags] = subprocess.getstatusoutput(
