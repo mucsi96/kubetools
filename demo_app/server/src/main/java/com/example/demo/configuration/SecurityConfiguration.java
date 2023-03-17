@@ -8,6 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
@@ -23,11 +25,11 @@ public class SecurityConfiguration {
 
   @Bean
   SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
-    http.securityMatcher(EndpointRequest.toAnyEndpoint());
-    http.authorizeHttpRequests((requests) -> requests.anyRequest().permitAll());
-    http.csrf().disable();
-
-    return http.build();
+    return http
+        .securityMatcher(EndpointRequest.toAnyEndpoint())
+        .authorizeHttpRequests((requests) -> requests.anyRequest().permitAll())
+        .csrf(AbstractHttpConfigurer::disable)
+        .build();
   }
 
   @Bean
@@ -37,18 +39,16 @@ public class SecurityConfiguration {
       AuthenticationManager authenticationManager)
       throws Exception {
 
-    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-    http.anonymous().disable();
-    http.csrf().disable();
-    http.headers().frameOptions().disable();
-    http.formLogin().disable();
-    http.logout().disable();
-
-    http.addFilter(new AutheliaHeaderAuthenticationFilter(authenticationManager));
-    http.addFilterBefore(new FilterChainExceptionHandlerFilter(resolver),
-        AbstractPreAuthenticatedProcessingFilter.class);
-
-    return http.build();
+    return http
+        .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .anonymous(AbstractHttpConfigurer::disable)
+        .csrf(AbstractHttpConfigurer::disable)
+        .headers(configurer -> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+        .formLogin(AbstractHttpConfigurer::disable)
+        .logout(AbstractHttpConfigurer::disable)
+        .addFilter(new AutheliaHeaderAuthenticationFilter(authenticationManager))
+        .addFilterBefore(new FilterChainExceptionHandlerFilter(resolver),
+            AbstractPreAuthenticatedProcessingFilter.class)
+        .build();
   }
 }
