@@ -17,7 +17,7 @@ def get_previous_tag(tag_prefix):
 def has_source_code_changed(src: Path, prev_tag: str, ignore: List[str]):
     ignore_str = ' '.join(map(lambda x: f'\':!{x}\'', ignore))
     try:
-        subprocess.run(['git', 'diff', 'HEAD', prev_tag, '--', '.', ignore_str])
+        subprocess.run(['git', 'diff', 'HEAD', prev_tag, '--', '.', ignore_str], cwd=src)
         subprocess.check_output(
             f'git diff --quiet HEAD {prev_tag} -- . {ignore_str}',
             shell=True,
