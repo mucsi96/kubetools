@@ -65,4 +65,4 @@ def get_version(src: Path, tag_prefix: str, ignore: List[str]) -> tuple[bool, in
 def set_version(tag_prefix: str, version: int) -> None:
     print(f'Tagging with {tag_prefix}-{version}', flush=True)
     run(['git', 'tag', f'{tag_prefix}-{version}'], check=True)
-    run(['git', 'push'], check=True)
+    run(['git', 'push', '--tags'], check=True)
