@@ -12,7 +12,7 @@ def get_previous_tag(tag_prefix):
     if result.returncode or not result.stdout:
         return None
 
-    return result.stdout.decode()
+    return result.stdout.decode().strip()
 
 
 def has_source_code_changed(src: Path, prev_tag: str, ignore: List[str]):
@@ -41,7 +41,7 @@ def get_latest_version(tag_prefix: str):
         return None
 
     return int(
-        re.sub(rf'^{tag_prefix}-', '', result.stdout.decode().splitlines()[-1]))
+        re.sub(rf'^{tag_prefix}-', '', result.stdout.decode().splitlines()[-1].strip()))
 
 
 def get_version(src: Path, tag_prefix: str, ignore: List[str]) -> tuple[bool, int]:
