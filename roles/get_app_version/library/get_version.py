@@ -12,7 +12,7 @@ def main():
     module = AnsibleModule(argument_spec=fields)
     tag_prefix = module.params['tag_prefix']
 
-    run('git', 'fetch', '--tags')
+    run(['git', 'fetch', '--tags'], check=True)
     result = run(['git', 'describe', '--tags', f'--match={tag_prefix}-*', '--abbrev=0'], capture_output=True, check=True)
     version = int(re.sub(rf'^{tag_prefix}-', '', result.stdout.decode()))
 
