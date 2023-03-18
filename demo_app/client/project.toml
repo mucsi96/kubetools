@@ -1,5 +1,8 @@
 [build]
   builder = "paketobuildpacks/builder:base"
+  include = [
+    "dist"
+  ]
 
 [[build.buildpacks]]
   uri = "paketo-buildpacks/web-servers"
@@ -7,10 +10,6 @@
 [[ build.env ]]
   name="BP_NODE_RUN_SCRIPTS"
   value="build"
-
-[[ build.env ]]
-  name="BP_WEB_SERVER"
-  value="nginx"
 
 [[ build.env ]]
   name="BP_WEB_SERVER_ROOT"
