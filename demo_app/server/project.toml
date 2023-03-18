@@ -1,9 +1,10 @@
 [build]
 builder = "paketobuildpacks/builder:base"
 
-[env]
-SPRING_PROFILES_ACTIVE = "prod"
-
 [[build.env]]
 name = "BP_JVM_VERSION"
 value = "17"
+
+[[build.env]]
+name = "BPE_SPRING_PROFILES_ACTIVE"
+value = "prod"
