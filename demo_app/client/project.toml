@@ -4,6 +4,9 @@
 [[build.buildpacks]]
   uri = "paketo-buildpacks/web-servers"
 
+[[build.buildpacks]]
+  uri = "paketo-buildpacks/source-removal"
+
 [[build.env]]
   name="BP_NODE_RUN_SCRIPTS"
   value="build"
@@ -19,7 +22,3 @@
 [[build.env]]
   name = "BP_INCLUDE_FILES"
   value = "nginx.conf:dist"
-
-[[build.env]]
-  name="BP_WEB_SERVER"
-  value="nginx"
