@@ -24,7 +24,7 @@
           POSTGRES_PORT: "{{ db_port }}"
           POSTGRES_USER: "{{ db_username }}"
           POSTGRES_PASSWORD: "{{ db_password }}"
-          MESSAGE: Hello from Ansible Roles Spring Demo!
+          MESSAGE: Hello from kubetools demo!
     - name: Deploy client
       ansible.builtin.include_role:
         name: deploy_client_app
