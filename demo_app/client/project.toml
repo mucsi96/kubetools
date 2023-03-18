@@ -1,8 +1,5 @@
 [build]
   builder = "paketobuildpacks/builder:base"
-  include = [
-    "dist"
-  ]
 
 [[build.buildpacks]]
   uri = "paketo-buildpacks/web-servers"
