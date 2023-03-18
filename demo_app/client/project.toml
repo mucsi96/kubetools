@@ -21,4 +21,4 @@
 
 [[build.env]]
   name = "BP_INCLUDE_FILES"
-  value = "nginx.conf:dist"
+  value = "nginx.conf:dist/**"
