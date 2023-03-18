@@ -19,3 +19,7 @@
 [[build.env]]
   name = "BP_INCLUDE_FILES"
   value = "nginx.conf:dist"
+
+[[build.env]]
+  name="BP_WEB_SERVER"
+  value="nginx"
