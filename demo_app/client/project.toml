@@ -15,7 +15,3 @@
 [[ build.env ]]
   name="BP_WEB_SERVER_ROOT"
   value="dist"
-
-[[build.env]]
-  name = "BPE_PORT"
-  value = "80"
