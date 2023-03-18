@@ -1,7 +1,10 @@
+from distutils.version import StrictVersion
 from pathlib import Path
 from subprocess import run
 import re
 from typing import List
+
+from pkg_resources import parse_version
 
 
 def get_previous_tag(tag_prefix):
@@ -30,18 +33,24 @@ def has_source_code_changed(src: Path, prev_tag: str, ignore: List[str]):
 
     return bool(result.stdout)
 
+def natural_sort_key(s, _nsre=re.compile('([0-9]+)')):
+    return [int(text) if text.isdigit() else text.lower()
+            for text in _nsre.split(s)]
 
 def get_latest_version(tag_prefix: str):
-    result = run(['git', 'tag', '--list', '--sort=taggerdate', f'{tag_prefix}-[1-9]*'], capture_output=True)
+    result = run(['git', 'tag', '--list', f'{tag_prefix}-[1-9]*'], capture_output=True)
 
     if result.stderr:
         print(result.stderr.decode(), flush=True)
 
     if result.returncode or not result.stdout:
         return None
+    
+    tags = result.stdout.decode().splitlines()
+    latest_tag = sorted(tags, key=natural_sort_key)[-1]
 
     return int(
-        re.sub(rf'^{tag_prefix}-', '', result.stdout.decode().splitlines()[-1].strip()))
+        re.sub(rf'^{tag_prefix}-', '', latest_tag))
 
 
 def get_version(src: Path, tag_prefix: str, ignore: List[str]) -> tuple[bool, int]:
