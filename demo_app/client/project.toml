@@ -4,14 +4,18 @@
 [[build.buildpacks]]
   uri = "paketo-buildpacks/web-servers"
 
-[[ build.env ]]
+[[build.env]]
   name="BP_NODE_RUN_SCRIPTS"
   value="build"
 
-[[ build.env ]]
+[[build.env]]
   name="BP_WEB_SERVER_ROOT"
   value="dist"
 
 [[build.env]]
   name = "BPE_PORT"
   value = "80"
+
+[[build.env]]
+  name = "BP_INCLUDE_FILES"
+  value = "nginx.conf:dist"
