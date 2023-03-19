@@ -1,3 +1,6 @@
+- Contribute font gzip to https://github.com/paketo-buildpacks/nginx
+- Contribute stub_status to https://github.com/paketo-buildpacks/nginx
+- Move project.toml to role itself
 - Make sure all controllers and errors retuns JSON
 - Add test for message controller
 - Add test for health endpoint
