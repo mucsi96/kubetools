@@ -20,7 +20,7 @@ def build_and_push_client_img(
         tag_prefix=tag_prefix,
         image_name=image_name,
         pack_args=[
-            # '--builder',   'paketobuildpacks/builder:base',
+            '--builder',   'paketobuildpacks/builder:base',
             '--buildpack', 'paketo-buildpacks/web-servers',
             '--buildpack', 'paketo-buildpacks/source-removal',
             '--env',       'BP_NODE_RUN_SCRIPTS=build',
@@ -52,7 +52,7 @@ def build_and_push_server_img(
         tag_prefix=tag_prefix,
         image_name=image_name,
         pack_args=[
-            # '--builder',   'paketobuildpacks/builder:base',
+            '--builder',   'paketobuildpacks/builder:base',
             '--buildpack', 'paketo-buildpacks/java',
             '--env',       'BP_JVM_VERSION=17',
             '--env',       'BPE_SPRING_PROFILES_ACTIVE=prod',
