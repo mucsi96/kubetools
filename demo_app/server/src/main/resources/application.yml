@@ -3,8 +3,6 @@ app:
 server:
   forward-headers-strategy: framework
   shutdown: graceful
-  # servlet:
-  #   context-path: /api
 management:
   endpoint:
     health:
