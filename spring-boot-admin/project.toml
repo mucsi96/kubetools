@@ -1,6 +1,0 @@
-[build]
-builder = "paketobuildpacks/builder:base"
-
-[[build.env]]
-name = "BP_JVM_VERSION"
-value = "17"
