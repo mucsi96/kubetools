@@ -7,3 +7,4 @@
 - Publis to ansible galaxy, pypi and maven
 - Add authorization for monitoring endpoints https://github.com/nilskohrs/pathauth
 - Fix STS
+- Add /api context path to server
