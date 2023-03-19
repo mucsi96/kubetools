@@ -3,10 +3,19 @@
   "sqltools.connections": [
     {
       "previewLimit": 50,
+      "server": "localhost",
+      "port": 5433,
+      "driver": "PostgreSQL",
+      "name": "cluster",
+      "database": "kubetools",
+      "username": "rigvyfqkerar"
+    },
+    {
+      "previewLimit": 50,
       "server": "db",
       "port": 5432,
       "driver": "PostgreSQL",
-      "name": "kubetools",
+      "name": "local",
       "database": "kubetools",
       "username": "postgres",
       "password": "postgres"
