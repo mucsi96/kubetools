@@ -25,6 +25,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - uses: actions/checkout@v3
         with:
@@ -48,7 +49,7 @@ jobs:
 
   e2e-test:
     runs-on: macos-12
-    needs: build-docker-images
+    needs: build
     steps:
       - uses: actions/checkout@v3
 
