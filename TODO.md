@@ -1,5 +1,4 @@
 - Make sure all controllers and errors retuns JSON
-- Add test for message controller
 - Add test for health endpoint
 - Create me controller
 - Pass list of users as role args
