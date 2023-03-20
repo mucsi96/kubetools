@@ -21,7 +21,7 @@ jobs:
           cache: "maven"
       - name: Test
         working-directory: demo_app/server
-        run: ./mvnw test -Dspring.profiles.active=test
+        run: ./mvnw test
 
   build:
     runs-on: ubuntu-latest

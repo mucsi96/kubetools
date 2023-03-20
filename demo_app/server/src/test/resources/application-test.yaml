@@ -1,5 +1,3 @@
-app:
-  message: "test message"
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
