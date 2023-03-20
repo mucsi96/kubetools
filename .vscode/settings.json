@@ -26,5 +26,8 @@
   "python.testing.pytestArgs": ["tests"],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
-  "spring-boot.ls.logfile": "./sts.log"
+  "spring-boot.ls.logfile": "./sts.log",
+  "java.test.config": {
+    "vmArgs": ["-Dspring.profiles.active=test"]
+  }
 }
