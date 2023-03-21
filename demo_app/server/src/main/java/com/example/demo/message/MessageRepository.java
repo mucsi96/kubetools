@@ -1,8 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.message;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.example.demo.model.Message;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 }

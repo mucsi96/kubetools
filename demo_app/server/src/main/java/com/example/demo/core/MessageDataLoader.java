@@ -1,8 +1,9 @@
-package com.example.demo.dataseed;
+package com.example.demo.core;
 
 import com.example.demo.configuration.MessageConfiguration;
-import com.example.demo.model.Message;
-import com.example.demo.repository.MessageRepository;
+import com.example.demo.message.Message;
+import com.example.demo.message.MessageRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;

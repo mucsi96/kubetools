@@ -10,6 +10,8 @@ management:
       probes:
         enabled: true
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOSTNAME}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}

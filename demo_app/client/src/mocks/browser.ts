@@ -2,7 +2,7 @@ import { rest, setupWorker } from 'msw';
 
 export const mocks = [
   rest.get('/api/message', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json('Test message'));
+    return res(ctx.status(200), ctx.json({ message: 'Test message' }));
   }),
 ];
 

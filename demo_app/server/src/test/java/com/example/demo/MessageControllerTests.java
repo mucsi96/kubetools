@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import com.example.demo.model.Message;
-import com.example.demo.repository.MessageRepository;
+import com.example.demo.message.Message;
+import com.example.demo.message.MessageRepository;
 import com.jayway.jsonpath.JsonPath;
 
 public class MessageControllerTests extends BaseIntegrationTest {
@@ -37,7 +37,7 @@ public class MessageControllerTests extends BaseIntegrationTest {
                 .getResponse();
 
         assertThat(response.getStatus()).isEqualTo(200);
-        assertThat(JsonPath.parse(response.getContentAsString()).read("$", String.class)).isEqualTo("test message");
+        assertThat(JsonPath.parse(response.getContentAsString()).read("$.message", String.class)).isEqualTo("test message");
 
     }
 
@@ -50,6 +50,7 @@ public class MessageControllerTests extends BaseIntegrationTest {
                 .getResponse();
 
         assertThat(response.getStatus()).isEqualTo(403);
+        assertThat(JsonPath.parse(response.getContentAsString()).read("$.status", Integer.class)).isEqualTo(403);
     }
 
     @Test
@@ -60,5 +61,6 @@ public class MessageControllerTests extends BaseIntegrationTest {
                 .getResponse();
 
         assertThat(response.getStatus()).isEqualTo(401);
+        assertThat(JsonPath.parse(response.getContentAsString()).read("$.status", Integer.class)).isEqualTo(401);
     }
 }
