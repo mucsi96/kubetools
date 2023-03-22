@@ -37,7 +37,7 @@ jobs:
           cache: "yarn"
           cache-dependency-path: demo_app/client/yarn.lock
       - run: yarn --frozen-lockfile
-      - run: yarn test
+      - run: yarn test:ci
 
   build:
     runs-on: ubuntu-latest
