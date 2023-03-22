@@ -12,6 +12,9 @@ concurrency:
 jobs:
   test-server:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: demo_app/server
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -19,11 +22,13 @@ jobs:
           distribution: "temurin"
           java-version: "17"
           cache: "maven"
-      - working-directory: demo_app/server
-        run: ./mvnw test
+      - run: ./mvnw test
 
   test-client:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: demo_app/client
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -32,8 +37,7 @@ jobs:
           cache: "yarn"
           cache-dependency-path: demo_app/client/yarn.lock
       - run: yarn --frozen-lockfile
-      - working-directory: demo_app/client
-        run: yarn test
+      - run: yarn test
 
   build:
     runs-on: ubuntu-latest
