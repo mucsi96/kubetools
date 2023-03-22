@@ -30,6 +30,7 @@ jobs:
         with:
           node-version: 18
           cache: "yarn"
+          cache-dependency-path: demo_app/client/yarn.lock
       - run: yarn --frozen-lockfile
       - working-directory: demo_app/client
         run: yarn test
