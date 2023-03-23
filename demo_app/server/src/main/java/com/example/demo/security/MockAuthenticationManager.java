@@ -15,7 +15,7 @@ public class MockAuthenticationManager implements AuthenticationManager {
 
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-    AutheliaUser autheliaUser = new AutheliaUser("rob", "user", "Rober White", "robert.white@mockemail.com");
+    AutheliaUser autheliaUser = new AutheliaUser("rob", "user", "Robert White", "robert.white@mockemail.com");
 
     return new PreAuthenticatedAuthenticationToken(
         autheliaUser, "N/A",

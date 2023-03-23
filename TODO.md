@@ -1,4 +1,3 @@
-- Create me controller
 - Pass list of users as role args
 - Move Authelia related classes to a lib here
 - Publis to ansible galaxy, pypi and maven

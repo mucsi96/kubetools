@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
 public class HealthTest extends BaseIntegrationTest {
@@ -14,6 +15,7 @@ public class HealthTest extends BaseIntegrationTest {
         MockHttpServletResponse response = mockMvc.perform(get("/actuator/health")).andReturn().getResponse();
 
         assertThat(response.getStatus()).isEqualTo(200);
-        assertThat(JsonPath.parse(response.getContentAsString()).read("$.status", String.class)).isEqualTo("UP");
+        DocumentContext body = JsonPath.parse(response.getContentAsString());
+        assertThat(body.read("$.status", String.class)).isEqualTo("UP");
     }
 }

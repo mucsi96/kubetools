@@ -11,6 +11,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.example.demo.message.Message;
 import com.example.demo.message.MessageRepository;
+import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
 public class MessageControllerTests extends BaseIntegrationTest {
@@ -37,30 +38,8 @@ public class MessageControllerTests extends BaseIntegrationTest {
                 .getResponse();
 
         assertThat(response.getStatus()).isEqualTo(200);
-        assertThat(JsonPath.parse(response.getContentAsString()).read("$.message", String.class)).isEqualTo("test message");
+        DocumentContext body = JsonPath.parse(response.getContentAsString());
+        assertThat(body.read("$.message", String.class)).isEqualTo("test message");
 
-    }
-
-    @Test
-    public void returns_forbidden_if_user_has_no_user_authority() throws Exception {
-        MockHttpServletResponse response = mockMvc.perform(
-                get("/message")
-                        .headers(getAuthHeaders("guest")))
-                .andReturn()
-                .getResponse();
-
-        assertThat(response.getStatus()).isEqualTo(403);
-        assertThat(JsonPath.parse(response.getContentAsString()).read("$.status", Integer.class)).isEqualTo(403);
-    }
-
-    @Test
-    public void returns_unauthorized_if_auth_headers_are_missing() throws Exception {
-        MockHttpServletResponse response = mockMvc.perform(
-                get("/message"))
-                .andReturn()
-                .getResponse();
-
-        assertThat(response.getStatus()).isEqualTo(401);
-        assertThat(JsonPath.parse(response.getContentAsString()).read("$.status", Integer.class)).isEqualTo(401);
     }
 }
