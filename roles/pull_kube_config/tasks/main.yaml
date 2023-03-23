@@ -13,7 +13,7 @@
     path: "{{ local_kube_config | dirname }}"
     state: directory
     mode: 0700
-  delegate_to: 127.0.0.1
+  delegate_to: localhost
 
 - name: Create local kubernetes config
   ansible.builtin.copy:
@@ -24,4 +24,4 @@
     certificate_authority_data: "{{ kube_config.clusters.0.cluster['certificate-authority-data'] }}"
     client_certificate_data: "{{ kube_config.users.0.user['client-certificate-data'] }}"
     client_key_data: "{{ kube_config.users.0.user['client-key-data'] }}"
-  delegate_to: 127.0.0.1
+  delegate_to: localhost

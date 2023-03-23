@@ -7,18 +7,18 @@
     path: "{{ ansible_ssh_private_key_file | dirname }}"
     state: directory
     mode: 0700
-  delegate_to: 127.0.0.1
+  delegate_to: localhost
 
 - name: Create local ssh private key
   ansible.builtin.copy:
     dest: "{{ ansible_ssh_private_key_file }}"
     content: "{{ ssh_private_key }}\n"
     mode: 0600
-  delegate_to: 127.0.0.1
+  delegate_to: localhost
 
 - name: Create local ssh public key
   ansible.builtin.copy:
     dest: "{{ ansible_ssh_private_key_file }}.pub"
     content: "{{ ssh_public_key }}\n"
     mode: 0600
-  delegate_to: 127.0.0.1
+  delegate_to: localhost

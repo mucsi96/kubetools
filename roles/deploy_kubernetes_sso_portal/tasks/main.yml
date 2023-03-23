@@ -1,20 +1,11 @@
 - name: Setup time sync
   ansible.builtin.include_role:
     name: setup_time_sync
-- name: Ensure docker deamon is running
-  become: true
-  ansible.builtin.service:
-    name: docker
-    state: started
-- name: Hash user password
-  become: true
-  ansible.builtin.shell:
-    cmd: "docker run authelia/authelia:latest authelia crypto hash generate argon2 --password {{ sso_password }}"
-  register: this
-  changed_when: false
-- name: Get user password hash
-  ansible.builtin.set_fact:
-    password_hash: "{{this.stdout_lines[0] | split(': ') | last }}"
+- name: Get user database
+  get_user_database:
+    sso_users: "{{ sso_users }}"
+  register: user_database
+  delegate_to: localhost
 - name: Create k8s namespace
   kubernetes.core.k8s:
     state: present

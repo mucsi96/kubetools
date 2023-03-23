@@ -8,9 +8,24 @@ argument_specs:
       auth_middelware_name:
         type: str
         required: true
-      sso_username:
-        type: str
+      sso_users:
+        type: list
         required: true
-      sso_password:
-        type: str
-        required: true
+        elements: dict
+        options:
+          username:
+            type: str
+            required: true
+          password:
+            type: str
+            required: true
+          roles:
+            type: list
+            elements: str
+            required: true
+          display_name:
+            type: str
+            required: true
+          email:
+            type: str
+            required: true
