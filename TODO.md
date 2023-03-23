@@ -1,5 +1,3 @@
-- Make sure all controllers and errors retuns JSON
-- Add test for health endpoint
 - Create me controller
 - Pass list of users as role args
 - Move Authelia related classes to a lib here
