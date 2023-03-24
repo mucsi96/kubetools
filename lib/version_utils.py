@@ -45,7 +45,7 @@ def get_latest_version(tag_prefix: str):
         re.sub(rf'^{tag_prefix}-', '', latest_tag))
 
 
-def get_version(src: Path, tag_prefix: str, ignore: List[str]) -> tuple[bool, int]:
+def get_version(src: Path, tag_prefix: str, ignore: List[str] = []) -> tuple[bool, int]:
     prev_tag = get_previous_tag(tag_prefix)
 
     if prev_tag:
