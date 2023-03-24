@@ -14,7 +14,7 @@ def create_release(
             'Authorization': f'Bearer {access_token}',
             'X-GitHub-Api-Version': '2022-11-28'
         },
-        data={
+        json={
             'tag_name': tag_name,
             'target_commitish': getenv('GITHUB_REF_NAME'),
             'name': tag_name,
