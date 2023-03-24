@@ -17,7 +17,8 @@ def create_release(
         json={
             'tag_name': tag_name,
             'target_commitish': getenv('GITHUB_REF_NAME'),
-            'name': tag_name
+            'name': tag_name,
+            'generate_release_notes': True
         }
     )
 
