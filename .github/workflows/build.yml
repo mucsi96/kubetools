@@ -39,7 +39,18 @@ jobs:
       - run: yarn --frozen-lockfile
       - run: yarn test:ci
 
-  build:
+  build-python-lib:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
+      - run: pip install -r requirements.txt
+      - run: python scripts/build_python_lib.py ${{ secrets.GITHUB_TOKEN }}
+
+  build-images:
     runs-on: ubuntu-latest
     needs:
       - test-server
@@ -62,12 +73,11 @@ jobs:
         
       - uses: buildpacks/github-actions/setup-pack@v5.0.0
 
-      - name: Build Docker images
-        run: python scripts/build.py
+      - run: python scripts/build_images.py
 
   e2e-test:
     runs-on: macos-12
-    needs: build
+    needs: build-images
     steps:
       - uses: actions/checkout@v3
 
