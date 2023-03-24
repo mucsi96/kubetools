@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from pathlib import Path
 import sys
+from pathlib import Path
+from setuptools import sandbox
 root_directory = Path(__file__).parent.parent
 
 sys.path.append(str(root_directory))
@@ -18,4 +19,5 @@ if not changed:
 
 print(f'Changes detected. New version: {version}', flush=True)
 
-create_release(tag_name=f'{tag_prefix}-{version}', access_token=sys.argv[1])
+sandbox.run_setup('setup.py', ['bdist_wheel'])
+release_id = create_release(tag_name=f'{tag_prefix}-{version}', access_token=sys.argv[1])
