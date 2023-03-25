@@ -1,5 +1,5 @@
-
 import sys
+
 from subprocess import run
 from pathlib import Path
 from typing import List

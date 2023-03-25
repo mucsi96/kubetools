@@ -1,7 +1,8 @@
 import re
+import sys
+
 from pathlib import Path
 from subprocess import run
-import sys
 from typing import List
 
 

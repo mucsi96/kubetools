@@ -5,5 +5,5 @@ setup(
     name='kubetools',
     version=f'0.{getenv("LIB_VERSION")}.0',
     author="Igor Bari",
-    package_dir={"": "lib"}
+    package_dir={"kubetools": "lib"}
 )
