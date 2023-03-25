@@ -17,7 +17,7 @@ def create_release(
 
     tag_name = f'{tag_prefix}-{version}'
     response = post(
-        url=f'{getenv("GITHUB_API_URL")}/repos/{getenv("GITHUB_REPOSITORY")}/releases',
+        url=f'https://api.github.com/repos/{getenv("GITHUB_REPOSITORY")}/releases',
         headers={
             'Accept': 'application/vnd.github+json',
             'Authorization': f'Bearer {access_token}',
@@ -63,7 +63,7 @@ def upload_release_asset(
         data = f.read()
 
     response = post(
-        url=f'{getenv("GITHUB_API_URL")}/repos/{getenv("GITHUB_REPOSITORY")}/releases/{release_id}/assets',
+        url=f'https://uploads.github.com/repos/{getenv("GITHUB_REPOSITORY")}/releases/{release_id}/assets',
         headers={
             'Accept': 'application/vnd.github+json',
             'Authorization': f'Bearer {access_token}',
