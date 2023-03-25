@@ -67,7 +67,7 @@ def get_version(src: Path, tag_prefix: str, ignore: List[str] = []) -> tuple[boo
         new_version = 1
 
     print(
-        f'Changes detected for {tag_prefix}. New version: {version}', flush=True)
+        f'Changes detected for {tag_prefix}. New version: {new_version}', flush=True)
     return True, new_version
 
 
