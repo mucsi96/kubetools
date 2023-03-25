@@ -31,7 +31,6 @@ release_id = create_release(
 )
 upload_release_asset(
     release_id=release_id,
-    local_filename_pattern='dist/kubetools-*.whl',
-    release_filename=f'kubetools-{version}.whl',
+    filename_pattern='dist/kubetools-*.whl',
     access_token=sys.argv[1]
 )

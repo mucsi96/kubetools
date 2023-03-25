@@ -46,16 +46,16 @@ def upload_release_asset(
     *,
     release_id: str,
     access_token: str,
-    local_filename_pattern: str
+    filename_pattern: str
 ):
     if not access_token:
         print('GitHub access token is missing', flush=True, file=sys.stderr)
         exit(1)
     
-    local_file = glob(local_filename_pattern)[0]
+    local_file = glob(filename_pattern)[0]
 
     if not access_token:
-        print(f'No file found matching {local_filename_pattern}', flush=True, file=sys.stderr)
+        print(f'No file found matching {filename_pattern}', flush=True, file=sys.stderr)
         exit(1)
 
     with open(local_file, 'rb') as f:
