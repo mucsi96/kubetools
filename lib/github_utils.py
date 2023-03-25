@@ -1,8 +1,8 @@
 from glob import glob
 from os import getenv
+import os
 import sys
 from requests import post
-
 
 def create_release(
     *,
@@ -46,8 +46,7 @@ def upload_release_asset(
     *,
     release_id: str,
     access_token: str,
-    local_filename_pattern: str,
-    release_filename: str,
+    local_filename_pattern: str
 ):
     if not access_token:
         print('GitHub access token is missing', flush=True, file=sys.stderr)
@@ -62,6 +61,8 @@ def upload_release_asset(
     with open(local_file, 'rb') as f:
         data = f.read()
 
+    filename = os.path.split(local_file)[1]
+
     response = post(
         url=f'https://uploads.github.com/repos/{getenv("GITHUB_REPOSITORY")}/releases/{release_id}/assets',
         headers={
@@ -72,7 +73,7 @@ def upload_release_asset(
         },
         data=data,
         params={
-            'name': release_filename
+            'name': filename
         }
     )
 

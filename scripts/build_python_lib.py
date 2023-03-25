@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from os import environ
 import sys
 from pathlib import Path
 from setuptools import sandbox
@@ -20,6 +21,7 @@ changed, version = get_version(src='lib', tag_prefix=tag_prefix)
 if not changed:
     exit()
 
+environ['LIB_VERSION'] = str(version)
 sandbox.run_setup('setup.py', ['bdist_wheel'])
 
 release_id = create_release(
