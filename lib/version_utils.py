@@ -1,6 +1,7 @@
 import re
 from pathlib import Path
 from subprocess import run
+import sys
 from typing import List
 
 
@@ -8,7 +9,7 @@ def get_previous_tag(tag_prefix):
     result = run(['git', 'describe', '--tags',
                  f'--match={tag_prefix}-[1-9]*', '--abbrev=0'], capture_output=True)
     if result.stderr:
-        print(result.stderr.decode(), flush=True)
+        print(result.stderr.decode(), file=sys.stderr, flush=True)
 
     if result.returncode or not result.stdout:
         return None
@@ -24,7 +25,7 @@ def has_source_code_changed(src: Path, prev_tag: str, ignore: List[str]):
     result = run(args, cwd=src, capture_output=True)
 
     if result.stderr:
-        print(result.stderr.decode(), flush=True)
+        print(result.stderr.decode(), file=sys.stderr, flush=True)
 
     if result.stdout:
         print(result.stdout.decode(), flush=True)
@@ -37,7 +38,7 @@ def get_latest_version(tag_prefix: str):
                  f'{tag_prefix}-[1-9]*'], capture_output=True)
 
     if result.stderr:
-        print(result.stderr.decode(), flush=True)
+        print(result.stderr.decode(), flush=True, file=sys.stderr)
 
     if result.returncode or not result.stdout:
         return None
