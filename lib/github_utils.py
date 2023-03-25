@@ -1,7 +1,7 @@
-from glob import glob
-from os import getenv
 import os
 import sys
+from glob import glob
+from os import getenv
 from requests import post
 
 def create_release(

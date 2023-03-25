@@ -1,10 +1,10 @@
 
+import sys
 from subprocess import run
 from pathlib import Path
-import sys
 from typing import List
-from lib.github_utils import create_release
-from lib.version_utils import get_version
+from github_utils import create_release
+from version_utils import get_version
 
 
 def build_and_push_client_img(

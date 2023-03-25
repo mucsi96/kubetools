@@ -1,6 +1,6 @@
+import re
 from pathlib import Path
 from subprocess import run
-import re
 from typing import List
 
 
