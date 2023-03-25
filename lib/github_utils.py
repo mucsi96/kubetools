@@ -35,9 +35,8 @@ def create_release(
     )
 
     if response.status_code == 201:
-        print("Release created successfully!", flush=True)
         release_id = response.json().get("id")
-        print(f"Release ID: {release_id}", flush=True)
+        print(f'Release created successfully! Release id: {release_id}', flush=True)
         return release_id
     else:
         print("Error creating release: ", response.content, file=sys.stderr, flush=True)
