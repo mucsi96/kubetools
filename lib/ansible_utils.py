@@ -1,3 +1,4 @@
+import sys
 from os import makedirs, path
 from pathlib import Path
 from secrets import choice
@@ -11,7 +12,7 @@ def read_file(file_path: Path):
         with open(file_path, 'rb') as file:
             return file.read().strip()
     except:
-        print("Error reading file at", file_path)
+        print("Error reading file at", file_path, flush=True, file=sys.stderr)
 
 
 def load_vars(vault_secret_file: Path, vars_file: Path):
