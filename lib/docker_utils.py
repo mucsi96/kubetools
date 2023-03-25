@@ -3,8 +3,8 @@ import sys
 from subprocess import run
 from pathlib import Path
 from typing import List
-from github_utils import create_release
-from version_utils import get_version
+from .github_utils import create_release
+from .version_utils import get_version
 
 
 def build_and_push_client_img(
