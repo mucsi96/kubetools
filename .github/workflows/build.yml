@@ -70,7 +70,7 @@ jobs:
         
       - uses: buildpacks/github-actions/setup-pack@v5.0.0
 
-      - run: python scripts/build_images.py
+      - run: python scripts/build_images.py ${{ secrets.GITHUB_TOKEN }}
 
   e2e-test:
     runs-on: macos-12

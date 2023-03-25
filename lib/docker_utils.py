@@ -1,8 +1,10 @@
 
 from subprocess import run
 from pathlib import Path
+import sys
 from typing import List
-from lib.version_utils import get_version, set_version
+from lib.github_utils import create_release
+from lib.version_utils import get_version
 
 
 def build_and_push_client_img(
@@ -10,9 +12,10 @@ def build_and_push_client_img(
     src: Path,
     tag_prefix: str,
     image_name: str,
-    pack_args: List[str] = [],
     docker_username: str,
     docker_password: str,
+    github_access_token: str,
+    pack_args: List[str] = [],
     ignore: List[str] = [],
 ):
     build_and_push_img(
@@ -30,6 +33,7 @@ def build_and_push_client_img(
         ],
         docker_username=docker_username,
         docker_password=docker_password,
+        github_access_token=github_access_token,
         ignore=[
             'node_modules',
             'dist',
@@ -37,14 +41,16 @@ def build_and_push_client_img(
         ]
     )
 
+
 def build_and_push_server_img(
     *,
     src: Path,
     tag_prefix: str,
     image_name: str,
-    pack_args: List[str] = [],
     docker_username: str,
     docker_password: str,
+    github_access_token: str,
+    pack_args: List[str] = [],
     ignore: List[str] = [],
 ):
     build_and_push_img(
@@ -60,6 +66,7 @@ def build_and_push_server_img(
         ],
         docker_username=docker_username,
         docker_password=docker_password,
+        github_access_token=github_access_token,
         ignore=[
             'target',
             *ignore
@@ -72,27 +79,32 @@ def build_and_push_img(
     src: Path,
     tag_prefix: str,
     image_name: str,
-    pack_args: List[str] = [],
     docker_username: str,
     docker_password: str,
+    github_access_token: str,
+    pack_args: List[str] = [],
     ignore: List[str] = [],
 ):
+    if not github_access_token:
+        print('GitHub access token is missing', flush=True, file=sys.stderr)
+        exit(1)
 
     changed, version = get_version(
         src=src, tag_prefix=tag_prefix, ignore=ignore)
 
     if not changed:
-        print(f'No changes detected since {tag_prefix}:{version}', flush=True)
         return
-
-    print(
-        f'Changes detected for {tag_prefix}. New version: {version}', flush=True)
 
     run(['docker', 'login', '--username', docker_username,
         '--password-stdin'], input=docker_password.encode(), check=True)
     run(['pack', 'build', f'{image_name}:latest', '--path', str(src), '--tag',
         f'{image_name}:{version}', '--publish', *pack_args], check=True)
 
-    set_version(tag_prefix=tag_prefix, version=version)
+    create_release(
+        tag_prefix=tag_prefix,
+        version=version,
+        access_token=github_access_token,
+        body=f'[Image](https://hub.docker.com/repository/docker/{image_name})'
+    )
     print(
         f'Docker image pushed successfully for {tag_prefix}:{version}', flush=True)

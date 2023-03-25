@@ -3,11 +3,13 @@ from subprocess import run
 import re
 from typing import List
 
+
 def get_previous_tag(tag_prefix):
-    result = run(['git', 'describe', '--tags', f'--match={tag_prefix}-[1-9]*', '--abbrev=0'], capture_output=True)
+    result = run(['git', 'describe', '--tags',
+                 f'--match={tag_prefix}-[1-9]*', '--abbrev=0'], capture_output=True)
     if result.stderr:
         print(result.stderr.decode(), flush=True)
-    
+
     if result.returncode or not result.stdout:
         return None
 
@@ -29,15 +31,17 @@ def has_source_code_changed(src: Path, prev_tag: str, ignore: List[str]):
 
     return bool(result.stdout)
 
+
 def get_latest_version(tag_prefix: str):
-    result = run(['git', 'tag', '--list', '--sort=-v:refname', f'{tag_prefix}-[1-9]*'], capture_output=True)
+    result = run(['git', 'tag', '--list', '--sort=-v:refname',
+                 f'{tag_prefix}-[1-9]*'], capture_output=True)
 
     if result.stderr:
         print(result.stderr.decode(), flush=True)
 
     if result.returncode or not result.stdout:
         return None
-    
+
     tags = result.stdout.decode().splitlines()
     latest_tag = tags[0]
 
@@ -52,6 +56,8 @@ def get_version(src: Path, tag_prefix: str, ignore: List[str] = []) -> tuple[boo
     if prev_tag:
         if has_source_code_changed(src, prev_tag, ignore) is False:
             version = re.sub(rf'^{tag_prefix}-', '', prev_tag)
+            print(
+                f'No changes detected since {tag_prefix}:{version}', flush=True)
             return False, version
 
     latest_version = get_latest_version(tag_prefix)
@@ -61,6 +67,8 @@ def get_version(src: Path, tag_prefix: str, ignore: List[str] = []) -> tuple[boo
     else:
         new_version = 1
 
+    print(
+        f'Changes detected for {tag_prefix}. New version: {version}', flush=True)
     return True, new_version
 
 

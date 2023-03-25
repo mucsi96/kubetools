@@ -1,12 +1,20 @@
 from os import getenv
+import sys
 from requests import post
 
 
 def create_release(
     *,
-    tag_name: str,
-    access_token: str
+    tag_prefix: str,
+    version: int,
+    access_token: str,
+    body: str = None
 ) -> str:
+    if not access_token:
+        print('GitHub access token is missing', flush=True, file=sys.stderr)
+        exit(1)
+        
+    tag_name = f'{tag_prefix}-{version}'
     response = post(
         url=f'{getenv("GITHUB_API_URL")}/repos/{getenv("GITHUB_REPOSITORY")}/releases',
         headers={
@@ -18,7 +26,8 @@ def create_release(
             'tag_name': tag_name,
             'target_commitish': getenv('GITHUB_REF_NAME'),
             'name': tag_name,
-            'generate_release_notes': True
+            'generate_release_notes': True,
+            'body': body
         }
     )
 
@@ -30,4 +39,3 @@ def create_release(
     else:
         print("Error creating release: ", response.content)
         exit(1)
-
