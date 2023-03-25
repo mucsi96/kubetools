@@ -1,4 +1,6 @@
+from glob import glob
 from os import getenv
+import os
 import sys
 from requests import post
 
@@ -13,7 +15,7 @@ def create_release(
     if not access_token:
         print('GitHub access token is missing', flush=True, file=sys.stderr)
         exit(1)
-        
+
     tag_name = f'{tag_prefix}-{version}'
     response = post(
         url=f'{getenv("GITHUB_API_URL")}/repos/{getenv("GITHUB_REPOSITORY")}/releases',
@@ -36,6 +38,47 @@ def create_release(
         release_id = response.json().get("id")
         print(f"Release ID: {release_id}")
         return release_id
+    else:
+        print("Error creating release: ", response.content)
+        exit(1)
+
+
+def upload_release_asset(
+    *,
+    release_id: str,
+    access_token: str,
+    local_filename_pattern: str,
+    release_filename: str,
+):
+    if not access_token:
+        print('GitHub access token is missing', flush=True, file=sys.stderr)
+        exit(1)
+    
+    local_file = glob(local_filename_pattern)[0]
+
+    if not access_token:
+        print(f'No file found matching {local_filename_pattern}', flush=True, file=sys.stderr)
+        exit(1)
+
+    with open(local_file, 'rb') as f:
+        data = f.read()
+
+    response = post(
+        url=f'{getenv("GITHUB_API_URL")}/repos/{getenv("GITHUB_REPOSITORY")}/releases/{release_id}/assets',
+        headers={
+            'Accept': 'application/vnd.github+json',
+            'Authorization': f'Bearer {access_token}',
+            'X-GitHub-Api-Version': '2022-11-28',
+            'Content-Type': 'application/octet-stream'
+        },
+        data=data,
+        params={
+            'name': release_filename
+        }
+    )
+
+    if response.status_code == 201:
+        print(f'Asset uploaded successfully to release {release_id}!')
     else:
         print("Error creating release: ", response.content)
         exit(1)
