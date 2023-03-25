@@ -33,12 +33,12 @@ def create_release(
     )
 
     if response.status_code == 201:
-        print("Release created successfully!")
+        print("Release created successfully!", flush=True)
         release_id = response.json().get("id")
-        print(f"Release ID: {release_id}")
+        print(f"Release ID: {release_id}", flush=True)
         return release_id
     else:
-        print("Error creating release: ", response.content)
+        print("Error creating release: ", response.content, file=sys.stderr, flush=True)
         exit(1)
 
 
@@ -78,7 +78,7 @@ def upload_release_asset(
     )
 
     if response.status_code == 201:
-        print(f'Asset uploaded successfully to release {release_id}!')
+        print(f'Asset uploaded successfully to release {release_id}!', flush=True)
     else:
-        print("Error creating release: ", response.content)
+        print("Error creating release: ", response.content, file=sys.stderr, flush=True)
         exit(1)

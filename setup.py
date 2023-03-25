@@ -1,9 +1,10 @@
 from os import getenv
-from setuptools import setup
+from setuptools import find_packages, setup
 
 setup(
     name='kubetools',
     version=f'0.{getenv("LIB_VERSION")}.0',
     author="Igor Bari",
-    package_dir={"kubetools": "lib"}
+    packages=find_packages(where='lib'),
+    package_dir={"": "lib"}
 )
