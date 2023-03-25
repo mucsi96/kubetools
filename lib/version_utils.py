@@ -50,7 +50,6 @@ def get_latest_version(tag_prefix: str):
 
 
 def get_version(src: Path, tag_prefix: str, ignore: List[str] = []) -> tuple[bool, int]:
-    run(['git', 'fetch', '--tags'], check=True)
     prev_tag = get_previous_tag(tag_prefix)
 
     if prev_tag:
