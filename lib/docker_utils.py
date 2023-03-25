@@ -104,7 +104,7 @@ def build_and_push_img(
         tag_prefix=tag_prefix,
         version=version,
         access_token=github_access_token,
-        body=f'[Image](https://hub.docker.com/repository/docker/{image_name})'
+        body=f'[Docker image on DockerHub](https://hub.docker.com/repository/docker/{image_name})'
     )
     print(
         f'Docker image pushed successfully for {tag_prefix}:{version}', flush=True)

@@ -1,6 +1,5 @@
 from glob import glob
 from os import getenv
-import os
 import sys
 from requests import post
 
@@ -10,7 +9,7 @@ def create_release(
     tag_prefix: str,
     version: int,
     access_token: str,
-    body: str = None
+    body: str = ''
 ) -> str:
     if not access_token:
         print('GitHub access token is missing', flush=True, file=sys.stderr)
