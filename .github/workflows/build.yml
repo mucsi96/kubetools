@@ -54,6 +54,24 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python scripts/build_python_lib.py ${{ secrets.GITHUB_TOKEN }}
 
+  build-server-lib:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+          cache: "pip" # caching pip dependencies
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "17"
+          cache: "maven"
+      - run: pip install -r requirements.txt
+      - run: python scripts/build_server_lib.py ${{ secrets.GITHUB_TOKEN }}
+
   build-images:
     runs-on: ubuntu-latest
     needs:
