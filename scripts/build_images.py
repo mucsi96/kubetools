@@ -12,8 +12,9 @@ from lib.ansible_utils import load_vars
 data = load_vars(root_directory / '.ansible/vault_key', root_directory / 'vars/vault.yaml')
 docker_username = data['docker_username']
 docker_password = data['docker_password']
+github_access_token = sys.argv[1]
 
-if not sys.argv[1]:
+if not github_access_token:
     print('GitHub access token is missing', flush=True, file=sys.stderr)
     exit(1)
 
@@ -23,7 +24,7 @@ build_and_push_client_img(
     image_name='mucsi96/kubetools-demo-app-client',
     docker_username=docker_username,
     docker_password=docker_password,
-    github_access_token=sys.argv[1]
+    github_access_token=github_access_token
 )
 
 build_and_push_server_img(
@@ -32,7 +33,7 @@ build_and_push_server_img(
     image_name='mucsi96/kubetools-demo-app-server',
     docker_username=docker_username,
     docker_password=docker_password,
-    github_access_token=sys.argv[1]
+    github_access_token=github_access_token
 )
 
 build_and_push_server_img(
@@ -41,5 +42,5 @@ build_and_push_server_img(
     image_name='mucsi96/kubetools-spring-boot-admin',
     docker_username=docker_username,
     docker_password=docker_password,
-    github_access_token=sys.argv[1]
+    github_access_token=github_access_token
 )
