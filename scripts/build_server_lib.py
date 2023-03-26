@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from os import getenv
 from subprocess import run
 import sys
 from pathlib import Path
@@ -24,15 +25,15 @@ if not changed:
     exit()
 
 run(['mvn', 'versions:set', f'-DnewVersion=1.{version}'], cwd=src, check=True)
-run(['mvn', 'package'], cwd=src, check=True)
+run(['mvn', 'deploy'], cwd=src, check=True)
+mvn_repo = f'{src}/target/mvn-repo'
+run(['git', 'init'], cwd=mvn_repo, check=True)
+run(['git', 'add', '-A'], cwd=mvn_repo, check=True)
+run(['git', 'commit', '-m', f'deploy-version-{version}'], cwd=mvn_repo, check=True)
+run(['git', 'push', '-f', f'git@github.com:{getenv("GITHUB_REPOSITORY")}.git main:mvn-repo'], cwd=mvn_repo, check=True)
 
 release_id = create_release(
     tag_prefix=tag_prefix,
     version=version,
-    access_token=access_token
-)
-upload_release_asset(
-    release_id=release_id,
-    filename_pattern=f'{src}/target/*.jar',
     access_token=access_token
 )
