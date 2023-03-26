@@ -14,7 +14,7 @@
       "name": "Spring Boot-SpringBootAdminApplication<spring-boot-admin>",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "mainClass": "com.example.demo.SpringBootAdminApplication",
+      "mainClass": "io.github.mucsi96.SpringBootAdminApplication",
       "projectName": "spring-boot-admin",
       "args": "--spring.profiles.active=local",
       "envFile": "${workspaceFolder}/.env"
@@ -24,7 +24,7 @@
       "name": "Spring Boot-DemoApplication<demo>",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "mainClass": "com.example.demo.DemoApplication",
+      "mainClass": "io.github.mucsi96.DemoApplication",
       "projectName": "demo",
       "args": "--spring.profiles.active=local",
       "envFile": "${workspaceFolder}/.env"
