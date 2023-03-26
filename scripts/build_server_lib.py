@@ -10,7 +10,9 @@ sys.path.append(str(root_directory))
 from lib.github_utils import create_release, upload_release_asset
 from lib.version_utils import get_version
 
-if not sys.argv[1]:
+access_token = sys.argv[1]
+
+if not access_token:
     print('GitHub access token is missing', flush=True, file=sys.stderr)
     exit(1)
 
@@ -22,15 +24,15 @@ if not changed:
     exit()
 
 run(['mvn', 'versions:set', f'-DnewVersion=1.{version}'], cwd=src, check=True)
-run(['mvn', 'package'], cwd=src, check=True)
+run(['mvn', '--batch-mode', 'deploy'], cwd=src, check=True, env={ 'GITHUB_TOKEN': access_token })
 
 release_id = create_release(
     tag_prefix=tag_prefix,
     version=version,
-    access_token=sys.argv[1]
+    access_token=access_token
 )
 upload_release_asset(
     release_id=release_id,
     filename_pattern=f'{src}/target/*.jar',
-    access_token=sys.argv[1]
+    access_token=access_token
 )
