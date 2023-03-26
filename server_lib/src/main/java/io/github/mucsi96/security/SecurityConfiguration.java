@@ -1,4 +1,4 @@
-package io.github.mucsi96.configuration;
+package io.github.mucsi96.security;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -16,7 +16,6 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import io.github.mucsi96.core.FilterChainExceptionHandlerFilter;
-import io.github.mucsi96.security.AutheliaHeaderAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity

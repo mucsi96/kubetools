@@ -1,4 +1,4 @@
-package io.github.mucsi96.security;
+package io.github.mucsi96;
 
 import java.util.Arrays;
 
@@ -8,6 +8,8 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedC
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.mucsi96.security.AutheliaUser;
+import io.github.mucsi96.security.User;
 import jakarta.annotation.security.RolesAllowed;
 
 @RestController
