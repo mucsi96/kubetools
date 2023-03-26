@@ -37,8 +37,8 @@ build_and_push_server_img(
 )
 
 build_and_push_server_img(
-    src=root_directory / 'spring-boot-admin',
-    tag_prefix='spring-boot-admin',
+    src=root_directory / 'spring_boot_admin',
+    tag_prefix='spring_boot_admin',
     image_name='mucsi96/kubetools-spring-boot-admin',
     docker_username=docker_username,
     docker_password=docker_password,
