@@ -26,7 +26,7 @@
   "remoteUser": "vscode",
   "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
   "postCreateCommand": {
-    "install-python-requirements": "pip install -r requirements.txt",
+    "install-dev-tools": "bash -i scripts/install-dev-tools.sh",
     "configure-docker": "sudo chown $(whoami) /var/run/docker.sock"
   },
   "mounts": [
