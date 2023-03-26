@@ -1,3 +1,4 @@
+- Make sure kubetools works from differnt package as well. AutoConfiguration?
 - Publis to ansible galaxy
 - Add authorization for monitoring endpoints https://github.com/nilskohrs/pathauth
 - Create greeting based on /me endpoint in client
