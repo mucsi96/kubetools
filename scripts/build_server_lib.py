@@ -33,7 +33,7 @@ run(['git', 'config', '--global', 'user.name', f'"{getenv("GITHUB_ACTOR")}"'], c
 run(['git', 'config', '--global', 'user.email', f'"{getenv("GITHUB_ACTOR")}@users.noreply.github.com"'], cwd=mvn_repo, check=True)
 run(['git', 'add', '-A'], cwd=mvn_repo, check=True)
 run(['git', 'commit', '-m', f'deploy-version-{version}'], cwd=mvn_repo, check=True)
-run(['git', 'push', '-f', f'git@github.com:{getenv("GITHUB_REPOSITORY")}.git main:mvn-repo'], cwd=mvn_repo, check=True)
+run(['git', 'push', '-f', f'git@github.com:{getenv("GITHUB_REPOSITORY")}.git', 'main:mvn-repo'], cwd=mvn_repo, check=True)
 
 release_id = create_release(
     tag_prefix=tag_prefix,
