@@ -1,6 +1,5 @@
-- Pass list of users as role args
 - Move Authelia related classes to a lib here
-- Publis to ansible galaxy, pypi and maven
+- Publis to ansible galaxy and maven
 - Add authorization for monitoring endpoints https://github.com/nilskohrs/pathauth
 - Create greeting based on /me endpoint in client
 - Fix STS
