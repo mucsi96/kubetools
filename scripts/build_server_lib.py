@@ -24,7 +24,7 @@ if not changed:
     exit()
 
 run(['mvn', 'versions:set', f'-DnewVersion=1.{version}'], cwd=src, check=True)
-run(['mvn', '--batch-mode', 'deploy'], cwd=src, check=True, env={ 'GITHUB_TOKEN': access_token })
+run(['mvn', 'package'], cwd=src, check=True)
 
 release_id = create_release(
     tag_prefix=tag_prefix,
