@@ -1,4 +1,4 @@
-package io.github.mucsi96;
+package com.example.demo;
 
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
