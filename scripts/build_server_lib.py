@@ -24,7 +24,7 @@ changed, version = get_version(src=src, tag_prefix=tag_prefix)
 if not changed:
     exit()
 
-run(['mvn', 'versions:set', f'-DnewVersion=1.{version}'], cwd=src, check=True)
+run(['mvn', 'versions:set', f'-DnewVersion=1.{version}-SNAPSHOT'], cwd=src, check=True)
 run(['mvn', 'deploy'], cwd=src, check=True)
 mvn_repo = f'{src}/target/mvn-repo'
 run(['git', 'init'], cwd=mvn_repo, check=True)

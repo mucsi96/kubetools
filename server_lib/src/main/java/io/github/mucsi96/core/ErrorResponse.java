@@ -1,11 +1,8 @@
 package io.github.mucsi96.core;
 
 import java.time.LocalDateTime;
-
 import org.springframework.http.HttpStatus;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 
 @Data
