@@ -52,7 +52,7 @@ release_id = create_release(
     tag_prefix=tag_prefix,
     version=version,
     access_token=access_token,
-    body='''
+    body=f'''
 ```
 <dependency>
     <groupId>io.github.mucsi96</groupId>
