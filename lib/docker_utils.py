@@ -2,6 +2,7 @@ import sys
 
 from subprocess import run
 from pathlib import Path
+from textwrap import dedent
 from typing import List
 from .github_utils import create_release
 from .version_utils import get_version
@@ -104,13 +105,13 @@ def build_and_push_img(
         tag_prefix=tag_prefix,
         version=version,
         access_token=github_access_token,
-        body=f'''
+        body=dedent(f'''
             [Docker image on DockerHub](https://hub.docker.com/repository/docker/{image_name})
 
             ```yaml
             image: {image_name}:{version}
             ```
-        '''
+        ''')
     )
     print(
         f'Docker image pushed successfully for {tag_prefix}:{version}', flush=True)

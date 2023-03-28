@@ -4,6 +4,7 @@ from os import makedirs, path
 from subprocess import run
 import sys
 from pathlib import Path
+from textwrap import dedent
 root_directory = Path(__file__).parent.parent
 
 sys.path.append(str(root_directory))
@@ -34,15 +35,15 @@ makedirs(path.dirname(maven_settings), exist_ok=True)
 newVersion=f'1.{version}-SNAPSHOT'
 with open(maven_settings, 'w') as f:
     f.write(f'''
-    <settings>
-        <servers>
-            <server>
-                <id>ossrh</id>
-                <username>{maven_username}</username>
-                <password>{maven_password}</password>
-            </server>
-        </servers>
-    </settings>
+        <settings>
+            <servers>
+                <server>
+                    <id>ossrh</id>
+                    <username>{maven_username}</username>
+                    <password>{maven_password}</password>
+                </server>
+            </servers>
+        </settings>
     ''')
 
 run(['mvn', 'versions:set', f'-DnewVersion={newVersion}'], cwd=src, check=True)
@@ -52,7 +53,7 @@ release_id = create_release(
     tag_prefix=tag_prefix,
     version=version,
     access_token=access_token,
-    body=f'''
+    body=dedent(f'''
         [Maven package](https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/mucsi96/kubetools/{newVersion})
 
         ```xml
@@ -62,5 +63,5 @@ release_id = create_release(
             <version>{newVersion}</version>
         </dependency>
         ```
-    '''
+    ''')
 )

@@ -7,7 +7,6 @@ import lombok.Data;
 
 @Data
 public class ErrorResponse {
-    
     private int status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
