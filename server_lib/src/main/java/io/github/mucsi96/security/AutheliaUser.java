@@ -9,4 +9,3 @@ public class AutheliaUser {
   private final String displayName;
   private final String email;
 }
-

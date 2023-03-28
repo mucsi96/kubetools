@@ -21,5 +21,4 @@ public class MockAuthenticationManager implements AuthenticationManager {
         autheliaUser, "N/A",
         List.of(() -> "ROLE_user"));
   }
-
 }
