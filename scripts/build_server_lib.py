@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from os import getenv
+from os import getenv, makedirs
 from subprocess import run
 import sys
 from pathlib import Path
@@ -29,6 +29,7 @@ changed, version = get_version(src=src, tag_prefix=tag_prefix)
 if not changed:
     exit()
 
+makedirs('~/.m2', exist_ok=True)
 with open('~/.m2/settings.xml', 'w') as f:
     f.write(f"""
     <settings>
