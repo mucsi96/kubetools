@@ -31,7 +31,7 @@ if not changed:
 
 makedirs('~/.m2', exist_ok=True)
 with open('~/.m2/settings.xml', 'w') as f:
-    f.write(f"""
+    f.write(f'''
     <settings>
         <servers>
             <server>
@@ -41,7 +41,7 @@ with open('~/.m2/settings.xml', 'w') as f:
             </server>
         </servers>
     </settings>
-    """)
+    ''')
 
 run(['mvn', 'versions:set', f'-DnewVersion=1.{version}-SNAPSHOT'], cwd=src, check=True)
 run(['mvn', 'deploy'], cwd=src, check=True)
