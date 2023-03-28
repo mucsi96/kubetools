@@ -53,12 +53,14 @@ release_id = create_release(
     version=version,
     access_token=access_token,
     body=f'''
-```
-<dependency>
-    <groupId>io.github.mucsi96</groupId>
-    <artifactId>kubetools</artifactId>
-    <version>{newVersion}</version>
-</dependency>
-```
+        [Maven package](https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/mucsi96/kubetools/{newVersion})
+
+        ```xml
+        <dependency>
+            <groupId>io.github.mucsi96</groupId>
+            <artifactId>kubetools</artifactId>
+            <version>{newVersion}</version>
+        </dependency>
+        ```
     '''
 )

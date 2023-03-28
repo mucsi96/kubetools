@@ -15,6 +15,7 @@ import jakarta.annotation.security.RolesAllowed;
 @RestController
 @RolesAllowed("user")
 public class MeController {
+    
     @GetMapping("/me")
     User getMe(Authentication authentication) {
         if (!(authentication instanceof PreAuthenticatedAuthenticationToken)) {

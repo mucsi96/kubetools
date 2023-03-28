@@ -10,6 +10,7 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
 public class MeControllerTest extends BaseIntegrationTest {
+        
     @Test
     public void returns_logged_in_user_details() throws Exception {
         MockHttpServletResponse response = mockMvc.perform(
