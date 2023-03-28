@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from os import getenv, makedirs
+from os import makedirs, path
 from subprocess import run
 import sys
 from pathlib import Path
@@ -29,25 +29,36 @@ changed, version = get_version(src=src, tag_prefix=tag_prefix)
 if not changed:
     exit()
 
-makedirs('~/.m2', exist_ok=True)
-with open('~/.m2/settings.xml', 'w') as f:
+maven_settings = f'{path.expanduser("~")}/.m2/settings.xml'
+makedirs(path.dirname(maven_settings), exist_ok=True)
+newVersion=f'1.{version}-SNAPSHOT'
+with open(maven_settings, 'w') as f:
     f.write(f'''
     <settings>
         <servers>
             <server>
-            <id>ossrh</id>
-            <username>{maven_username}</username>
-            <password>{maven_password}</password>
+                <id>ossrh</id>
+                <username>{maven_username}</username>
+                <password>{maven_password}</password>
             </server>
         </servers>
     </settings>
     ''')
 
-run(['mvn', 'versions:set', f'-DnewVersion=1.{version}-SNAPSHOT'], cwd=src, check=True)
+run(['mvn', 'versions:set', f'-DnewVersion={newVersion}'], cwd=src, check=True)
 run(['mvn', 'deploy'], cwd=src, check=True)
 
 release_id = create_release(
     tag_prefix=tag_prefix,
     version=version,
     access_token=access_token
+    body='''
+```
+<dependency>
+    <groupId>io.github.mucsi96</groupId>
+    <artifactId>kubetools</artifactId>
+    <version>{newVersion}</version>
+</dependency>
+```
+    '''
 )
