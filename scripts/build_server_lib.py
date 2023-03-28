@@ -51,7 +51,7 @@ run(['mvn', 'deploy'], cwd=src, check=True)
 release_id = create_release(
     tag_prefix=tag_prefix,
     version=version,
-    access_token=access_token
+    access_token=access_token,
     body='''
 ```
 <dependency>
