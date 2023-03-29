@@ -1,6 +1,11 @@
 namespace: mucsi96
-name: ansible_roles
+name: kubetools
 version: 1.0.0
 readme: README.md
 authors:
 - Igor Bari
+manifest:
+  directives:
+    - include README.md LICENSE
+    - recursive-include roles **
+  omit_default_directives: true

@@ -9,3 +9,4 @@ argon2-cffi == 21.3.0
 requests == 2.28.2
 setuptools == 67.6.0
 wheel == 0.40.0
+distlib == 0.3.6
