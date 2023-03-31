@@ -12,6 +12,8 @@ spec:
       middlewares:
         - name: {{ auth_middelware_name }}
           namespace: {{ auth_middelware_namespace }}
+        - name: {{ k8s_name }}-authorization
+          namespace: {{ k8s_namespace }}
         - name: {{ k8s_name }}-grafana-auth
           namespace: {{ k8s_namespace }}
       services:

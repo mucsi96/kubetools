@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ k8s_name }}-authorization
+  namespace: {{ k8s_namespace }}
+spec:
+  plugin:
+    pathauth:
+      source:
+        type: header
+        name: Remote-Groups
+        delimiter: ","
+      authorization:
+        - path: ".*/.*"
+          allowed: admin

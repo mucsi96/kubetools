@@ -1,3 +1,2 @@
-- Add authorization for monitoring endpoints https://github.com/nilskohrs/pathauth
 - Create greeting based on /me endpoint in client
 - Fix STS

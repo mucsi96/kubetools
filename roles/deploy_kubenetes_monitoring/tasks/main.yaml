@@ -4,6 +4,11 @@
     kind: namespace
     name: "{{ k8s_namespace }}"
 
+- name: Deploy Authorization middleware
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.template', 'authorization_middleware.yaml') }}"
+    wait: true
+
 - name: Deploy Traefik dashboard
   ansible.builtin.import_tasks: traefik_dashboard.yaml
 
