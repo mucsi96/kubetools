@@ -4,27 +4,21 @@
       "name": "Client app",
       "request": "launch",
       "cwd": "${workspaceFolder}/demo_app/client",
-      "runtimeArgs": ["start"],
+      "runtimeArgs": [
+        "start"
+      ],
       "runtimeExecutable": "yarn",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "type": "node"
     },
     {
       "type": "java",
-      "name": "Spring Boot-SpringBootAdminApplication<spring-boot-admin>",
+      "name": "Spring Boot-Application<demo>",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "mainClass": "io.github.mucsi96.SpringBootAdminApplication",
-      "projectName": "spring-boot-admin",
-      "args": "--spring.profiles.active=local",
-      "envFile": "${workspaceFolder}/.env"
-    },
-    {
-      "type": "java",
-      "name": "Spring Boot-DemoApplication<demo>",
-      "request": "launch",
-      "cwd": "${workspaceFolder}",
-      "mainClass": "io.github.mucsi96.DemoApplication",
+      "mainClass": "io.github.mucsi96.demo.Application",
       "projectName": "demo",
       "args": "--spring.profiles.active=local",
       "envFile": "${workspaceFolder}/.env"

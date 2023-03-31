@@ -1,2 +1,1 @@
-- Create greeting based on /me endpoint in client
 - Fix STS

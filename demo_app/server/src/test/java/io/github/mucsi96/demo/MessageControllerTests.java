@@ -39,7 +39,7 @@ public class MessageControllerTests extends BaseIntegrationTest {
 
         assertThat(response.getStatus()).isEqualTo(200);
         DocumentContext body = JsonPath.parse(response.getContentAsString());
-        assertThat(body.read("$.message", String.class)).isEqualTo("test message");
+        assertThat(body.read("$.message", String.class)).isEqualTo("Hi Robert White! test message");
 
     }
 }
