@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from subprocess import run
 import re
+from subprocess import run
 from ansible.module_utils.basic import AnsibleModule
 
 def main():
