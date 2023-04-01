@@ -20,7 +20,7 @@ import io.github.mucsi96.kubetools.core.FilterChainExceptionHandlerFilter;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(jsr250Enabled = true)
-public class SecurityConfiguration {
+public class DefaultSecurityConfiguration {
 
   @Bean
   SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
