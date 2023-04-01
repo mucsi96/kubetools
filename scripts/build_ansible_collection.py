@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
+from glob import glob
 from os import makedirs
+from shutil import copy2
 from subprocess import run
 import sys
 import yaml
@@ -35,7 +37,8 @@ if not changed:
 
 update_version(version)
 makedirs('plugins/modules', exist_ok=True)
-run(['cp', 'roles/**/library/*', 'plugins/modules'], check=True)
+for file_path in glob('roles/**/library/*', recursive=True):
+    copy2(file_path, 'plugins/modules')
 run(['ansible-galaxy', 'collection', 'build'], check=True);
 
 release_id = create_release(
