@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from os import makedirs
 from subprocess import run
 import sys
 import yaml
@@ -33,6 +34,8 @@ if not changed:
     exit()
 
 update_version(version)
+makedirs('plugins/modules', exist_ok=True)
+run(['cp', 'roles/**/library/*', 'plugins/modules'], check=True)
 run(['ansible-galaxy', 'collection', 'build'], check=True);
 
 release_id = create_release(
