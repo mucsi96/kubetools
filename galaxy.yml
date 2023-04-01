@@ -8,4 +8,5 @@ manifest:
   directives:
     - include README.md LICENSE
     - recursive-include roles **
+    - recursive-include plugins **
   omit_default_directives: true
