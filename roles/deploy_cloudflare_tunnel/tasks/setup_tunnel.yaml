@@ -24,12 +24,6 @@
   changed_when: false
   failed_when: false
   register: tunnel_info
-- name: debug matches
-  ansible.builtin.debug:
-    msg: "{{ matches }}"
-- name: debug tunnel_info
-  ansible.builtin.debug:
-    msg: "{{ tunnel_info }}"
 - name: Create fact
   ansible.builtin.set_fact:
     create_tunnel: "{{ tunnel_info.stdout == '' }}"
