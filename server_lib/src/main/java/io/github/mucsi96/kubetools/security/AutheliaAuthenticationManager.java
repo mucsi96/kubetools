@@ -20,12 +20,18 @@ public class AutheliaAuthenticationManager implements AuthenticationManager {
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
     Object principal = authentication.getPrincipal();
+
     if (principal instanceof AutheliaUser) {
       AutheliaUser autheliaUser = (AutheliaUser) principal;
+
       List<GrantedAuthority> authorities = Stream.of(autheliaUser.getGroups().split(",")).map(group -> {
         return (GrantedAuthority) () -> "ROLE_" + group;
       }).collect(Collectors.toList());
-      return new PreAuthenticatedAuthenticationToken(principal, "N/A", authorities);
+
+      PreAuthenticatedAuthenticationToken authenticatedAuthenticationToken = new PreAuthenticatedAuthenticationToken(
+          autheliaUser.getUsername(), "N/A", authorities);
+      authenticatedAuthenticationToken.setDetails(autheliaUser);
+      return authenticatedAuthenticationToken;
     }
 
     throw new PreAuthenticatedCredentialsNotFoundException(

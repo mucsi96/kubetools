@@ -15,17 +15,17 @@ import jakarta.annotation.security.RolesAllowed;
 @RestController
 @RolesAllowed("user")
 public class MeController {
-    
+
     @GetMapping("/me")
     User getMe(Authentication authentication) {
         if (!(authentication instanceof PreAuthenticatedAuthenticationToken)) {
             throw new PreAuthenticatedCredentialsNotFoundException("");
         }
 
-        AutheliaUser user = (AutheliaUser) authentication.getPrincipal();
+        AutheliaUser user = (AutheliaUser) authentication.getDetails();
 
         return new User(
-                user.getUsername(),
+                (String) authentication.getPrincipal(),
                 Arrays.asList(user.getGroups().split(",")),
                 user.getDisplayName(),
                 user.getEmail());
