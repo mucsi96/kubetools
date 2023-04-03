@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class AppControllerAdvice {
+public class KubetoolsControllerAdvice {
 
   @ExceptionHandler(PreAuthenticatedCredentialsNotFoundException.class)
   public ResponseEntity<ErrorResponse> handlePreAuthenticatedCredentialsNotFoundException() {

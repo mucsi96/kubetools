@@ -20,7 +20,7 @@ import io.github.mucsi96.kubetools.core.FilterChainExceptionHandlerFilter;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(jsr250Enabled = true)
-public class DefaultSecurityConfiguration {
+public class KubetoolsSecurityConfiguration {
 
   @Bean
   SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -32,7 +32,7 @@ public class DefaultSecurityConfiguration {
   }
 
   @Bean
-  SecurityFilterChain defaultSecurityFilterChain(
+  SecurityFilterChain kubetoolsSecurityFilterChain(
       HttpSecurity http,
       @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver,
       AuthenticationManager authenticationManager)
