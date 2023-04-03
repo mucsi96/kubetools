@@ -17,7 +17,7 @@ public class MessageController {
 
     @GetMapping(value = "/message", produces = MediaType.APPLICATION_JSON_VALUE)
     public MessageResponse getMessage(Authentication authentication) {
-        AutheliaUser user = (AutheliaUser) authentication.getPrincipal();
+        AutheliaUser user = (AutheliaUser) authentication.getDetails();
         
         return new MessageResponse("Hi " + user.getDisplayName() + "! " + messageRepository.findAll().get(0).getContent());
     }
