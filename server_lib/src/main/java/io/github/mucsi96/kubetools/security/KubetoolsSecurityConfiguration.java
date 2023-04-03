@@ -32,22 +32,21 @@ public class KubetoolsSecurityConfiguration {
   }
 
   @Bean
-  SecurityFilterChain kubetoolsSecurityFilterChain(
-      HttpSecurity http,
+  KubetoolsSecurityConfigurer kubetoolsSecurityConfigurer(
       @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver,
-      AuthenticationManager authenticationManager)
-      throws Exception {
+      AuthenticationManager authenticationManager) {
 
-    return http
-        .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .anonymous(AbstractHttpConfigurer::disable)
-        .csrf(AbstractHttpConfigurer::disable)
-        .headers(configurer -> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-        .formLogin(AbstractHttpConfigurer::disable)
-        .logout(AbstractHttpConfigurer::disable)
-        .addFilter(new AutheliaHeaderAuthenticationFilter(authenticationManager))
-        .addFilterBefore(new FilterChainExceptionHandlerFilter(resolver),
-            AbstractPreAuthenticatedProcessingFilter.class)
-        .build();
+    return (HttpSecurity http) -> {
+      return http
+          .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+          .anonymous(AbstractHttpConfigurer::disable)
+          .csrf(AbstractHttpConfigurer::disable)
+          .headers(configurer -> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+          .formLogin(AbstractHttpConfigurer::disable)
+          .logout(AbstractHttpConfigurer::disable)
+          .addFilter(new AutheliaHeaderAuthenticationFilter(authenticationManager))
+          .addFilterBefore(new FilterChainExceptionHandlerFilter(resolver),
+              AbstractPreAuthenticatedProcessingFilter.class);
+    };
   }
 }
