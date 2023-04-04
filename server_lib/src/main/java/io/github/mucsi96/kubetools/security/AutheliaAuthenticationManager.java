@@ -28,10 +28,10 @@ public class AutheliaAuthenticationManager implements AuthenticationManager {
         return (GrantedAuthority) () -> "ROLE_" + group;
       }).collect(Collectors.toList());
 
-      PreAuthenticatedAuthenticationToken authenticatedAuthenticationToken = new PreAuthenticatedAuthenticationToken(
+      PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(
           autheliaUser.getUsername(), "N/A", authorities);
-      authenticatedAuthenticationToken.setDetails(autheliaUser);
-      return authenticatedAuthenticationToken;
+      token.setDetails(autheliaUser);
+      return token;
     }
 
     throw new PreAuthenticatedCredentialsNotFoundException(
