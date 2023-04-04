@@ -5,5 +5,5 @@ metadata:
   namespace: {{ k8s_namespace }}
 spec:
   redirectRegex:
-    regex: https?://{{ app_host | regex_escape }}/?$
-    replacement: https://{{ app_host }}/dashboard/
+    regex: https?://([a-z-.]+)/?$
+    replacement: https://${1}/dashboard/

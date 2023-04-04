@@ -16,7 +16,7 @@
       vars:
         image: mucsi96/kubetools-demo-app-server
         tag_prefix: demo-app-server
-        app_host: "demo.{{ hostname }}"
+        host_prefix: demo
         base_path: /api
         app_env:
           POSTGRES_DB: "{{ db_name }}"
@@ -31,4 +31,4 @@
       vars:
         image: mucsi96/kubetools-demo-app-client
         tag_prefix: demo-app-client
-        app_host: "demo.{{ hostname }}"
+        host_prefix: demo

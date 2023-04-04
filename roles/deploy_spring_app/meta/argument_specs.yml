@@ -17,7 +17,7 @@ argument_specs:
         type: str
       app_env:
         type: dict
-      app_host:
+      host_prefix:
         type: str
         required: true
       base_path:

@@ -38,7 +38,7 @@
     - prometheus/redirect_middleware.yaml
     - prometheus/route.yaml
   vars:
-    app_host: "prometheus.{{ hostname }}"
+    host_prefix: prometheus
 
 - name: Deploy Grafana resources
   kubernetes.core.k8s:
@@ -48,4 +48,4 @@
     - grafana/auth_middleware.yaml
     - grafana/route.yaml
   vars:
-    app_host: "grafana.{{ hostname }}"
+    host_prefix: grafana

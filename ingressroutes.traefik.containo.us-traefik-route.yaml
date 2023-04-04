@@ -1,0 +1,27 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  creationTimestamp: "2023-03-27T20:03:46Z"
+  generation: 6
+  name: traefik-route
+  namespace: monitoring
+  resourceVersion: "19199"
+  uid: 016bbbd1-6298-435d-bcff-af5597fdbb5e
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match: HostRegexp(`^traefik\.kubetools\.ibari\.ch$`)
+    middlewares:
+    - name: auth
+      namespace: authelia
+    - name: monitoring-authorization
+      namespace: monitoring
+    - name: monitoring-traefik-redirect
+      namespace: monitoring
+    services:
+    - kind: Service
+      name: traefik
+      namespace: kube-system
+      port: traefik

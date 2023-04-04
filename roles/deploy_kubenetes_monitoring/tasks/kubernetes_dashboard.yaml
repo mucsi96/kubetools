@@ -26,4 +26,4 @@
     - kubernetes_dashboard/redirect_middleware.yaml
     - kubernetes_dashboard/route.yaml
   vars:
-    app_host: "dashboard.{{ hostname }}"
+    host_prefix: dashboard

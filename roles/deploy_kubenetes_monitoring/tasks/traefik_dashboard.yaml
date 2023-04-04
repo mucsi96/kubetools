@@ -6,4 +6,4 @@
     - traefik_dashboard/redirect_middleware.yaml
     - traefik_dashboard/route.yaml
   vars:
-    app_host: "traefik.{{ hostname }}"
+    host_prefix: traefik

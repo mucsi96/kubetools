@@ -9,4 +9,4 @@
     - spring_boot_admin/redirect_middleware.yaml
     - spring_boot_admin/route.yaml
   vars:
-    app_host: "spring.{{ hostname }}"
+    host_prefix: spring
