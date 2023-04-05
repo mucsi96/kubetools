@@ -6,3 +6,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+management:
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true

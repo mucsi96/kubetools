@@ -13,7 +13,7 @@ public class HealthTest extends BaseIntegrationTest {
     
     @Test
     void retunrs_status() throws Exception {
-        MockHttpServletResponse response = mockMvc.perform(get("/actuator/health")).andReturn().getResponse();
+        MockHttpServletResponse response = mockMvc.perform(get("/actuator/health/liveness")).andReturn().getResponse();
 
         assertThat(response.getStatus()).isEqualTo(200);
         DocumentContext body = JsonPath.parse(response.getContentAsString());
