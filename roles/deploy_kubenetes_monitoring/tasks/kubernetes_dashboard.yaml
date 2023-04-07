@@ -25,5 +25,3 @@
     - kubernetes_dashboard/cluster_role_binding.yaml
     - kubernetes_dashboard/redirect_middleware.yaml
     - kubernetes_dashboard/route.yaml
-  vars:
-    host_prefix: dashboard

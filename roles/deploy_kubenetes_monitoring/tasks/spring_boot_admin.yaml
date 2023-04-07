@@ -8,5 +8,3 @@
     - spring_boot_admin/service.yaml
     - spring_boot_admin/redirect_middleware.yaml
     - spring_boot_admin/route.yaml
-  vars:
-    host_prefix: spring

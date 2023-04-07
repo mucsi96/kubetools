@@ -5,5 +5,3 @@
   with_items:
     - traefik_dashboard/redirect_middleware.yaml
     - traefik_dashboard/route.yaml
-  vars:
-    host_prefix: traefik

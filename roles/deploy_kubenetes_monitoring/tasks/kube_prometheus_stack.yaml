@@ -37,8 +37,6 @@
   with_items:
     - prometheus/redirect_middleware.yaml
     - prometheus/route.yaml
-  vars:
-    host_prefix: prometheus
 
 - name: Deploy Grafana resources
   kubernetes.core.k8s:
@@ -47,5 +45,3 @@
   with_items:
     - grafana/auth_middleware.yaml
     - grafana/route.yaml
-  vars:
-    host_prefix: grafana

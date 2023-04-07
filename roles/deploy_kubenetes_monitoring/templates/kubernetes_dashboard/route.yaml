@@ -8,7 +8,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: HostRegexp(`{{ host_prefix }}.{host:[a-z0-9-.]+}`)
+      match: HostRegexp(`dashboard.{host:[a-z0-9-.]+}`)
       middlewares:
         - name: {{ auth_middelware_name }}
           namespace: {{ auth_middelware_namespace }}
