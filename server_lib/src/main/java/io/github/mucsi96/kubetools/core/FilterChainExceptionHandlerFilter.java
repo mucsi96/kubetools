@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,7 +23,10 @@ public class FilterChainExceptionHandlerFilter extends OncePerRequestFilter {
     try {
       filterChain.doFilter(request, response);
     } catch (Exception exception) {
-      resolver.resolveException(request, response, null, exception);
+      ModelAndView modelAndView = resolver.resolveException(request, response, null, exception);
+      if (modelAndView == null) {
+        throw exception;
+      }
     }
   }
 }
