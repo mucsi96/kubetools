@@ -1,4 +1,4 @@
-FROM bullseye
+FROM debian:bullseye
 
 WORKDIR /app
 
