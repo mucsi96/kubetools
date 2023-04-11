@@ -2,7 +2,7 @@ FROM debian:bullseye
 
 WORKDIR /app
 
-RUN apt-get update && apt-get -y install \
+RUN apt-get update && apt-get -y install --no-install-recommends \
     postgresql-client \
     python3 \
     python3-pip
@@ -15,7 +15,7 @@ RUN apt-get autoremove -y; \
 COPY requirements.txt .
 
 # Install python setuptools
-RUN python3 -m pip install requirements.txt
+RUN python3 -m pip install -r requirements.txt
 
 ADD backup.py .
 
