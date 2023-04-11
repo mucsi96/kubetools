@@ -44,3 +44,12 @@ build_and_push_server_img(
     docker_password=docker_password,
     github_access_token=github_access_token
 )
+
+build_and_push_server_img(
+    src=root_directory / 'postgres_backup',
+    tag_prefix='postgres_backup',
+    image_name='mucsi96/kubetools-postgres-backup',
+    docker_username=docker_username,
+    docker_password=docker_password,
+    github_access_token=github_access_token
+)
