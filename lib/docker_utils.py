@@ -74,6 +74,35 @@ def build_and_push_server_img(
         ]
     )
 
+def build_and_push_python_img(
+    *,
+    src: Path,
+    tag_prefix: str,
+    image_name: str,
+    docker_username: str,
+    docker_password: str,
+    github_access_token: str,
+    pack_args: List[str] = [],
+    ignore: List[str] = [],
+):
+    build_and_push_img(
+        src=src,
+        tag_prefix=tag_prefix,
+        image_name=image_name,
+        pack_args=[
+            '--builder',   'paketobuildpacks/builder:base',
+            '--buildpack', 'paketo-buildpacks/python',
+            *pack_args,
+        ],
+        docker_username=docker_username,
+        docker_password=docker_password,
+        github_access_token=github_access_token,
+        ignore=[
+            'target',
+            *ignore
+        ]
+    )
+
 
 def build_and_push_img(
     *,

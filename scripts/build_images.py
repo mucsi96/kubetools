@@ -6,7 +6,7 @@ root_directory = Path(__file__).parent.parent
 
 sys.path.append(str(root_directory))
 
-from lib.docker_utils import build_and_push_client_img, build_and_push_server_img, build_and_push_docker_img
+from lib.docker_utils import build_and_push_client_img, build_and_push_server_img, build_and_push_python_img
 from lib.ansible_utils import load_vars
 
 data = load_vars(root_directory / '.ansible/vault_key', root_directory / 'vars/vault.yaml')
@@ -45,11 +45,14 @@ build_and_push_server_img(
     github_access_token=github_access_token
 )
 
-build_and_push_docker_img(
+build_and_push_python_img(
     src=root_directory / 'postgres_backup',
     tag_prefix='postgres_backup',
     image_name='mucsi96/kubetools-postgres-backup',
     docker_username=docker_username,
     docker_password=docker_password,
-    github_access_token=github_access_token
+    github_access_token=github_access_token,
+    pack_args=[
+        '--buildpack', 'fagiani/apt'
+    ]
 )
