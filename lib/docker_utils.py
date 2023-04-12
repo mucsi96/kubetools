@@ -25,11 +25,11 @@ def build_and_push_client_img(
         image_name=image_name,
         pack_args=[
             '--builder',   'paketobuildpacks/builder:base',
-            '--buildpack', 'paketo-buildpacks/web-servers',
+            '--buildpack', 'paketo-buildpacks/nginx',
             '--buildpack', 'paketo-buildpacks/source-removal',
             '--env',       'BP_NODE_RUN_SCRIPTS=build',
             '--env',       'BP_WEB_SERVER_ROOT=dist',
-            '--env',       'BP_INCLUDE_FILES=nginx.conf:dist/**',
+            '--env',       'BP_INCLUDE_FILES=dist/**',
             *pack_args,
         ],
         docker_username=docker_username,
