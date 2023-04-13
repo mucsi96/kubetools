@@ -1,0 +1,6 @@
+[[build.buildpacks]]
+id = "me/setup-tasks"
+
+  [build.buildpacks.script]
+  api = "0.8"
+  inline = "bash setup.sh"

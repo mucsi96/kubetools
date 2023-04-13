@@ -5,23 +5,23 @@ from psycopg import connect, Connection
 
 app = Flask(__name__)
 
+def get_conn_str() -> str:
+    user = getenv("POSTGRES_USER")
+    password = getenv("POSTGRES_PASSWORD")
+    host = getenv("POSTGRES_HOSTNAME")
+    port = getenv("POSTGRES_PORT")
+    db = getenv("POSTGRES_DB")
+
+    return f'postgresql://{user}:{password}@{host}:{port}/{db}';
 
 def get_db() -> Connection:
     conn = getattr(g, '_db_conn', None)
 
     if (conn is None):
-        user = getenv("POSTGRES_USER")
-        password = getenv("POSTGRES_PASSWORD")
-        host = getenv("POSTGRES_HOSTNAME")
-        port = getenv("POSTGRES_PORT")
-        db = getenv("POSTGRES_DB")
-
-        conn = connect(f'postgresql://{user}:{password}@{host}:{port}/{db}')
+        conn = connect(get_conn_str())
         g._db_conn = conn
     
     return conn
-    
-
 
 def get_count(table: str) -> int:
     with get_db().cursor() as cursor:
@@ -41,6 +41,7 @@ def main():
 
 @app.route('/backup', methods=['POST'])
 def backup():
+    run(['pg_dump', '--dbname', get_conn_str(), '--file', 'test.dump'])
     return redirect('/');
 
 @app.teardown_appcontext
