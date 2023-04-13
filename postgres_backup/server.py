@@ -41,7 +41,7 @@ def main():
 
 @app.route('/backup', methods=['POST'])
 def backup():
-    run(['pg_dump', '--dbname', get_conn_str(), '--file', 'test.dump'])
+    run(['pg_dump', '--dbname', get_conn_str(), '--format', 'c', '--file', 'test.pgdump'])
     return redirect('/');
 
 @app.teardown_appcontext

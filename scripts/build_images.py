@@ -51,5 +51,8 @@ build_and_push_python_img(
     image_name='mucsi96/kubetools-postgres-backup',
     docker_username=docker_username,
     docker_password=docker_password,
-    github_access_token=github_access_token
+    github_access_token=github_access_token,
+    pack_args=[
+        '--buildpack', 'me/setup-tasks',
+    ]
 )
