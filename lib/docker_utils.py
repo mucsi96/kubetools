@@ -30,7 +30,7 @@ def build_and_push_client_img(
             '--env',       'BP_NODE_RUN_SCRIPTS=build',
             '--env',       'BP_WEB_SERVER=nginx',
             '--env',       'BP_WEB_SERVER_ROOT=dist',
-            '--env',       'BP_INCLUDE_FILES=dist/**',
+            '--env',       'BP_INCLUDE_FILES=nginx.conf:dist/**',
             *pack_args,
         ],
         docker_username=docker_username,
