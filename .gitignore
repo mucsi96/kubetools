@@ -12,3 +12,4 @@ plugins/
 ### dot env ###
 .env
 *.log
+*.pgdump

@@ -1,3 +1,4 @@
+from datetime import datetime
 from os import getenv
 from subprocess import run
 from flask import Flask, redirect, render_template, g
@@ -41,7 +42,9 @@ def main():
 
 @app.route('/backup', methods=['POST'])
 def backup():
-    run(['pg_dump', '--dbname', get_conn_str(), '--format', 'c', '--file', 'test.pgdump'])
+    timestr = datetime.now().strftime('%Y%m%d-%H%M%S')
+    filename = 'backup-{}-{}.pgdump'.format(timestr, getenv("POSTGRES_DB"))
+    run(['pg_dump', '--dbname', get_conn_str(), '--format', 'c', '--file', filename])
     return redirect('/');
 
 @app.teardown_appcontext
