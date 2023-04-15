@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='header.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='button.js') }}"></script>
   </head>
   <body>
-    <header>
-      <div>
-        <h1>Kubetools Postgres Backup</h1>
-      </div>
-    </header>
+    <app-header label="Kubetools Postgres Backup"></app-header>
     <main>
       <h2>Tables</h2>
       <table>
@@ -32,7 +29,7 @@
       </table>
       <p>
         <form method="post" action="/backup">
-          <button type="submit">Backup</button>
+          <app-button label="Backup"></app-button>
         </form>
       </p>
       <h2>Backups</h2>
@@ -55,7 +52,7 @@
               <td>{{ backup.size }}</td>
               <td>
                 <form method="post" action="/restore/{{ backup.name }}">
-                  <button type="submit" disabled class="restore">Restore</button>
+                  <app-button disabled class="restore" label="Restore"></app-button>
                 </form>
               </td>
             </tr>
