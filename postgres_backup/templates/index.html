@@ -1,18 +1,67 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Kubetools Postgres Backup</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
   </head>
   <body>
-    <h1>Kubetools Postgres Backup</h1>
-    <h2>Tables</h2>
-    <ul>
-        {% for table in tables %}
-            <li>{{ table.name }} ({{ table.count }})</li>
-        {% endfor %}
-    </ul>
-    <form method="post" action="/backup">
-      <button type="submit">Backup</button>
-    </form>
+    <header>
+      <div>
+        <h1>Kubetools Postgres Backup</h1>
+      </div>
+    </header>
+    <main>
+      <h2>Tables</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Rows</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for table in tables %}
+            <tr>
+              <td class="highlighted">{{ table.name }}</td>
+              <td>{{ table.count }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p>
+        <form method="post" action="/backup">
+          <button type="submit">Backup</button>
+        </form>
+      </p>
+      <h2>Backups</h2>
+      <table id="backups">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for backup in backups %}
+            <tr>
+              <td><input type="radio" name="backup" id="{{ backup.name }}"></td>
+              <td class="highlighted">{{ backup.last_modified }}</td>
+              <td>{{ backup.name }}</td>
+              <td>{{ backup.size }}</td>
+              <td>
+                <form method="post" action="/restore/{{ backup.name }}">
+                  <button type="submit" disabled class="restore">Restore</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </main>
   </body>
 </html>

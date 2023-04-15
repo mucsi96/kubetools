@@ -1,0 +1,101 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(15, 23, 42);
+  color: rgb(156, 163, 175);
+  font-family: system-ui;
+  font-size: 14px;
+}
+
+header {
+  background-color: rgb(31, 41, 55);
+  border-bottom: 1px solid rgb(75, 85, 99);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+header > * {
+  padding: 18px 1rem 19px;
+  max-width: 90rem;
+  margin: 0 auto;
+}
+
+header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+main {
+  padding: 0 1rem;
+  max-width: 90rem;
+  margin: 0 auto;
+}
+
+h1,
+h2,
+h3 {
+  color: white;
+}
+
+table {
+  border-collapse: collapse;
+  text-align: left;
+}
+
+thead > tr {
+  background-color: rgb(55, 65, 81);
+  color: rgb(156, 163, 175);
+  text-transform: uppercase;
+}
+
+tbody > tr {
+  background-color: rgb(31, 41, 55);
+  border-bottom: 1px solid rgb(55, 65, 81);
+}
+
+th,
+td {
+  padding: 12px 24px;
+}
+
+th {
+  font-weight: 600;
+}
+
+td {
+  font-weight: 500;
+}
+
+button {
+  background-color: rgb(28, 100, 242);
+  border: 1px solid rgb(28, 100, 242);
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+}
+
+button:not(:disabled):hover {
+  background-color: rgb(26, 86, 219);
+  border: 1px solid rgb(26, 86, 219);
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: rgb(31, 41, 55);
+  color: rgb(156, 163, 175);
+  border: 1px solid rgb(75, 85, 99);
+}
+
+td.highlighted {
+  color: white;
+}
