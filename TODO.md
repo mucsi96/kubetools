@@ -1,2 +1,5 @@
 - Introduce Postres backup to S3 as scheduled job as part of postgres deployment
 - Fix STS
+- calculate total rows in backup app. Add it both to tables and backups
+- make backups table rows selectable
+- add succesful backup and restore notification

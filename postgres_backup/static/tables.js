@@ -3,6 +3,7 @@ import {
   html,
   css,
 } from "https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js";
+import { BackupCreatedEvent, AppErrorEvent } from './events.js';
 
 class AppTables extends LitElement {
   static properties = {
@@ -11,9 +12,9 @@ class AppTables extends LitElement {
 
   static styles = css`
     :host {
-        display: grid;
-        gap: 20px;
-        justify-content: flex-start;
+      display: grid;
+      gap: 20px;
+      justify-content: flex-start;
     }
   `;
 
@@ -38,10 +39,23 @@ class AppTables extends LitElement {
           )}
         </app-tbody>
       </app-table>
-      <form method="post" action="/backup">
-        <app-button label="Backup" type="submit"></app-button>
-      </form>
+      <app-button
+        id="backup"
+        @click="${this.#backup}"
+      >Backup</app-button>
     `;
+  }
+
+  get #backupButton() {
+    return this.renderRoot.querySelector("#backup");
+  }
+
+  #backup() {
+    this.#backupButton.disabled = true;
+    fetch("/backup", { method: "POST" })
+      .then(() => this.dispatchEvent(new BackupCreatedEvent()))
+      .catch((err) => this.dispatchEvent(new AppErrorEvent(err)))
+      .finally(() => (this.#backupButton.disabled = false));
   }
 }
 

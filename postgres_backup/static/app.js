@@ -10,10 +10,11 @@ import "./components/button.js";
 import "./components/table.js";
 import "./tables.js";
 import "./backups.js";
+import { AppErrorEvent } from "./events.js";
 
 class App extends LitElement {
   static styles = css`
-    .main {
+    #main {
       margin-top: 32px;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -22,33 +23,51 @@ class App extends LitElement {
     }
   `;
 
-  firstUpdated() {
-    fetch("/tables")
-      .then((res) => res.json())
-      .then((tables) => {
-        const element = document.createElement("app-tables");
-        element.tables = tables;
-        this.renderRoot.querySelector(".tables").replaceWith(element);
-      })
-      .catch((err) => console.error(err));
+  get #tables() {
+    return this.renderRoot.querySelector("#tables,app-tables");
+  }
 
-    fetch("/backups")
-      .then((res) => res.json())
-      .then((backups) => {
-        const element = document.createElement("app-backups");
-        element.backups = backups;
-        this.renderRoot.querySelector(".backups").replaceWith(element);
-      })
-      .catch((err) => console.error(err));
+  get #backups() {
+    return this.renderRoot.querySelector("#backups,app-backups");
+  }
+
+  async #fetchTables() {
+    try {
+      const res = await fetch("/tables");
+      const tables = await res.json();
+      const element = document.createElement("app-tables");
+      element.tables = tables;
+      element.addEventListener("backup-created", () => this.#fetchBackups());
+      this.#tables.replaceWith(element);
+    } catch (err) {
+      this.dispatchEvent(new AppErrorEvent(err));
+    }
+  }
+
+  async #fetchBackups() {
+    try {
+      const res = await fetch("/backups");
+      const backups = await res.json();
+      const element = document.createElement("app-backups");
+      element.backups = backups;
+      this.#backups.replaceWith(element);
+    } catch (err) {
+      this.dispatchEvent(new AppErrorEvent(err));
+    }
+  }
+
+  firstUpdated() {
+    this.#fetchTables();
+    this.#fetchBackups();
   }
 
   render() {
     return html`
-      <app-header label="Kubetools Postgres Backup"></app-header>
+      <app-header title="Kubetools Postgres Backup"></app-header>
       <app-main>
-        <div class="main">
-          <div class="tables"></div>
-          <div class="backups"></div>
+        <div id="main">
+          <div id="tables"></div>
+          <div id="backups"></div>
         </div>
       </app-main>
     `;

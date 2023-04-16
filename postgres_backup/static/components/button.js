@@ -7,7 +7,6 @@ import {
 class AppButton extends LitElement {
   static properties = {
     disabled: { type: Boolean },
-    label: "",
   };
 
   static styles = css`
@@ -36,7 +35,7 @@ class AppButton extends LitElement {
   render() {
     return html`
       <button type="${this.type}" ?disabled="${this.disabled}">
-        ${this.label}
+        <slot></slot>
       </button>
     `;
   }

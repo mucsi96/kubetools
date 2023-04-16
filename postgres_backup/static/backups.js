@@ -45,8 +45,7 @@ class AppBackups extends LitElement {
                       type="submit"
                       disabled
                       class="restore"
-                      label="Restore"
-                    ></app-button>
+                    >Restore</app-button>
                   </form>
                 </app-td>
               </app-tr>

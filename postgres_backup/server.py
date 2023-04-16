@@ -100,7 +100,7 @@ def backup():
         '--format', 'c', '--file', filename])
     upload_backup(filename)
     remove(filename)
-    return redirect('/')
+    return jsonify('ok')
 
 
 @app.route('/restore/<key>', methods=['POST'])
@@ -110,7 +110,7 @@ def restore(key: str):
     run(['pg_restore', '--clean', '--dbname', get_conn_str(),
         '--verbose', key])
     remove(key)
-    return redirect('/')
+    return jsonify('ok')
 
 
 @app.teardown_appcontext

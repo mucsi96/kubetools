@@ -6,7 +6,7 @@ import {
 
 class AppHeader extends LitElement {
   static properties = {
-    label: "",
+    title: "",
   };
 
   static styles = css`
@@ -36,7 +36,7 @@ class AppHeader extends LitElement {
   render() {
     return html`
       <header>
-        <h1>${this.label}</h1>
+        <h1>${this.title}</h1>
       </header>
     `
   }
