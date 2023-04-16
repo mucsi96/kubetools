@@ -10,7 +10,8 @@ class AppHeader extends LitElement {
   };
 
   static styles = css`
-    header {
+    :host {
+      display: block;
       background-color: rgb(31, 41, 55);
       border-bottom: 1px solid rgb(75, 85, 99);
       position: sticky;
@@ -18,7 +19,7 @@ class AppHeader extends LitElement {
       z-index: 40;
     }
 
-    .wrapper {
+    header {
       padding: 18px 1rem 19px;
       max-width: 90rem;
       margin: 0 auto;
@@ -26,21 +27,17 @@ class AppHeader extends LitElement {
 
     h1 {
       font-size: 24px;
+      font-family: system-ui;
       margin: 0;
+      color: white;
     }
   `;
-
-  constructor() {
-    super();
-  }
 
   render() {
     return html`
       <header>
-        <div class="wrapper">
-          <h1>${this.label}</h1>
-        </div>
-      <header>
+        <h1>${this.label}</h1>
+      </header>
     `
   }
 }

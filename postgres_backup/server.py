@@ -5,7 +5,7 @@ from botocore.exceptions import ClientError
 from datetime import datetime
 from os import getenv, remove
 from subprocess import run
-from flask import Flask, redirect, render_template, g, request
+from flask import Flask, jsonify, redirect, g
 from psycopg import connect, Connection
 
 app = Flask(__name__)
@@ -52,29 +52,6 @@ def get_count(table: str) -> int:
         return cursor.fetchone()[0]
 
 
-def get_tables():
-    with get_db().cursor() as cursor:
-        cursor.execute(
-            "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'")
-        return list(map(lambda row: {
-            'name': row[0],
-            'count': get_count(row[0])
-        }, cursor.fetchall()))
-
-
-def get_backups():
-    try:
-        return list(map(lambda bucket: {
-            'name': bucket['Key'],
-            'last_modified': bucket['LastModified'].strftime('%d.%m.%Y %H:%M:%S'),
-            'size': sizeof_fmt(bucket['Size']),
-        }, s3_client.list_objects_v2(Bucket=s3_bucket)['Contents']))
-    except ClientError as err:
-        if err.response['Error']['Code'] == 'NoSuchBucket':
-            return []
-        raise
-
-
 def upload_backup(filename: str):
     try:
         s3_client.upload_file(
@@ -85,9 +62,34 @@ def upload_backup(filename: str):
             Filename=filename, Bucket=s3_bucket, Key=filename)
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def main():
-    return render_template('index.html', tables=get_tables(), backups=get_backups())
+    return app.send_static_file('index.html')
+
+
+@app.route('/tables', methods=['GET'])
+def get_tables():
+    with get_db().cursor() as cursor:
+        cursor.execute(
+            "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'")
+        return jsonify(list(map(lambda row: {
+            'name': row[0],
+            'count': get_count(row[0])
+        }, cursor.fetchall())))
+
+
+@app.route('/backups', methods=['GET'])
+def get_backups():
+    try:
+        return jsonify(list(map(lambda bucket: {
+            'name': bucket['Key'],
+            'last_modified': bucket['LastModified'].strftime('%d.%m.%Y %H:%M:%S'),
+            'size': sizeof_fmt(bucket['Size']),
+        }, s3_client.list_objects_v2(Bucket=s3_bucket)['Contents'])))
+    except ClientError as err:
+        if err.response['Error']['Code'] == 'NoSuchBucket':
+            return jsonify([])
+        raise
 
 
 @app.route('/backup', methods=['POST'])

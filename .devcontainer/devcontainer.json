@@ -19,7 +19,8 @@
 		"vscjava.vscode-spring-initializr",
 		"mtxr.sqltools",
 		"mtxr.sqltools-driver-pg",
-		"Angular.ng-template"
+		"Angular.ng-template",
+		"runem.lit-plugin"
 	]
     }
   },
