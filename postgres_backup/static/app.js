@@ -8,6 +8,7 @@ import "./components/main.js";
 import "./components/heading.js";
 import "./components/button.js";
 import "./components/table.js";
+import "./components/loader.js";
 import "./tables.js";
 import "./backups.js";
 import { AppErrorEvent } from "./events.js";
@@ -23,23 +24,17 @@ class App extends LitElement {
     }
   `;
 
-  get #tables() {
-    return this.renderRoot.querySelector("#tables,app-tables");
-  }
-
-  get #backups() {
-    return this.renderRoot.querySelector("#backups,app-backups");
-  }
+  static properties = {
+    tables: { type: Array },
+    backups: { type: Array },
+  };
 
   async #fetchTables() {
     try {
       const res = await fetch("/tables");
-      const tables = await res.json();
-      const element = document.createElement("app-tables");
-      element.tables = tables;
-      element.addEventListener("backup-created", () => this.#fetchBackups());
-      this.#tables.replaceWith(element);
+      this.tables = await res.json();
     } catch (err) {
+      this.tables = []
       this.dispatchEvent(new AppErrorEvent(err));
     }
   }
@@ -47,11 +42,9 @@ class App extends LitElement {
   async #fetchBackups() {
     try {
       const res = await fetch("/backups");
-      const backups = await res.json();
-      const element = document.createElement("app-backups");
-      element.backups = backups;
-      this.#backups.replaceWith(element);
+      this.backups = await res.json();
     } catch (err) {
+      this.backups = []
       this.dispatchEvent(new AppErrorEvent(err));
     }
   }
@@ -66,8 +59,8 @@ class App extends LitElement {
       <app-header title="Kubetools Postgres Backup"></app-header>
       <app-main>
         <div id="main">
-          <div id="tables"></div>
-          <div id="backups"></div>
+          <app-tables .tables=${this.tables}></app-tables>
+          <app-backups .backups=${this.backups}></app-backups>
         </div>
       </app-main>
     `;

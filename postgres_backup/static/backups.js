@@ -13,10 +13,15 @@ class AppBackups extends LitElement {
     :host {
       display: grid;
       gap: 20px;
+      justify-content: flex-start;
     }
   `;
 
   render() {
+    if (!this.backups) {
+      return html`<app-loader></app-loader>`;
+    }
+
     return html`
       <app-heading level="2">Backups</app-heading>
       <app-table id="backups">
@@ -30,7 +35,7 @@ class AppBackups extends LitElement {
           </app-tr>
         </app-thead>
         <app-tbody>
-          ${this.backups?.map(
+          ${this.backups.map(
             (backup) => html`
               <app-tr>
                 <app-td>

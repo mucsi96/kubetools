@@ -3,3 +3,5 @@
 - calculate total rows in backup app. Add it both to tables and backups
 - make backups table rows selectable
 - add succesful backup and restore notification
+- reverse backup sorting order server side
+- switch date format to relative user friendly

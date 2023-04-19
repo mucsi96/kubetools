@@ -19,6 +19,10 @@ class AppTables extends LitElement {
   `;
 
   render() {
+    if (!this.tables) {
+      return html`<app-loader></app-loader>`;
+    }
+
     return html`
       <app-heading level="2">Tables</app-heading>
       <app-table>
@@ -29,7 +33,7 @@ class AppTables extends LitElement {
           </app-tr>
         </app-thead>
         <app-tbody>
-          ${this.tables?.map(
+          ${this.tables.map(
             (table) => html`
               <app-tr>
                 <app-td highlighted>${table.name}</app-td>

@@ -5,7 +5,7 @@ from botocore.exceptions import ClientError
 from datetime import datetime
 from os import getenv, remove
 from subprocess import run
-from flask import Flask, jsonify, redirect, g
+from flask import Flask, jsonify, g
 from psycopg import connect, Connection
 
 app = Flask(__name__)
