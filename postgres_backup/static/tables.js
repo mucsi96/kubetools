@@ -14,15 +14,16 @@ class AppTables extends LitElement {
     :host {
       display: grid;
       gap: 20px;
-      justify-content: flex-start;
     }
   `;
 
   render() {
+    this.style.justifyContent = this.tables ? 'flex-start' : 'center';
+
     if (!this.tables) {
       return html`<app-loader></app-loader>`;
     }
-
+    
     return html`
       <app-heading level="2">Tables</app-heading>
       <app-table>

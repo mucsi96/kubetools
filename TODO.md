@@ -5,3 +5,5 @@
 - add succesful backup and restore notification
 - reverse backup sorting order server side
 - switch date format to relative user friendly
+- Set server api context path to /api. this should simplify the redirection to home and also the traeefik config
+- Create endpoint which returns how much time ago happened the last backup

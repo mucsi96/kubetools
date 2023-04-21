@@ -13,11 +13,12 @@ class AppBackups extends LitElement {
     :host {
       display: grid;
       gap: 20px;
-      justify-content: flex-start;
     }
   `;
 
   render() {
+    this.style.justifyContent = this.backups ? "flex-start" : "center";
+
     if (!this.backups) {
       return html`<app-loader></app-loader>`;
     }
@@ -39,18 +40,16 @@ class AppBackups extends LitElement {
             (backup) => html`
               <app-tr>
                 <app-td>
-                  <input type="radio" name="backup" id="${backup.name}"/>
+                  <input type="radio" name="backup" id="${backup.name}" />
                 </app-td>
                 <app-td highlighted>${backup.last_modified}</app-td>
                 <app-td>${backup.name}</app-td>
                 <app-td>${backup.size}</app-td>
                 <app-td>
                   <form method="post" action="/restore/${backup.name}">
-                    <app-button
-                      type="submit"
-                      disabled
-                      class="restore"
-                    >Restore</app-button>
+                    <app-button type="submit" disabled class="restore"
+                      >Restore</app-button
+                    >
                   </form>
                 </app-td>
               </app-tr>
