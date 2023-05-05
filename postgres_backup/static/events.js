@@ -19,3 +19,9 @@ export class BackupCreatedEvent extends AppEvent {
     super("backup-created");
   }
 }
+
+export class BackupRestoredEvent extends AppEvent {
+  constructor() {
+    super("backup-restored");
+  }
+}

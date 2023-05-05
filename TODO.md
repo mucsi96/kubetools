@@ -1,5 +1,5 @@
 - Introduce Postres backup to S3 as scheduled job as part of postgres deployment
 - Fix STS
-- calculate total rows in backup app. Add it both to tables and backups
 - Set server api context path to /api. this should simplify the redirection to home and also the traeefik config
 - Create endpoint which returns how much time ago happened the last backup
+- make sure backup restore works

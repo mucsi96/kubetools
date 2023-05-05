@@ -1,3 +1,4 @@
+from functools import reduce
 import boto3
 
 from boto3.exceptions import S3UploadFailedError
@@ -52,14 +53,33 @@ def get_count(table: str) -> int:
         return cursor.fetchone()[0]
 
 
-def upload_backup(filename: str):
+def safe_upload_backup(filename: str):
     try:
-        s3_client.upload_file(
-            Filename=filename, Bucket=s3_bucket, Key=filename)
+        upload_backup(filename)
     except S3UploadFailedError:
         s3_client.create_bucket(Bucket=s3_bucket)
-        s3_client.upload_file(
-            Filename=filename, Bucket=s3_bucket, Key=filename)
+        upload_backup(filename)
+
+
+def upload_backup(filename: str):
+    s3_client.upload_file(
+        Filename=filename, Bucket=s3_bucket, Key=filename)
+
+
+def get_tables_info():
+    with get_db().cursor() as cursor:
+        cursor.execute(
+            "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'")
+        tables = list(map(lambda row: {
+            'name': row[0],
+            'count': get_count(row[0])
+        }, cursor.fetchall()))
+        total_count = reduce(lambda acc, table: acc +
+                             table['count'], tables, 0)
+        return {
+            'tables': tables,
+            'total_count': total_count
+        }
 
 
 @app.route('/', methods=['GET'])
@@ -69,13 +89,7 @@ def main():
 
 @app.route('/tables', methods=['GET'])
 def get_tables():
-    with get_db().cursor() as cursor:
-        cursor.execute(
-            "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'")
-        return jsonify(list(map(lambda row: {
-            'name': row[0],
-            'count': get_count(row[0])
-        }, cursor.fetchall())))
+    return jsonify(get_tables_info())
 
 
 @app.route('/backups', methods=['GET'])
@@ -87,6 +101,7 @@ def get_backups():
             'name': bucket['Key'],
             'last_modified': bucket['LastModified'].isoformat(),
             'size': sizeof_fmt(bucket['Size']),
+            'total_count': get_total_count_from_name(bucket)
         }, backups)))
     except ClientError as err:
         if err.response['Error']['Code'] == 'NoSuchBucket':
@@ -94,13 +109,21 @@ def get_backups():
         raise
 
 
+def get_total_count_from_name(bucket):
+    try:
+        return int(bucket['Key'].split(".")[1])
+    except:
+        return 0
+
+
 @app.route('/backup', methods=['POST'])
 def backup():
+    total_count = get_tables_info()['total_count']
     timestr = datetime.now().strftime('%Y%m%d-%H%M%S')
-    filename = 'backup-{}-{}.pgdump'.format(timestr, getenv("POSTGRES_DB"))
+    filename = '{}.{}.pgdump'.format(timestr, total_count)
     run(['pg_dump', '--dbname', get_conn_str(),
         '--format', 'c', '--file', filename])
-    upload_backup(filename)
+    safe_upload_backup(filename)
     remove(filename)
     return jsonify('ok')
 

@@ -9,6 +9,7 @@ import "./components/heading.js";
 import "./components/button.js";
 import "./components/table.js";
 import "./components/loader.js";
+import "./components/badge.js";
 import "./components/notifications.js";
 import "./tables.js";
 import "./backups.js";
@@ -32,6 +33,7 @@ class App extends LitElement {
 
   static properties = {
     tables: { type: Array },
+    totalCount: { type: Number },
     backups: { type: Array },
   };
 
@@ -45,7 +47,9 @@ class App extends LitElement {
 
   async #fetchTables() {
     try {
-      this.tables = await fetchJSON("/tables");
+      const { tables, total_count } = await fetchJSON("/tables");
+      this.tables = tables;
+      this.totalCount = total_count;
     } catch (err) {
       this.tables = [];
       this.dispatchEvent(new AppErrorEvent("Unable to fetch tables", err));
@@ -73,6 +77,7 @@ class App extends LitElement {
         <div id="main">
           <app-tables
             .tables=${this.tables}
+            total-count=${this.totalCount}
             @backup-created=${() => {
               this.#fetchBackups();
               this.dispatchEvent(
@@ -80,7 +85,15 @@ class App extends LitElement {
               );
             }}
           ></app-tables>
-          <app-backups .backups=${this.backups}></app-backups>
+          <app-backups
+            .backups=${this.backups}
+            @backup-restored=${() => {
+              this.#fetchTables();
+              this.dispatchEvent(
+                new SuccessNotificationEvent("Backup restored")
+              );
+            }}
+          ></app-backups>
         </div>
       </app-main>
       <app-notifications></app-notifications>

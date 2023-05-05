@@ -3,12 +3,14 @@ import {
   html,
   css,
 } from "https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js";
-import { BackupCreatedEvent, AppErrorEvent } from './events.js';
+import { BackupCreatedEvent, AppErrorEvent } from "./events.js";
 import { fetchJSON } from "./utils.js";
 
 class AppTables extends LitElement {
   static properties = {
     tables: { type: Array },
+    "total-count": { type: Number },
+    processing: { type: Boolean },
   };
 
   static styles = css`
@@ -19,14 +21,16 @@ class AppTables extends LitElement {
   `;
 
   render() {
-    this.style.justifyContent = this.tables ? 'flex-start' : 'center';
+    this.style.justifyContent = this.tables ? "flex-start" : "center";
 
     if (!this.tables) {
       return html`<app-loader></app-loader>`;
     }
-    
+
     return html`
-      <app-heading level="2">Tables</app-heading>
+      <app-heading level="2"
+        >Tables <app-badge>${this.tables.length}</app-badge></app-heading
+      >
       <app-table>
         <app-thead>
           <app-tr>
@@ -43,25 +47,28 @@ class AppTables extends LitElement {
               </app-tr>
             `
           )}
+          <app-tr>
+            <app-td highlighted><i>total</i></app-td>
+            <app-td>${this["total-count"]}</app-td>
+          </app-tr>
         </app-tbody>
       </app-table>
-      <app-button
-        id="backup"
-        @click="${this.#backup}"
-      >Backup</app-button>
+      <app-button ?disabled=${this.processing} @click="${() => this.#backup()}"
+        >Backup</app-button
+      >
     `;
   }
 
-  get #backupButton() {
-    return this.renderRoot.querySelector("#backup");
-  }
-
   #backup() {
-    this.#backupButton.disabled = true;
+    this.processing = true;
     fetchJSON("/backup", { method: "POST" })
       .then(() => this.dispatchEvent(new BackupCreatedEvent()))
-      .catch((err) => this.dispatchEvent(new AppErrorEvent('Unable to create backup', err)))
-      .finally(() => (this.#backupButton.disabled = false));
+      .catch((err) =>
+        this.dispatchEvent(new AppErrorEvent("Unable to create backup", err))
+      )
+      .finally(() => {
+        this.processing = false;
+      });
   }
 }
 
