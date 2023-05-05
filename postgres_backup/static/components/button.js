@@ -20,16 +20,17 @@ class AppButton extends LitElement {
       transition: background-color .3s;
     }
 
-    button:not(:disabled):hover {
+    button:not([disabled]):hover {
       background-color: hsl(221, 79%, 48%);
       border: 1px solid hsl(221, 79%, 48%);
       cursor: pointer;
     }
 
-    button:disabled {
+    button[disabled] {
       background-color: hsl(215, 28%, 17%);
       color: hsl(218, 11%, 65%);
       border: 1px solid hsl(215, 14%, 34%);
+      pointer-events: none;
     }
   `;
 

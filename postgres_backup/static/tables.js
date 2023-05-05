@@ -16,6 +16,11 @@ class AppTables extends LitElement {
   static styles = css`
     :host {
       display: grid;
+      gap: 40px;
+    }
+
+    .tables { 
+      display: grid;
       gap: 20px;
     }
   `;
@@ -27,33 +32,38 @@ class AppTables extends LitElement {
       return html`<app-loader></app-loader>`;
     }
 
+    const actionsDisabled = this.processing;
+
     return html`
       <app-heading level="2"
-        >Tables <app-badge>${this.tables.length}</app-badge></app-heading
+        >Records <app-badge>${this["total-count"]}</app-badge></app-heading
       >
-      <app-table>
-        <app-thead>
-          <app-tr>
-            <app-th>Name</app-th>
-            <app-th>Rows</app-th>
-          </app-tr>
-        </app-thead>
-        <app-tbody>
-          ${this.tables.map(
-            (table) => html`
-              <app-tr>
-                <app-td highlighted>${table.name}</app-td>
-                <app-td>${table.count}</app-td>
-              </app-tr>
-            `
-          )}
-          <app-tr>
-            <app-td highlighted><i>total</i></app-td>
-            <app-td>${this["total-count"]}</app-td>
-          </app-tr>
-        </app-tbody>
-      </app-table>
-      <app-button ?disabled=${this.processing} @click="${() => this.#backup()}"
+      <div class="tables">
+        <app-heading level="2"
+          >Tables <app-badge>${this.tables.length}</app-badge></app-heading
+        >
+        <app-table>
+          <app-thead>
+            <app-tr>
+              <app-th>Name</app-th>
+              <app-th>Records</app-th>
+            </app-tr>
+          </app-thead>
+          <app-tbody>
+            ${this.tables.map(
+              (table) => html`
+                <app-tr>
+                  <app-td highlighted>${table.name}</app-td>
+                  <app-td>${table.count}</app-td>
+                </app-tr>
+              `
+            )}
+          </app-tbody>
+        </app-table>
+      </div>
+      <app-button
+        ?disabled=${actionsDisabled}
+        @click="${actionsDisabled ? undefined : () => this.#backup()}"
         >Backup</app-button
       >
     `;

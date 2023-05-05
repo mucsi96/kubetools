@@ -37,41 +37,45 @@ class AppBackups extends LitElement {
             <app-th></app-th>
             <app-th>Date</app-th>
             <app-th>Name</app-th>
-            <app-th>Rows</app-th>
+            <app-th>Records</app-th>
             <app-th>Size</app-th>
             <app-th>Action</app-th>
           </app-tr>
         </app-thead>
-        <app-tbody>
-          ${this.backups.map(
-            (backup) => html`
-              <app-tr
-                selectable
-                ?selected=${backup.name === this.selectedBackup}
-                @click=${() => {
-                  this.selectedBackup = backup.name;
-                }}
-              >
-                <app-td highlighted no-wrap
-                  >${getRelativeTimeString(
-                    new Date(backup.last_modified)
-                  )}</app-td
-                >
-                <app-td no-wrap>${backup.name}</app-td>
-                <app-td>${backup['total_count']}</app-td>
-                <app-td>${backup.size}</app-td>
-                <app-td>
-                  <app-button
-                    ?disabled=${backup.name !== this.selectedBackup || this.processing}
-                    @click=${() => this.#restore()}
-                    >Restore</app-button
-                  >
-                </app-td>
-              </app-tr>
-            `
-          )}
-        </app-tbody>
+        <app-tbody
+          >${this.backups.map((backup) =>
+            this.#renderBackup(backup)
+          )}</app-tbody
+        >
       </app-table>
+    `;
+  }
+
+  #renderBackup(backup) {
+    const actionsDisabled =
+      backup.name !== this.selectedBackup || this.processing;
+    return html`
+      <app-tr
+        selectable
+        ?selected=${backup.name === this.selectedBackup}
+        @click=${() => {
+          this.selectedBackup = backup.name;
+        }}
+      >
+        <app-td highlighted no-wrap
+          >${getRelativeTimeString(new Date(backup.last_modified))}</app-td
+        >
+        <app-td no-wrap>${backup.name}</app-td>
+        <app-td>${backup["total_count"]}</app-td>
+        <app-td>${backup.size}</app-td>
+        <app-td>
+          <app-button
+            ?disabled=${actionsDisabled}
+            @click=${actionsDisabled ? undefined : () => this.#restore()}
+            >Restore</app-button
+          >
+        </app-td>
+      </app-tr>
     `;
   }
 
