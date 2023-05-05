@@ -48,7 +48,7 @@ class App extends LitElement {
       this.tables = await fetchJSON("/tables");
     } catch (err) {
       this.tables = [];
-      this.dispatchEvent(new AppErrorEvent('Unable to fetch tables', err));
+      this.dispatchEvent(new AppErrorEvent("Unable to fetch tables", err));
     }
   }
 
@@ -57,7 +57,7 @@ class App extends LitElement {
       this.backups = await fetchJSON("/backups");
     } catch (err) {
       this.backups = [];
-      this.dispatchEvent(new AppErrorEvent('Unable to fetch backups', err));
+      this.dispatchEvent(new AppErrorEvent("Unable to fetch backups", err));
     }
   }
 

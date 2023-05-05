@@ -17,6 +17,7 @@ class AppButton extends LitElement {
       border-radius: 8px;
       color: white;
       font-weight: 500;
+      transition: background-color .3s;
     }
 
     button:not(:disabled):hover {

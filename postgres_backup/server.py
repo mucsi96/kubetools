@@ -81,11 +81,13 @@ def get_tables():
 @app.route('/backups', methods=['GET'])
 def get_backups():
     try:
+        backups = sorted(s3_client.list_objects_v2(Bucket=s3_bucket)[
+                         'Contents'], key=lambda bucket: int(bucket['LastModified'].strftime('%s')), reverse=True)
         return jsonify(list(map(lambda bucket: {
             'name': bucket['Key'],
-            'last_modified': bucket['LastModified'].strftime('%d.%m.%Y %H:%M:%S'),
+            'last_modified': bucket['LastModified'].isoformat(),
             'size': sizeof_fmt(bucket['Size']),
-        }, s3_client.list_objects_v2(Bucket=s3_bucket)['Contents'])))
+        }, backups)))
     except ClientError as err:
         if err.response['Error']['Code'] == 'NoSuchBucket':
             return jsonify([])
