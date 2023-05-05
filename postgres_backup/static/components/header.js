@@ -12,8 +12,8 @@ class AppHeader extends LitElement {
   static styles = css`
     :host {
       display: block;
-      background-color: rgb(31, 41, 55);
-      border-bottom: 1px solid rgb(75, 85, 99);
+      background-color: hsl(215, 28%, 17%);
+      border-bottom: 1px solid hsl(215, 14%, 34%);
       position: sticky;
       top: 0;
       z-index: 40;

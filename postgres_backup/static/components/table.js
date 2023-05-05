@@ -60,8 +60,8 @@ class AppTableHeadCell extends LitElement {
       display: table-cell;
       padding: 12px 24px;
       font-weight: 600;
-      background-color: rgb(55, 65, 81);
-      color: rgb(156, 163, 175);
+      background-color: hsl(217, 19%, 27%);
+      color: hsl(218, 11%, 65%);
       text-transform: uppercase;
     }
   `;
@@ -77,8 +77,8 @@ class AppTableCell extends LitElement {
       display: table-cell;
       padding: 12px 24px;
       font-weight: 500;
-      background-color: rgb(31, 41, 55);
-      border-bottom: 1px solid rgb(55, 65, 81);
+      background-color: hsl(215, 28%, 17%);
+      border-bottom: 1px solid hsl(217, 19%, 27%);
     }
 
     :host([highlighted]) {

@@ -1,14 +1,16 @@
-export class AppEvent extends Event {
+class AppEvent extends Event {
   constructor(name) {
     super(name, { bubbles: true, composed: true });
   }
 }
 
 export class AppErrorEvent extends AppEvent {
-  constructor(error) {
+  constructor(message, error) {
     super("app-error");
-    this.details = error;
-    console.error(error);
+    this.details = {
+      message,
+      error
+    }
   }
 }
 

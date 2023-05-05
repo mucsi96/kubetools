@@ -9,9 +9,15 @@ import "./components/heading.js";
 import "./components/button.js";
 import "./components/table.js";
 import "./components/loader.js";
+import "./components/notifications.js";
 import "./tables.js";
 import "./backups.js";
 import { AppErrorEvent } from "./events.js";
+import {
+  ErrorNotificationEvent,
+  SuccessNotificationEvent,
+} from "./components/notifications.js";
+import { fetchJSON } from "./utils.js";
 
 class App extends LitElement {
   static styles = css`
@@ -29,23 +35,29 @@ class App extends LitElement {
     backups: { type: Array },
   };
 
+  constructor() {
+    super();
+    document.addEventListener("app-error", (event) => {
+      console.error(event.details.error);
+      this.dispatchEvent(new ErrorNotificationEvent(event.details.message));
+    });
+  }
+
   async #fetchTables() {
     try {
-      const res = await fetch("/tables");
-      this.tables = await res.json();
+      this.tables = await fetchJSON("/tables");
     } catch (err) {
-      this.tables = []
-      this.dispatchEvent(new AppErrorEvent(err));
+      this.tables = [];
+      this.dispatchEvent(new AppErrorEvent('Unable to fetch tables', err));
     }
   }
 
   async #fetchBackups() {
     try {
-      const res = await fetch("/backups");
-      this.backups = await res.json();
+      this.backups = await fetchJSON("/backups");
     } catch (err) {
-      this.backups = []
-      this.dispatchEvent(new AppErrorEvent(err));
+      this.backups = [];
+      this.dispatchEvent(new AppErrorEvent('Unable to fetch backups', err));
     }
   }
 
@@ -59,10 +71,19 @@ class App extends LitElement {
       <app-header title="Kubetools Postgres Backup"></app-header>
       <app-main>
         <div id="main">
-          <app-tables .tables=${this.tables}></app-tables>
+          <app-tables
+            .tables=${this.tables}
+            @backup-created=${() => {
+              this.#fetchBackups();
+              this.dispatchEvent(
+                new SuccessNotificationEvent("Backup created")
+              );
+            }}
+          ></app-tables>
           <app-backups .backups=${this.backups}></app-backups>
         </div>
       </app-main>
+      <app-notifications></app-notifications>
     `;
   }
 }

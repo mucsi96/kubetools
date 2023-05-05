@@ -4,6 +4,7 @@ import {
   css,
 } from "https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js";
 import { BackupCreatedEvent, AppErrorEvent } from './events.js';
+import { fetchJSON } from "./utils.js";
 
 class AppTables extends LitElement {
   static properties = {
@@ -57,9 +58,9 @@ class AppTables extends LitElement {
 
   #backup() {
     this.#backupButton.disabled = true;
-    fetch("/backup", { method: "POST" })
+    fetchJSON("/backup", { method: "POST" })
       .then(() => this.dispatchEvent(new BackupCreatedEvent()))
-      .catch((err) => this.dispatchEvent(new AppErrorEvent(err)))
+      .catch((err) => this.dispatchEvent(new AppErrorEvent('Unable to create backup', err)))
       .finally(() => (this.#backupButton.disabled = false));
   }
 }

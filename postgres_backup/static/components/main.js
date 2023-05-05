@@ -8,8 +8,8 @@ class AppMain extends LitElement {
   static styles = css`
     :host {
       display: block;
-      background-color: rgb(15, 23, 42);
-      color: rgb(156, 163, 175);
+      background-color: hsl(222, 47%, 11%);
+      color: hsl(218, 11%, 65%);
       font-family: system-ui;
       font-size: 14px;
       padding: 1px 0;

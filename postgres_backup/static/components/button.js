@@ -11,8 +11,8 @@ class AppButton extends LitElement {
 
   static styles = css`
     button {
-      background-color: rgb(28, 100, 242);
-      border: 1px solid rgb(28, 100, 242);
+      background-color: hsl(220, 89%, 53%);
+      border: 1px solid hsl(220, 89%, 53%);
       padding: 10px 20px;
       border-radius: 8px;
       color: white;
@@ -20,15 +20,15 @@ class AppButton extends LitElement {
     }
 
     button:not(:disabled):hover {
-      background-color: rgb(26, 86, 219);
-      border: 1px solid rgb(26, 86, 219);
+      background-color: hsl(221, 79%, 48%);
+      border: 1px solid hsl(221, 79%, 48%);
       cursor: pointer;
     }
 
     button:disabled {
-      background-color: rgb(31, 41, 55);
-      color: rgb(156, 163, 175);
-      border: 1px solid rgb(75, 85, 99);
+      background-color: hsl(215, 28%, 17%);
+      color: hsl(218, 11%, 65%);
+      border: 1px solid hsl(215, 14%, 34%);
     }
   `;
 
