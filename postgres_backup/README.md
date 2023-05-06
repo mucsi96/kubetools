@@ -7,3 +7,4 @@ https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.ht
 https://florianbuchner.com/kubernetes-curl-cronjob-for-internal-service/
 
 https://flowbite.com/docs/components/tables/
+https://hslpicker.com/

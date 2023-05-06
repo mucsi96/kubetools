@@ -6,7 +6,7 @@ from botocore.exceptions import ClientError
 from datetime import datetime
 from os import getenv, remove
 from subprocess import run
-from flask import Flask, jsonify, g
+from flask import Flask, jsonify, g, request
 from psycopg import connect, Connection
 
 app = Flask(__name__)
@@ -118,6 +118,8 @@ def get_total_count_from_name(bucket):
 
 @app.route('/backup', methods=['POST'])
 def backup():
+    retention_period = request.args.get("retention_period")
+    assert retention_period != None
     total_count = get_tables_info()['total_count']
     timestr = datetime.now().strftime('%Y%m%d-%H%M%S')
     filename = '{}.{}.pgdump'.format(timestr, total_count)

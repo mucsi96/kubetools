@@ -11,6 +11,7 @@ class AppTables extends LitElement {
     tables: { type: Array },
     "total-count": { type: Number },
     processing: { type: Boolean },
+    "retention-period": { type: Number },
   };
 
   static styles = css`
@@ -19,11 +20,52 @@ class AppTables extends LitElement {
       gap: 40px;
     }
 
-    .tables { 
+    .tables,
+    .backup {
       display: grid;
       gap: 20px;
     }
+
+    label {
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    input {
+      background-color: hsl(217, 19%, 27%);
+      border: 1px solid hsl(215, 14%, 34%);
+      color: white;
+      font-size: 14px;
+      font-weight: 400;
+      padding: 10px;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    input:focus {
+      border: 1px solid hsl(218, 93%, 61%);
+      box-shadow: hsl(218, 93%, 61%) 0 0 0 1px;
+    }
+
+    input:invalid {
+      border: 1px solid hsl(0, 96%, 77%);
+      box-shadow: hsl(0, 96%, 77%) 0 0 0 1px;
+    }
+
+    input::-webkit-inner-spin-button {
+      opacity: 0 !important;
+    }
   `;
+
+  constructor() {
+    super();
+    this["retention-period"] = 1;
+  }
 
   render() {
     this.style.justifyContent = this.tables ? "flex-start" : "center";
@@ -61,17 +103,34 @@ class AppTables extends LitElement {
           </app-tbody>
         </app-table>
       </div>
-      <app-button
-        ?disabled=${actionsDisabled}
-        @click="${actionsDisabled ? undefined : () => this.#backup()}"
-        >Backup</app-button
-      >
+      <div class="backup">
+        <app-heading level="2">Backup</app-heading>
+        <label
+          >Retention period (days)
+          <input
+            type="number"
+            value=${this["retention-period"]}
+            min="1"
+            max="356"
+            step="1"
+            @change=${(event) => {
+              this["retention-period"] = event.target.value;
+            }}
+        /></label>
+        <app-button
+          ?disabled=${actionsDisabled}
+          @click="${actionsDisabled
+            ? undefined
+            : () => this.#backup(this["retention-period"])}"
+          >Backup</app-button
+        >
+      </div>
     `;
   }
 
-  #backup() {
+  #backup(retentionPeriod) {
     this.processing = true;
-    fetchJSON("/backup", { method: "POST" })
+    fetchJSON(`/backup?retention_period=${retentionPeriod}`, { method: "POST" })
       .then(() => this.dispatchEvent(new BackupCreatedEvent()))
       .catch((err) =>
         this.dispatchEvent(new AppErrorEvent("Unable to create backup", err))
