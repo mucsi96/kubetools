@@ -2,5 +2,4 @@
 - Fix STS
 - Set server api context path to /api. this should simplify the redirection to home and also the traeefik config
 - Create endpoint which returns how much time ago happened the last backup
-- Introduce backup retention policy
 - Add context path to backup app

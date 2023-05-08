@@ -101,7 +101,8 @@ def get_backups():
             'name': bucket['Key'],
             'last_modified': bucket['LastModified'].isoformat(),
             'size': sizeof_fmt(bucket['Size']),
-            'total_count': get_total_count_from_name(bucket)
+            'total_count': get_total_count_from_name(bucket),
+            'retention_period': get_retention_period_from_name(bucket)
         }, backups)))
     except ClientError as err:
         if err.response['Error']['Code'] == 'NoSuchBucket':
@@ -116,13 +117,23 @@ def get_total_count_from_name(bucket):
         return 0
 
 
+def get_retention_period_from_name(bucket):
+    try:
+        return int(bucket['Key'].split(".")[2])
+    except:
+        return 0
+
+
 @app.route('/backup', methods=['POST'])
 def backup():
-    retention_period = request.args.get("retention_period")
-    assert retention_period != None
+    raw_retention_period = request.args.get("retention_period")
+    assert raw_retention_period != None
+    retention_period = int(raw_retention_period)
+    assert retention_period > 0
+    assert retention_period <= 356
     total_count = get_tables_info()['total_count']
     timestr = datetime.now().strftime('%Y%m%d-%H%M%S')
-    filename = '{}.{}.pgdump'.format(timestr, total_count)
+    filename = '{}.{}.{}.pgdump'.format(timestr, total_count, retention_period)
     run(['pg_dump', '--dbname', get_conn_str(),
         '--format', 'c', '--file', filename])
     safe_upload_backup(filename)

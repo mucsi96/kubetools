@@ -6,6 +6,18 @@ import {
 import { fetchJSON, getRelativeTimeString } from "./utils.js";
 import { BackupRestoredEvent } from "./events.js";
 
+function format_retention(value) {
+  if (!value) {
+    return '';
+  }
+
+  if (value === 1) {
+    return `${value} day`
+  }
+
+  return `${value} days`
+}
+
 class AppBackups extends LitElement {
   static properties = {
     backups: { type: Array },
@@ -39,6 +51,7 @@ class AppBackups extends LitElement {
             <app-th>Name</app-th>
             <app-th>Records</app-th>
             <app-th>Size</app-th>
+            <app-th>Retention</app-th>
             <app-th>Action</app-th>
           </app-tr>
         </app-thead>
@@ -68,6 +81,7 @@ class AppBackups extends LitElement {
         <app-td no-wrap>${backup.name}</app-td>
         <app-td>${backup["total_count"]}</app-td>
         <app-td>${backup.size}</app-td>
+        <app-td>${format_retention(backup['retention_period'])}</app-td>
         <app-td>
           <app-button
             ?disabled=${actionsDisabled}
