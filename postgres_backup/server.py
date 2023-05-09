@@ -3,7 +3,7 @@ import boto3
 
 from boto3.exceptions import S3UploadFailedError
 from botocore.exceptions import ClientError
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from os import getenv, remove
 from subprocess import run
 from flask import Flask, jsonify, g, request
@@ -149,6 +149,29 @@ def restore(key: str):
         '--verbose', key])
     remove(key)
     return jsonify('ok')
+
+
+def should_cleanup(bucket):
+    last_modified = bucket['LastModified']
+    retention_period = get_retention_period_from_name(bucket)
+
+    if retention_period is None or retention_period == 0:
+        return True
+
+    cleanup_date = last_modified + timedelta(days=retention_period)
+    return cleanup_date < datetime.now(timezone.utc)
+
+
+@app.route('/cleanup', methods=['POST'])
+def cleanup():
+    try:
+        backups = s3_client.list_objects_v2(Bucket=s3_bucket)['Contents']
+        backups_to_cleanup = list(filter(should_cleanup, backups))
+        print(backups_to_cleanup)
+    except ClientError as err:
+        if err.response['Error']['Code'] == 'NoSuchBucket':
+            return jsonify('ok')
+        raise
 
 
 @app.teardown_appcontext

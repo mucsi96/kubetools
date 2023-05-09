@@ -25,3 +25,9 @@ export class BackupRestoredEvent extends AppEvent {
     super("backup-restored");
   }
 }
+
+export class CleanupFinishedEvent extends AppEvent {
+  constructor() {
+    super("cleanup-finished");
+  }
+}

@@ -3,7 +3,11 @@ import {
   html,
   css,
 } from "https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js";
-import { BackupCreatedEvent, AppErrorEvent } from "./events.js";
+import {
+  BackupCreatedEvent,
+  AppErrorEvent,
+  CleanupFinishedEvent,
+} from "./events.js";
 import { fetchJSON } from "./utils.js";
 
 class AppTables extends LitElement {
@@ -21,7 +25,8 @@ class AppTables extends LitElement {
     }
 
     .tables,
-    .backup {
+    .backup,
+    .cleanup {
       display: grid;
       gap: 20px;
     }
@@ -125,6 +130,15 @@ class AppTables extends LitElement {
           >Backup</app-button
         >
       </div>
+      <div class="cleanup">
+        <app-heading level="2">Cleanup</app-heading>
+        <app-button
+          color="red"
+          ?disabled=${actionsDisabled}
+          @click="${actionsDisabled ? undefined : () => this.#cleanup()}"
+          >Cleanup</app-button
+        >
+      </div>
     `;
   }
 
@@ -134,6 +148,18 @@ class AppTables extends LitElement {
       .then(() => this.dispatchEvent(new BackupCreatedEvent()))
       .catch((err) =>
         this.dispatchEvent(new AppErrorEvent("Unable to create backup", err))
+      )
+      .finally(() => {
+        this.processing = false;
+      });
+  }
+
+  #cleanup() {
+    this.processing = true;
+    fetchJSON("/cleanup", { method: "POST" })
+      .then(() => this.dispatchEvent(new CleanupFinishedEvent()))
+      .catch((err) =>
+        this.dispatchEvent(new AppErrorEvent("Unable to cleanup", err))
       )
       .finally(() => {
         this.processing = false;

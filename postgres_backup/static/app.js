@@ -84,6 +84,12 @@ class App extends LitElement {
                 new SuccessNotificationEvent("Backup created")
               );
             }}
+            @cleanup-finished=${() => {
+              this.#fetchBackups();
+              this.dispatchEvent(
+                new SuccessNotificationEvent("Cleanup finished")
+              );
+            }}
           ></app-tables>
           <app-backups
             .backups=${this.backups}
