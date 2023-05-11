@@ -89,24 +89,26 @@ class AppTables extends LitElement {
         <app-heading level="2"
           >Tables <app-badge>${this.tables.length}</app-badge></app-heading
         >
-        <app-table>
-          <app-thead>
-            <app-tr>
-              <app-th>Name</app-th>
-              <app-th>Records</app-th>
-            </app-tr>
-          </app-thead>
-          <app-tbody>
-            ${this.tables.map(
-              (table) => html`
+        ${this.tables.length
+          ? html`<app-table>
+              <app-thead>
                 <app-tr>
-                  <app-td highlighted>${table.name}</app-td>
-                  <app-td>${table.count}</app-td>
+                  <app-th>Name</app-th>
+                  <app-th>Records</app-th>
                 </app-tr>
-              `
-            )}
-          </app-tbody>
-        </app-table>
+              </app-thead>
+              <app-tbody>
+                ${this.tables.map(
+                  (table) => html`
+                    <app-tr>
+                      <app-td highlighted>${table.name}</app-td>
+                      <app-td>${table.count}</app-td>
+                    </app-tr>
+                  `
+                )}
+              </app-tbody>
+            </app-table>`
+          : ""}
       </div>
       <div class="backup">
         <app-heading level="2">Backup</app-heading>
@@ -122,22 +124,26 @@ class AppTables extends LitElement {
               this["retention-period"] = event.target.value;
             }}
         /></label>
-        <app-button
-          ?disabled=${actionsDisabled}
-          @click="${actionsDisabled
-            ? undefined
-            : () => this.#backup(this["retention-period"])}"
-          >Backup</app-button
-        >
+        <section>
+          <app-button
+            ?disabled=${actionsDisabled}
+            @click="${actionsDisabled
+              ? undefined
+              : () => this.#backup(this["retention-period"])}"
+            >Backup</app-button
+          >
+        </section>
       </div>
       <div class="cleanup">
         <app-heading level="2">Cleanup</app-heading>
-        <app-button
-          color="red"
-          ?disabled=${actionsDisabled}
-          @click="${actionsDisabled ? undefined : () => this.#cleanup()}"
-          >Cleanup</app-button
-        >
+        <section>
+          <app-button
+            color="red"
+            ?disabled=${actionsDisabled}
+            @click="${actionsDisabled ? undefined : () => this.#cleanup()}"
+            >Cleanup</app-button
+          >
+        </section>
       </div>
     `;
   }

@@ -8,14 +8,14 @@ import { BackupRestoredEvent } from "./events.js";
 
 function format_retention(value) {
   if (!value) {
-    return '';
+    return "";
   }
 
   if (value === 1) {
-    return `${value} day`
+    return `${value} day`;
   }
 
-  return `${value} days`
+  return `${value} days`;
 }
 
 class AppBackups extends LitElement {
@@ -43,24 +43,24 @@ class AppBackups extends LitElement {
       <app-heading level="2"
         >Backups <app-badge>${this.backups.length}</app-badge></app-heading
       >
-      <app-table id="backups">
-        <app-thead>
-          <app-tr>
-            <app-th></app-th>
-            <app-th>Date</app-th>
-            <app-th>Name</app-th>
-            <app-th>Records</app-th>
-            <app-th>Size</app-th>
-            <app-th>Retention</app-th>
-            <app-th>Action</app-th>
-          </app-tr>
-        </app-thead>
-        <app-tbody
-          >${this.backups.map((backup) =>
-            this.#renderBackup(backup)
-          )}</app-tbody
-        >
-      </app-table>
+      ${this.backups.length
+        ? html`<app-table id="backups">
+            <app-thead>
+              <app-tr>
+                <app-th></app-th>
+                <app-th>Date</app-th>
+                <app-th>Name</app-th>
+                <app-th>Records</app-th>
+                <app-th>Size</app-th>
+                <app-th>Retention</app-th>
+                <app-th>Action</app-th>
+              </app-tr>
+            </app-thead>
+            <app-tbody>
+              ${this.backups.map((backup) => this.#renderBackup(backup))}
+            </app-tbody>
+          </app-table>`
+        : ""}
     `;
   }
 
@@ -81,7 +81,7 @@ class AppBackups extends LitElement {
         <app-td no-wrap>${backup.name}</app-td>
         <app-td>${backup["total_count"]}</app-td>
         <app-td>${backup.size}</app-td>
-        <app-td>${format_retention(backup['retention_period'])}</app-td>
+        <app-td>${format_retention(backup["retention_period"])}</app-td>
         <app-td>
           <app-button
             ?disabled=${actionsDisabled}

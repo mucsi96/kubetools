@@ -4,4 +4,4 @@
 - Create endpoint which returns how much time ago happened the last backup
 - Add context path to backup app
 - Create number input component
-- Clicking next to the buttin triggers the button
+- move postgres backup to own repo

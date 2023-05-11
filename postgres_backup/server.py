@@ -95,8 +95,13 @@ def get_tables():
 @app.route('/backups', methods=['GET'])
 def get_backups():
     try:
-        backups = sorted(s3_client.list_objects_v2(Bucket=s3_bucket)[
-                         'Contents'], key=lambda bucket: int(bucket['LastModified'].strftime('%s')), reverse=True)
+        response = s3_client.list_objects_v2(Bucket=s3_bucket)
+
+        if 'Contents' not in response:
+            return jsonify([])
+
+        backups = sorted(response['Contents'], key=lambda bucket: int(
+            bucket['LastModified'].strftime('%s')), reverse=True)
         return jsonify(list(map(lambda bucket: {
             'name': bucket['Key'],
             'last_modified': bucket['LastModified'].isoformat(),
@@ -167,12 +172,23 @@ def cleanup():
     try:
         backups = s3_client.list_objects_v2(Bucket=s3_bucket)['Contents']
         backups_to_cleanup = list(filter(should_cleanup, backups))
-        print(backups_to_cleanup)
+
+        if len(backups_to_cleanup) == 0:
+            return jsonify('ok')
+
+        s3_client.delete_objects(Bucket=s3_bucket, Delete={
+            'Objects': list(map(lambda bucket: {'Key': bucket['Key']}, backups_to_cleanup))
+        })
+
+        return jsonify('ok')
     except ClientError as err:
         if err.response['Error']['Code'] == 'NoSuchBucket':
             return jsonify('ok')
         raise
 
+@app.errorhandler(AssertionError)
+def handle_bad_request(e):
+    return 'bad request!', 400
 
 @app.teardown_appcontext
 def close_connection(exception):
