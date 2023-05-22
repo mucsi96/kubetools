@@ -6,6 +6,7 @@
 - name: Get checksums
   ansible.builtin.set_fact:
     secret_checksum: "{{ lookup('ansible.builtin.template', 'secret.yaml') | checksum }}"
+    original_k8s_name: "{{ k8s_name }}"
 - name: Add kubernetes resources
   kubernetes.core.k8s:
     state: present
@@ -17,4 +18,22 @@
     - deployment.yaml
     - service.yaml
     - service_monitor.yaml
+- name: Deploy Postgress backup tool
+  ansible.builtin.include_role:
+    name: deploy_spring_app
+  vars:
+    k8s_name: "{{ original_k8s_name }}-postgres-backup-tool"
+    image: mucsi96/postgres-backup-tool:6
+    app_env:
+      DB_BACKUP_ENDPOINT_URL: "{{ db_backup_endpoint_url }}"
+      DB_BACKUP_ACCESS_KEY_ID: "{{ db_backup_access_key_id }}"
+      DB_BACKUP_SECRET_ACCESS_KEY: "{{ db_backup_secret_access_key }}"
+      DB_BACKUP_BUCKET: "{{ db_backup_bucket }}"
+      POSTGRES_HOSTNAME: "{{ db_host }}"
+      POSTGRES_PORT: "{{ db_port }}"
+      POSTGRES_DB: "{{ db_name }}"
+      POSTGRES_USER: "{{ db_username }}"
+      POSTGRES_PASSWORD: "{{ db_password }}"
+    base_path: "/db"
+
 

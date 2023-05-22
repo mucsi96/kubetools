@@ -12,7 +12,6 @@ argument_specs:
         required: true
       tag_prefix:
         type: str
-        required: true
       app_port:
         type: str
       app_env:

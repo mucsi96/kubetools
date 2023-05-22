@@ -26,3 +26,24 @@ argument_specs:
         type: str
       init_db_sql:
         type: str
+      host_prefix:
+        type: str
+        required: true
+      auth_middelware_name:
+        type: str
+        required: true
+      auth_middelware_namespace:
+        type: str
+        required: true
+      db_backup_endpoint_url:
+        type: str
+        required: true
+      db_backup_access_key_id:
+        type: str
+        required: true
+      db_backup_secret_access_key:
+        type: str
+        required: true
+      db_backup_bucket:
+        type: str
+        required: true

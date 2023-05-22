@@ -9,6 +9,7 @@
 - name: Get app version
   ansible.builtin.include_role:
     name: get_app_version
+  when: tag_prefix is defined
 - name: Add kubernetes resources
   kubernetes.core.k8s:
     state: present

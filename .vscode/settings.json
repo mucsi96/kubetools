@@ -27,4 +27,5 @@
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
   "spring-boot.ls.logfile": "./sts.log",
+  "ansible.python.interpreterPath": "/usr/bin/python3",
 }

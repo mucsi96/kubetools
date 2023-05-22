@@ -10,6 +10,7 @@
         name: deploy_postgres_db
       vars:
         k8s_name: "{{ db_host }}"
+        host_prefix: demo
     - name: Deploy server
       ansible.builtin.include_role:
         name: deploy_spring_app
