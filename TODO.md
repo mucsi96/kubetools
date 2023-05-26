@@ -1,3 +1,2 @@
 - Introduce Postres backup to S3 as scheduled job as part of postgres deployment
 - Fix STS
-- Set server api context path to /api. this should simplify the redirection to home and also the traeefik config

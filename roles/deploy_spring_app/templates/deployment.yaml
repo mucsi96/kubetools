@@ -33,6 +33,8 @@ spec:
           - secretRef:
               name: {{ k8s_name }}
         env:
+          - name: SERVER_SERVLET_CONTEXT_PATH
+            value: "{{ base_path }}"
           - name: SPRING_ACTUATOR_PORT
             value: "{{ spring_actuator_port }}"
           - name: SPRING_ADMIN_SERVER_HOST

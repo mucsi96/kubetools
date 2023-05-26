@@ -20,6 +20,5 @@
     - secret.yaml
     - deployment.yaml
     - service.yaml
-    - stripprefix_middleware.yaml
     - route.yaml
     - service_monitor.yaml
