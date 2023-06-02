@@ -1,2 +1,1 @@
-- Introduce Postres backup to S3 as scheduled job as part of postgres deployment
 - Fix STS

@@ -35,5 +35,15 @@
       POSTGRES_USER: "{{ db_username }}"
       POSTGRES_PASSWORD: "{{ db_password }}"
     base_path: "/db"
-
+- name: Setup backup cron jobs
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+  with_items:
+    - daily_backup.yaml
+    - monthly_backup.yaml
+    - weekly_cleanup.yaml
+  vars:
+    k8s_name: "{{ original_k8s_name }}"
 
