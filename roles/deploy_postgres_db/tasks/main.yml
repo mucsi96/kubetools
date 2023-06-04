@@ -36,6 +36,7 @@
       POSTGRES_PASSWORD: "{{ db_password }}"
     base_path: "/db"
     app_version: !!null
+    tag_prefix: !!null
 - name: Setup backup cron jobs
   kubernetes.core.k8s:
     state: present
