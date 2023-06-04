@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: {{ k8s_name }}
-        image: {{ image }}{{ ':' + app_version if app_version is defined else '' }} 
+        image: {{ image }}{{ ':' + app_version if ((app_version is defined) and (app_version != None)) else '' }} 
         resources:
           requests:
             memory: 500Mi
