@@ -47,3 +47,10 @@ argument_specs:
       db_backup_bucket:
         type: str
         required: true
+      db_backup_region:
+        type: str
+        required: true
+      db_backup_exclude_tables:
+        type: list
+        elements: str
+        required: true

@@ -64,7 +64,7 @@ spec:
                 name: {{ k8s_name }}
                 key: exporterPassword
           - name: DATA_SOURCE_NAME
-            value: postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@(localhost:5432)/$(POSTGRES_DB)?sslmode=disable
+            value: postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@localhost:5432/$(POSTGRES_DB)?sslmode=disable
         livenessProbe:
           httpGet:
             path: /

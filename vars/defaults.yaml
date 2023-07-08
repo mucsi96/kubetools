@@ -12,3 +12,4 @@ spring_admin_server_name: spring-boot-admin-server
 spring_admin_server_namespace: monitoring
 spring_admin_server_port: 9090
 db_backup_bucket: kubetools-backups
+db_backup_region: us-east-1

@@ -11,6 +11,7 @@
       vars:
         k8s_name: "{{ db_host }}"
         host_prefix: demo
+        db_backup_exclude_tables: []
     - name: Deploy server
       ansible.builtin.include_role:
         name: deploy_spring_app
