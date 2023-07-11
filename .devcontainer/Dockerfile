@@ -71,7 +71,7 @@ RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/s
     && ./get_helm.sh --version v3.11.1
 
 # Install cloudflared
-RUN wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && dpkg -i cloudflared-linux-amd64.deb
+RUN wget -q "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$(dpkg --print-architecture).deb" && dpkg -i "cloudflared-linux-$(dpkg --print-architecture).deb"
 
 # Install pack
 RUN curl -sSL https://github.com/buildpacks/pack/releases/download/v0.28.0/pack-v0.28.0-linux.tgz | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack
