@@ -6,7 +6,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedC
 import org.springframework.stereotype.Service;
 
 @Service
-public class AutheliaUserService {
+public class AutheliaService {
     public AutheliaUser getUser(Authentication authentication) {
         if (!(authentication instanceof PreAuthenticatedAuthenticationToken)) {
             throw new PreAuthenticatedCredentialsNotFoundException("");
