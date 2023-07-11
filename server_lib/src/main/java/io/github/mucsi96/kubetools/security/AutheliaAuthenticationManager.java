@@ -1,8 +1,6 @@
 package io.github.mucsi96.kubetools.security;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,9 +22,9 @@ public class AutheliaAuthenticationManager implements AuthenticationManager {
     if (principal instanceof AutheliaUser) {
       AutheliaUser autheliaUser = (AutheliaUser) principal;
 
-      List<GrantedAuthority> authorities = Stream.of(autheliaUser.getGroups().split(",")).map(group -> {
+      List<GrantedAuthority> authorities = autheliaUser.getRoles().stream().map(group -> {
         return (GrantedAuthority) () -> "ROLE_" + group;
-      }).collect(Collectors.toList());
+      }).toList();
 
       PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(
           autheliaUser.getUsername(), "N/A", authorities);

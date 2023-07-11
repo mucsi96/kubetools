@@ -1,8 +1,6 @@
 package io.github.mucsi96.kubetools.security;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,11 +16,11 @@ public class MockAuthenticationManager implements AuthenticationManager {
 
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-    AutheliaUser autheliaUser = new AutheliaUser("rob", "user", "Robert White", "robert.white@mockemail.com");
+    AutheliaUser autheliaUser = new AutheliaUser("rob", List.of("user"), "Robert White", "robert.white@mockemail.com");
 
-    List<GrantedAuthority> authorities = Stream.of(autheliaUser.getGroups().split(",")).map(group -> {
+    List<GrantedAuthority> authorities = autheliaUser.getRoles().stream().map(group -> {
       return (GrantedAuthority) () -> "ROLE_" + group;
-    }).collect(Collectors.toList());
+    }).toList();
 
     PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(
         autheliaUser.getUsername(),

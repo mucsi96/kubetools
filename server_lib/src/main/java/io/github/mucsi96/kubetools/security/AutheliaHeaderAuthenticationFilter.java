@@ -1,5 +1,7 @@
 package io.github.mucsi96.kubetools.security;
 
+import java.util.Arrays;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 
@@ -31,7 +33,7 @@ public class AutheliaHeaderAuthenticationFilter extends AbstractPreAuthenticated
 
     log.debug("Creating AutheliaUser...");
 
-    return new AutheliaUser(username, groups, displayName, email);
+    return new AutheliaUser(username, Arrays.asList(groups.split(",")), displayName, email);
   }
 
   @Override
