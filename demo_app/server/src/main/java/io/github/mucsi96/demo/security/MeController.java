@@ -1,4 +1,4 @@
-package io.github.mucsi96.kubetools;
+package io.github.mucsi96.demo.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,4 +21,3 @@ public class MeController {
         return autheliaUserService.getUser(authentication);
     }
 }
-
