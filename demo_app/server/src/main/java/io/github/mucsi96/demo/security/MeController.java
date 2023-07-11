@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.mucsi96.kubetools.security.AutheliaService;
 import io.github.mucsi96.kubetools.security.AutheliaUser;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class MeController {
 
     @GetMapping("/me")
-    AutheliaUser getMe(AutheliaService autheliaService) {
+    AutheliaUser getMe(@Parameter(hidden = true) AutheliaService autheliaService) {
         return autheliaService.getUser();
     }
 }
