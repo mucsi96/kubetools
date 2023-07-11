@@ -1,11 +1,13 @@
 package io.github.mucsi96.demo.security;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.mucsi96.kubetools.security.AutheliaService;
 import io.github.mucsi96.kubetools.security.AutheliaUser;
-import io.github.mucsi96.kubetools.security.AutheliaUserService;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 
@@ -14,10 +16,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MeController {
 
-    AutheliaUserService autheliaUserService;
-
     @GetMapping("/me")
-    AutheliaUser getMe(Authentication authentication) {
-        return autheliaUserService.getUser(authentication);
+    AutheliaUser getMe(AutheliaService autheliaService) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        return autheliaService.getUser(context.getAuthentication());
     }
 }
