@@ -23,7 +23,7 @@
     name: deploy_spring_app
   vars:
     k8s_name: "{{ original_k8s_name }}-postgres-backup-tool"
-    image: mucsi96/postgres-backup-tool:25
+    image: mucsi96/postgres-backup-tool:26
     app_env:
       AWS_S3_ENDPOINT_URL: "{{ db_backup_endpoint_url }}"
       AWS_S3_ACCESS_KEY_ID: "{{ db_backup_access_key_id }}"
