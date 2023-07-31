@@ -27,7 +27,7 @@ def build_and_push_client_img(
             '--builder',   'paketobuildpacks/builder:base',
             '--buildpack', 'paketo-buildpacks/web-servers',
             '--buildpack', 'paketo-buildpacks/source-removal',
-            '--buildpack', 'docker.io/paketo-buildpacks/health-checker',
+            '--buildpack', 'gcr.io/paketo-buildpacks/health-checker',
             '--env',       'BP_NODE_RUN_SCRIPTS=build',
             '--env',       'BP_WEB_SERVER=nginx',
             '--env',       'BP_WEB_SERVER_ROOT=dist',
@@ -68,7 +68,7 @@ def build_and_push_server_img(
         pack_args=[
             '--builder',   'paketobuildpacks/builder:base',
             '--buildpack', 'paketo-buildpacks/java',
-            '--buildpack', 'docker.io/paketo-buildpacks/health-checker',
+            '--buildpack', 'gcr.io/paketo-buildpacks/health-checker',
             '--env',       'BP_JVM_VERSION=17',
             '--env',       'BP_HEALTH_CHECKER_ENABLED=true',
             '--env',       'BPE_SPRING_PROFILES_ACTIVE=prod',
