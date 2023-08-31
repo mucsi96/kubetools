@@ -31,6 +31,7 @@ def build_and_push_client_img(
             '--env',       'BP_NODE_RUN_SCRIPTS=build',
             '--env',       'BP_WEB_SERVER=nginx',
             '--env',       'BP_WEB_SERVER_ROOT=dist',
+            '--env',       'BP_WEB_SERVER_ENABLE_PUSH_STATE=true',
             '--env',       'BP_NGINX_STUB_STATUS_PORT=8033',
             '--env',       'BP_INCLUDE_FILES=nginx.conf:dist/**',
             '--env',       'BP_HEALTH_CHECKER_ENABLED=true',
