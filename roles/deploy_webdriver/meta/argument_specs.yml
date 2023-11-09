@@ -1,0 +1,11 @@
+---
+argument_specs:
+  main:
+    options:
+      k8s_name:
+        type: str
+      k8s_namespace:
+        type: str
+        required: true
+      app_port:
+        type: str
