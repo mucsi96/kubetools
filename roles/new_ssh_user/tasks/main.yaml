@@ -46,6 +46,11 @@
     mode: 0600
   delegate_to: localhost
   when: not private_key_file_stat.stat.exists
+- name: Make sure we have a 'wheel' group
+  ansible.builtin.group:
+    name: wheel
+    state: present
+  when: _ssh_port_result is succeeded
 - name: Enable wheel group
   become: true
   ansible.builtin.lineinfile:

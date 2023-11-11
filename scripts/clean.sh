@@ -1,3 +1,3 @@
 #!/bin/bash
-rm -rf .ssh .vagrant .kube
+rm -rf .ssh vagrant/**/.vagrant .kube
 rm -rf /home/vscode/.ssh/

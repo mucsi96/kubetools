@@ -23,17 +23,19 @@
   ansible.builtin.set_fact:
     ansible_port: "{{ ssh_port }}"
 
-# - name: Setup UFW
-#   ansible.builtin.import_tasks: ufw.yaml
-#   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
 - name: Disable firewalld
   ansible.builtin.import_tasks: firewalld.yaml
-  # when: ansible_os_family == 'RedHat'
+
+- name: Gather facts
+  ansible.builtin.setup:
 
 - name: Setup iptables
-  ansible.builtin.import_tasks: iptables.yaml
-  # when: ansible_os_family == 'RedHat'
+  ansible.builtin.import_tasks: iptables_services.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Setup iptables
+  ansible.builtin.import_tasks: iptables_persistent.yaml
+  when: ansible_os_family == 'Debian'
 
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers

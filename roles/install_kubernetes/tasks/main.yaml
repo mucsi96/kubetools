@@ -21,7 +21,7 @@
 
 - name: Install Kubernetes client with APT
   ansible.builtin.import_tasks: install_kube_client_apt.yaml
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: ansible_os_family == 'Debian'
 
 - name: Install Kubernetes client with DNF
   ansible.builtin.import_tasks: install_kube_client_dnf.yaml

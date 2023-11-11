@@ -1,0 +1,14 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-22.04-arm64"
+  config.vm.define 'kubetools-cluster'
+  config.vm.provider "vmware_fusion"
+
+  config.ssh.insert_key = false
+
+  config.vm.hostname = "kubetools-cluster"
+  config.vm.network "private_network", ip: "192.168.56.21" # if not internet connection enable dhcp in "Host Metwork Manager"
+
+  config.vm.provider :vmware_fusion do |vmware|
+    vmware.vmx["ethernet0.pcislotnumber"] = "160"
+  end
+end

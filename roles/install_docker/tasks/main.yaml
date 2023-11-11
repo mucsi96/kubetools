@@ -1,6 +1,6 @@
-- name: Install docker for Ubuntu
-  ansible.builtin.import_tasks: install_docker_ubuntu.yaml
-  when: ansible_distribution == 'Ubuntu'
+- name: Install docker for APT
+  ansible.builtin.import_tasks: install_docker_apt.yaml
+  when: ansible_os_family == 'Debian'
 
 - name: Install docker with DNF
   ansible.builtin.import_tasks: install_docker_dnf.yaml

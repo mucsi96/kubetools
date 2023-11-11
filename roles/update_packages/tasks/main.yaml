@@ -4,7 +4,7 @@
     
 - name: Update packages with APT
   ansible.builtin.import_tasks: apt.yaml
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: ansible_os_family == 'Debian'
 
 - name: Update packages with DNF
   ansible.builtin.import_tasks: dnf.yaml

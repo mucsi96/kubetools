@@ -17,6 +17,7 @@
   ansible.builtin.dnf:
     name: firewalld
     state: absent
+  when: firewalld_installed.rc == 0
 
 # - name: Set SSH port
 #   become: true
