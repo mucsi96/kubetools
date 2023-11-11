@@ -25,11 +25,8 @@
     }
   },
   "remoteUser": "vscode",
-  "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
-  "postCreateCommand": {
-    "install-dev-tools": "bash -i scripts/install-dev-tools.sh",
-    "configure-docker": "sudo chown $(whoami) /var/run/docker.sock"
-  },
+  "postStartCommand": "bash -i .devcontainer/post-start.sh",
+  "postCreateCommand": "bash -i .devcontainer/post-create.sh",
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ]
