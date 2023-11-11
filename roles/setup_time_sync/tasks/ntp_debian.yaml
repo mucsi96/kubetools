@@ -1,0 +1,26 @@
+- name: Configure timezone
+  become: true
+  community.general.timezone:
+    name: Europe/Zurich
+  notify: restart timesyncd service
+
+- name: Install systemd-timesyncd
+  become: true
+  ansible.builtin.package:
+    name: systemd-timesyncd
+    state: present
+  notify: restart timesyncd service
+
+- name: Turning "set-ntp" true
+  become: true
+  ansible.builtin.command:
+    cmd: /usr/bin/timedatectl set-ntp true
+  notify: restart timesyncd service
+
+- name: Configure RTC
+  become: true
+  ansible.builtin.command:
+    cmd: /usr/bin/timedatectl set-local-rtc 0
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

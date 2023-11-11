@@ -1,4 +1,4 @@
 #!/bin/bash
-pip install -r requirements.txt
+pip install --requirement requirements.txt --upgrade
 cd demo_app/client
 yarn

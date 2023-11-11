@@ -1,33 +1,28 @@
-- name: Install dependencies for setting up apt sources
+- name: Install dependencies
   become: true
   ansible.builtin.apt:
     name:
       - ca-certificates
       - curl
       - gnupg
-      - lsb-release
+      - python3-pip
     update_cache: true
 
-- name: Create the directory for keyrings
+- name: Install python-debian
   become: true
-  ansible.builtin.file:
-    state: directory
-    path: /etc/apt/keyrings
-    mode: 0755
+  ansible.builtin.pip:
+    name: python-debian == 0.1.49
 
-- name: Authorize Docker GPG key
+- name: Setup Docker repository
   become: true
-  ansible.builtin.apt_key:
-    url: "{{ docker_apt_gpg_key }}"
-    keyring: "{{ docker_apt_keyring }}"
-
-- name: Add Docker apt repository to source list
-  become: true
-  ansible.builtin.apt_repository:
-    repo: "{{ docker_apt_repository }}"
-    filename: "{{ docker_apt_filename }}"
-    state: present
-    update_cache: true
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: deb
+    uris: https://download.docker.com/linux/{{ ansible_distribution | lower }}
+    suites: "{{ ansible_distribution_release }}"
+    components: stable
+    architectures: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+    signed_by: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
 
 - name: Install docker and its dependecies
   become: true

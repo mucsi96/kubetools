@@ -1,6 +1,13 @@
-- name: restart chrony
+- name: restart chrony service
   become: true
   ansible.builtin.service:
     name: chronyd
+    state: restarted
+    enabled: true
+
+- name: restart timesyncd service
+  become: true
+  ansible.builtin.service:
+    name: systemd-timesyncd
     state: restarted
     enabled: true

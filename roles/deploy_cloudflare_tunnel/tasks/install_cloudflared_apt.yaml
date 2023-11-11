@@ -1,0 +1,28 @@
+- name: Install pip
+  become: true
+  ansible.builtin.apt:
+    name: python3-pip
+    update_cache: true
+
+- name: Install python-debian
+  become: true
+  ansible.builtin.pip:
+    name: python-debian == 0.1.49
+
+- name: Setup Cloudflare repository
+  become: true
+  ansible.builtin.deb822_repository:
+    name: cloudflare
+    types: deb
+    uris: https://pkg.cloudflare.com/cloudflared
+    suites: "{{ ansible_distribution_release }}"
+    components: main
+    architectures: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+    signed_by: https://pkg.cloudflare.com/cloudflare-main.gpg
+
+- name: Install cloudflared
+  become: true
+  ansible.builtin.apt:
+    name: cloudflared
+    state: present
+    update_cache: true

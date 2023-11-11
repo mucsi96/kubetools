@@ -1,6 +1,6 @@
 - name: Install pip3
   become: true
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name: python3-pip
     state: present
 - name: Install kubernetes client

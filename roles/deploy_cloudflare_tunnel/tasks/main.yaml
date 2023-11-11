@@ -1,6 +1,10 @@
-- name: Install cloudflared
+- name: Install cloudflared DNF
   ansible.builtin.import_tasks: install_cloudflared_dnf.yaml
   when: ansible_os_family == 'RedHat'
+
+- name: Install cloudflared APT
+  ansible.builtin.import_tasks: install_cloudflared_apt.yaml
+  when: ansible_os_family == 'Debian'
 
 - name: Setup tunnel
   ansible.builtin.import_tasks: setup_tunnel.yaml
