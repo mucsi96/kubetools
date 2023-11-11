@@ -1,6 +1,6 @@
 - name: Download Helm
   ansible.builtin.get_url:
-    url: https://get.helm.sh/helm-v3.11.1-linux-amd64.tar.gz
+    url: https://get.helm.sh/helm-{{ helm_version }}-linux-{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}.tar.gz
     dest: /tmp/helm.tar.gz
     mode: u=rw,go=r
   delegate_to: localhost

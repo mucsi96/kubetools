@@ -20,12 +20,7 @@
   ansible.builtin.import_tasks: create_kube_config.yaml
 
 - name: Install Kubernetes client with APT
-  ansible.builtin.import_tasks: install_kube_client_apt.yaml
-  when: ansible_os_family == 'Debian'
-
-- name: Install Kubernetes client with DNF
-  ansible.builtin.import_tasks: install_kube_client_dnf.yaml
-  when: ansible_os_family == 'RedHat'
+  ansible.builtin.import_tasks: install_kube_client.yaml
 
 - name: Wait for the Traefik CRD to be created
   become: true

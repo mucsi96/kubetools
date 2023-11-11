@@ -1,3 +1,3 @@
 k3s_version: v1.26.3+k3s1 # https://github.com/k3s-io/k3s/releases
-helm_version: v3.11.2 # https://github.com/helm/helm/releases
+helm_version: v3.13.2 # https://github.com/helm/helm/releases
 kubernetes_client_version: 26.1.0 # https://github.com/kubernetes-client/python/releases
