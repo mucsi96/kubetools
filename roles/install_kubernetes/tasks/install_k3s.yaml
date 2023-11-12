@@ -2,12 +2,13 @@
   become: true
   ansible.builtin.get_url:
     url: https://get.k3s.io
-    dest: ~/k3s_install.sh
+    dest: ~/get-k3s-{{ k3s_version }}.sh
     mode: a+x
 - name: Execute k3s_install.sh
   become: true
-  ansible.builtin.shell: ./k3s_install.sh
+  ansible.builtin.shell: ./get-k3s-{{ k3s_version }}.sh
   args:
     chdir: "~"
   environment:
     INSTALL_K3S_VERSION: "{{ k3s_version }}"
+    INSTALL_K3S_EXEC: "--tls-san {{ ansible_host }}"

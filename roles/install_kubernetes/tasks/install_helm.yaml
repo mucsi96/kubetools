@@ -1,26 +1,26 @@
 - name: Download Helm
   ansible.builtin.get_url:
     url: https://get.helm.sh/helm-{{ helm_version }}-linux-{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}.tar.gz
-    dest: /tmp/helm.tar.gz
+    dest: /tmp/helm-{{ helm_version }}.tar.gz
     mode: u=rw,go=r
   delegate_to: localhost
 - name: create Helm dir
   file:
     state: directory
     mode: 'u=rwx,go=rx'
-    dest: /tmp/helm-dir
+    dest: /tmp/helm-{{ helm_version }}
   delegate_to: localhost
 - name: Extract Helm
   ansible.builtin.unarchive:
-    src: /tmp/helm.tar.gz
-    dest: /tmp/helm-dir
+    src: /tmp/helm-{{ helm_version }}.tar.gz
+    dest: /tmp/helm-{{ helm_version }}
     extra_opts:
       - '--strip-components=1'
-    creates: /tmp/helm-dir/helm
+    creates: /tmp/helm-{{ helm_version }}/helm
   delegate_to: localhost
 - name: create Helm link
   become: true
   ansible.builtin.copy:
-    src: /tmp/helm-dir/helm
+    src: /tmp/helm-{{ helm_version }}/helm
     dest: /usr/local/bin/helm
     mode: 'u=rwx,go=rx'

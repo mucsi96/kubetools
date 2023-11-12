@@ -7,14 +7,17 @@
   register: user_database
   delegate_to: localhost
 - name: Create k8s namespace
+  delegate_to: localhost
   kubernetes.core.k8s:
     state: present
     kind: namespace
     name: "{{ k8s_namespace }}"
+
 - name: Get checksums
   ansible.builtin.set_fact:
     secret_checksum: "{{ lookup('ansible.builtin.template', 'secret.yaml') | checksum }}"
 - name: Apply K8s resources
+  delegate_to: localhost
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('ansible.builtin.template', item) }}"
@@ -26,6 +29,7 @@
     - forward_auth_middleware.yaml
     - ingress_route.yaml
 - name: Get an existing Service object
+  delegate_to: localhost
   kubernetes.core.k8s_info:
     kind: Service
     name: traefik

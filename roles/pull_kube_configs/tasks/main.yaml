@@ -1,0 +1,5 @@
+- name: Pull admin config
+  ansible.builtin.import_tasks: pull_admin_config.yaml
+
+- name: Pull ansible config
+  ansible.builtin.import_tasks: pull_ansible_config.yaml

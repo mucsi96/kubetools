@@ -10,3 +10,4 @@ requests == 2.31.0
 setuptools == 68.2.2
 wheel == 0.41.3
 distlib == 0.3.7
+kubernetes == 28.1.0

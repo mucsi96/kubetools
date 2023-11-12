@@ -16,11 +16,12 @@
 - name: Install Helm
   ansible.builtin.import_tasks: install_helm.yaml
 
-- name: Create Kubernetes config
-  ansible.builtin.import_tasks: create_kube_config.yaml
+- name: Create Ansible token
+  ansible.builtin.import_tasks: create_token.yaml
 
-- name: Install Kubernetes client with APT
-  ansible.builtin.import_tasks: install_kube_client.yaml
+- name: Create kubernetes config
+  ansible.builtin.include_role:
+    name: pull_kube_configs
 
 - name: Wait for the Traefik CRD to be created
   become: true
@@ -33,7 +34,9 @@
   retries: 30
 
 - name: Configure Traefik
+  delegate_to: localhost
   kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_admin_config_path }}"
     state: present
     definition: "{{ lookup('ansible.builtin.template', 'traefik_config.yaml') }}"
     wait: true

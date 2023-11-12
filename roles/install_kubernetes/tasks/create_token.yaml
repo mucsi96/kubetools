@@ -1,0 +1,13 @@
+- name: Create service account
+  delegate_to: localhost
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_admin_config_path }}"
+    state: present
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+    wait_timeout: 300
+  with_items:
+    - service_account.yaml
+    - cluster_role.yaml
+    - cluster_role_binding.yaml
+    - secret.yaml

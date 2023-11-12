@@ -13,3 +13,8 @@ spring_admin_server_namespace: monitoring
 spring_admin_server_port: 9090
 db_backup_bucket: kubetools-backups
 db_backup_region: us-east-1
+
+k8s_admin_config_path: "~/.kube/admin-config"
+k8s_ansible_config_path: "~/.kube/ansible-config"
+k3s_version: v1.28.3+k3s2 # https://github.com/k3s-io/k3s/releases
+helm_version: v3.13.2 # https://github.com/helm/helm/releases

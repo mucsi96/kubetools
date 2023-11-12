@@ -1,0 +1,36 @@
+- name: Load k3s config
+  become: true
+  ansible.builtin.slurp:
+    src: /etc/rancher/k3s/k3s.yaml
+  register: k8s_config_raw
+
+- name: Parse k3s config
+  ansible.builtin.set_fact:
+    k8s_config: "{{ k8s_config_raw.content | b64decode | from_yaml }}"
+    k8s_server: https://{{ ansible_host }}:6443
+
+- name: Create admin config folder
+  delegate_to: localhost
+  ansible.builtin.file:
+    path: "{{ k8s_admin_config_path | dirname }}"
+    state: directory
+    mode: 0700
+
+- name: Create admin config
+  delegate_to: localhost
+  ansible.builtin.copy:
+    dest: "{{ k8s_admin_config_path }}"
+    content: "{{ lookup('ansible.builtin.template', 'admin_config.yml') }}"
+    mode: 0600
+  vars:
+    k8s_ca_cert: "{{ k8s_config.clusters.0.cluster['certificate-authority-data'] }}"
+    k8s_client_cert: "{{ k8s_config.users.0.user['client-certificate-data'] }}"
+    k8s_client_key: "{{ k8s_config.users.0.user['client-key-data'] }}"
+
+- name: Get node details
+  delegate_to: localhost
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_admin_config_path }}"
+    kind: Node
+  register: this
+  failed_when: "'linux' != this.resources[0].status.nodeInfo.operatingSystem"

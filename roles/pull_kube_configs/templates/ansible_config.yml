@@ -3,14 +3,13 @@ kind: Config
 clusters:
   - name: cluster
     cluster:
-      server: https://{{ host }}:6443
-      certificate-authority-data: {{ certificate_authority_data }}
+      server: {{ k8s_server }}
+      certificate-authority-data: {{ k8s_ca_cert }}
       insecure-skip-tls-verify: false
 users:
   - name: cluster
     user:
-      client-certificate-data: {{ client_certificate_data }}
-      client-key-data: {{ client_key_data }}
+      token: {{ k8s_client_token }}
 contexts:
   - name: cluster
     context:

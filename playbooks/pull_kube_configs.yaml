@@ -1,6 +1,6 @@
-- name: Install Kubenetes
+- name: Pull Kubenetes configs
   hosts: cluster
   vars_files:
     - ../vars/defaults.yaml
   roles:
-    - role: install_kubernetes
+    - role: pull_kube_configs
