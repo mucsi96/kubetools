@@ -1,5 +1,7 @@
 - name: Deploy loki-stack
+  delegate_to: localhost
   kubernetes.core.helm:
+    kubeconfig: "{{ k8s_admin_config_path }}"
     name: loki-stack
     chart_repo_url: https://grafana.github.io/helm-charts
     chart_ref: loki-stack

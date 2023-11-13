@@ -1,10 +1,12 @@
 - name: Create {{ k8s_namespace }} namespace
+  delegate_to: localhost
   kubernetes.core.k8s:
     state: present
     kind: namespace
     name: "{{ k8s_namespace }}"
 
 - name: Deploy Authorization middleware
+  delegate_to: localhost
   kubernetes.core.k8s:
     definition: "{{ lookup('ansible.builtin.template', 'authorization_middleware.yaml') }}"
     wait: true

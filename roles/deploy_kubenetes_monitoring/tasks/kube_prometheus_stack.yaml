@@ -1,5 +1,7 @@
 - name: Deploy Kube Prometheus Stack
+  delegate_to: localhost
   kubernetes.core.helm:
+    kubeconfig: "{{ k8s_admin_config_path }}"
     name: kube-prometheus-stack
     chart_repo_url: https://prometheus-community.github.io/helm-charts
     chart_ref: kube-prometheus-stack
@@ -31,6 +33,7 @@
             auto_sign_up: true
 
 - name: Deploy Prometheus resources
+  delegate_to: localhost
   kubernetes.core.k8s:
     definition: "{{ lookup('ansible.builtin.template', item) }}"
     wait: true
@@ -39,6 +42,7 @@
     - prometheus/route.yaml
 
 - name: Deploy Grafana resources
+  delegate_to: localhost
   kubernetes.core.k8s:
     definition: "{{ lookup('ansible.builtin.template', item) }}"
     wait: true

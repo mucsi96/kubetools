@@ -16,12 +16,16 @@
 - name: Install Helm
   ansible.builtin.import_tasks: install_helm.yaml
 
+- name: Pull kubernetes admin config
+  ansible.builtin.include_role:
+    name: pull_kube_admin_config
+
 - name: Create Ansible token
   ansible.builtin.import_tasks: create_token.yaml
 
-- name: Create kubernetes config
+- name: Pull kubernetes ansible config
   ansible.builtin.include_role:
-    name: pull_kube_configs
+    name: pull_kube_ansible_config
 
 - name: Wait for the Traefik CRD to be created
   become: true

@@ -1,4 +1,5 @@
 - name: Deploy Spring Boot Admin resources
+  delegate_to: localhost
   kubernetes.core.k8s:
     definition: "{{ lookup('ansible.builtin.template', item) }}"
     wait: true

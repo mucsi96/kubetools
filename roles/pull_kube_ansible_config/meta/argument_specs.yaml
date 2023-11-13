@@ -1,0 +1,7 @@
+---
+argument_specs:
+  main:
+    options:
+      k8s_ansible_config_path:
+        type: str
+        required: true

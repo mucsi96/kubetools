@@ -7,6 +7,7 @@ rules:
       - ""
     resources: 
       - namespaces
+      - configmaps
       - secrets
       - services
     verbs:
@@ -26,6 +27,14 @@ rules:
     resources: 
       - ingressroutes
       - middlewares
+    verbs:
+      - get
+      - create
+      - patch
+  - apiGroups:
+      - monitoring.coreos.com
+    resources: 
+      - podmonitors
     verbs:
       - get
       - create
