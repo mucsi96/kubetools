@@ -27,7 +27,7 @@ build_and_push_client_img(
     github_access_token=github_access_token
 )
 
-build_and_push_server_img(
+build_and_push_docker_img(
     src=root_directory / 'demo_app/server',
     tag_prefix='demo-app-server',
     image_name='mucsi96/kubetools-demo-app-server',
@@ -36,7 +36,7 @@ build_and_push_server_img(
     github_access_token=github_access_token
 )
 
-build_and_push_server_img(
+build_and_push_docker_img(
     src=root_directory / 'spring_boot_admin',
     tag_prefix='spring_boot_admin',
     image_name='mucsi96/kubetools-spring-boot-admin',
