@@ -10,5 +10,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider :vmware_fusion do |vmware|
     vmware.vmx["ethernet0.pcislotnumber"] = "160"
+    vmware.vmx["memsize"] = "8192"
+    vmware.vmx["numvcpus"] = "4"
   end
 end
