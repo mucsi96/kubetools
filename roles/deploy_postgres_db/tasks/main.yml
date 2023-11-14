@@ -1,4 +1,5 @@
 - name: Create k8s namespace
+  delegate_to: localhost
   kubernetes.core.k8s:
     state: present
     kind: namespace
@@ -8,6 +9,7 @@
     secret_checksum: "{{ lookup('ansible.builtin.template', 'secret.yaml') | checksum }}"
     original_k8s_name: "{{ k8s_name }}"
 - name: Add kubernetes resources
+  delegate_to: localhost
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('ansible.builtin.template', item) }}"

@@ -10,6 +10,7 @@ rules:
       - configmaps
       - secrets
       - services
+      - persistentvolumeclaims
     verbs:
       - get
       - create
@@ -35,6 +36,7 @@ rules:
       - monitoring.coreos.com
     resources: 
       - podmonitors
+      - servicemonitors
     verbs:
       - get
       - create
