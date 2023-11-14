@@ -181,8 +181,7 @@ def build_and_push_docker_img(
         '--password-stdin'], input=docker_password.encode(), check=True)
     run(['docker', 'buildx', 'create', '--use'])
     run(['docker', 'buildx', 'build', '--platform', 'linux/amd64,linux/arm64/v8', '--tag', f'{image_name}:latest', '--tag',
-        f'{image_name}:{version}', '.'], cwd=src, check=True)
-    run(['docker', 'push', image_name, '--all-tags'], check=True)
+        f'{image_name}:{version}', '--push', '.'], cwd=src, check=True)
 
     create_release(
         tag_prefix=tag_prefix,
