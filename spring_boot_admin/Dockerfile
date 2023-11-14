@@ -9,7 +9,7 @@ RUN mvn package -DskipTests -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli
 
 
 
-FROM bellsoft/liberica-runtime-container:jre-17-stream-musl
+FROM bellsoft/liberica-openjre-alpine-musl:17
 WORKDIR /workspace/app
 
 COPY --from=builder /workspace/app/target/*.jar app.jar
