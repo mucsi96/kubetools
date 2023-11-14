@@ -12,14 +12,13 @@ RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 
 FROM bellsoft/liberica-openjre-alpine-musl:17
-WORKDIR /workspace/app
 
 VOLUME /tmp
 
 ARG DEPENDENCY=/workspace/app/target/dependency
 
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib lib
-COPY --from=build ${DEPENDENCY}/META-INF META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes .
+COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
+COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 ENTRYPOINT ["java", "-classpath", "app:app/lib/*", "-Dspring.profiles.active=prod", "io.github.mucsi96.demo.Application"]

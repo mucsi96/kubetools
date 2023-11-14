@@ -18,11 +18,11 @@ spec:
         image: mucsi96/kubetools-spring-boot-admin:latest
         resources:
           requests:
-            memory: 200Mi
-            cpu: 200m
+            memory: 150Mi
+            cpu: 10m
           limits:
-            memory: 500Mi
-            cpu: 400m
+            memory: 300Mi
+            cpu: 20m
         ports:
         - name: http
           containerPort: 8099

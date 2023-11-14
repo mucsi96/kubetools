@@ -41,3 +41,11 @@ rules:
       - get
       - create
       - patch
+  - apiGroups:
+      - batch
+    resources: 
+      - cronjobs
+    verbs:
+      - get
+      - create
+      - patch

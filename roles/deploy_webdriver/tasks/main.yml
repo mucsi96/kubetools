@@ -1,9 +1,11 @@
 - name: Create k8s namespace
+  delegate_to: localhost
   kubernetes.core.k8s:
     state: present
     kind: namespace
     name: "{{ k8s_namespace }}"
 - name: Add kubernetes resources
+  delegate_to: localhost
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('ansible.builtin.template', item) }}"
