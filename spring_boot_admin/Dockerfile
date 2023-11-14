@@ -11,7 +11,6 @@ RUN ./mvnw package -DskipTests -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.
 
 
 
-
 FROM bellsoft/liberica-runtime-container:jre-17-stream-musl
 VOLUME /tmp
 WORKDIR /workspace/app
