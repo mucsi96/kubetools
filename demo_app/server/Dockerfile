@@ -12,7 +12,7 @@ RUN ./mvnw package -DskipTests -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.
 
 
 
-FROM bellsoft/alpaquita-linux-base:stream-musl-230404
+FROM bellsoft/liberica-runtime-container:jre-17-stream-musl
 VOLUME /tmp
 WORKDIR /workspace/app
 
