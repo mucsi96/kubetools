@@ -27,9 +27,12 @@ spec:
             - /etc/cloudflared/config.yaml
             - run
           resources:
-            limits:
-              memory: 50Mi
+            requests:
+              memory: 165Mi
               cpu: 20m
+            limits:
+              memory: 300Mi
+              cpu: 200m
           livenessProbe:
             httpGet:
             # Cloudflared has a /ready endpoint which returns 200 if and only if

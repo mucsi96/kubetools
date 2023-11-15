@@ -6,7 +6,7 @@ root_directory = Path(__file__).parent.parent
 
 sys.path.append(str(root_directory))
 
-from lib.docker_utils import build_and_push_client_img, build_and_push_server_img, build_and_push_docker_img
+from lib.docker_utils import build_and_push_docker_img
 from lib.ansible_utils import load_vars
 
 data = load_vars(root_directory / '.ansible/vault_key', root_directory / 'vars/vault.yaml')
@@ -18,7 +18,7 @@ if not github_access_token:
     print('GitHub access token is missing', flush=True, file=sys.stderr)
     exit(1)
 
-build_and_push_client_img(
+build_and_push_docker_img(
     src=root_directory / 'demo_app/client',
     tag_prefix='demo-app-client',
     image_name='mucsi96/kubetools-demo-app-client',

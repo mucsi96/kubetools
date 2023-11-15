@@ -15,13 +15,13 @@ spec:
       containers:
         - name: {{ k8s_name }}
           image: seleniarm/standalone-chromium:117.0-chromedriver-117.0-grid-4.10.0-20230926
-          # resources:
-          #   requests:
-          #     memory: 1Gi
-          #     cpu: 4m
-          #   limits:
-          #     memory: 2Gi
-          #     cpu: 8m
+          resources:
+            requests:
+              memory: 300Mi
+              cpu: 20m
+            limits:
+              memory: 1Gi
+              cpu: 500m
           ports:
             - name: http
               containerPort: 4444

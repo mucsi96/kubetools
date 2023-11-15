@@ -19,11 +19,11 @@ spec:
         image: {{ image }}{{ ':' + app_version if ((app_version is defined) and (app_version != None)) else '' }} 
         resources:
           requests:
-            memory: 200Mi
-            cpu: 100m
+            memory: 165Mi
+            cpu: 20m
           limits:
-            memory: 400Gi
-            cpu: 200m
+            memory: 500Mi
+            cpu: 500m
         ports:
         - name: http
           containerPort: 8080

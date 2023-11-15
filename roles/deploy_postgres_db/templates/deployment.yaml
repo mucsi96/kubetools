@@ -19,11 +19,11 @@ spec:
         image: postgres:15
         resources:
           requests:
-            memory: 50Mi
-            cpu: 10m
-          limits:
-            memory: 100Gi
+            memory: 165Mi
             cpu: 20m
+          limits:
+            memory: 300Mi
+            cpu: 500m
         ports:
         - name: http
           containerPort: 5432

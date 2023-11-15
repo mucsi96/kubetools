@@ -5,10 +5,17 @@
     name: kubernetes-dashboard
     chart_repo_url: https://kubernetes.github.io/dashboard
     chart_ref: kubernetes-dashboard
-    chart_version: 6.0.0
+    chart_version: 6.0.8
     wait: true
     release_namespace: "{{ k8s_namespace }}"
     release_values:
+      nginx:
+        enabled: false
+      cert-manager:
+        enabled: false
+      app:
+        ingress:
+          enabled: false
       metricsScraper:
         enabled: true
       protocolHttp: true
