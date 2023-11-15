@@ -6,7 +6,7 @@ COPY . ./
 RUN yarn build
 
 FROM nginx:1.25-alpine
-COPY nginx.conf /etc/nginx/templates/default.conf.template
+COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build-deps /usr/src/app/dist /usr/share/nginx/html
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
