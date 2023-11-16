@@ -5,3 +5,7 @@ traefik_dashboard: "{{ lookup('ansible.builtin.file', 'traefik-2_rev1.json') | f
 nginx_dashboard: "{{ lookup('ansible.builtin.file', 'nginx_rev1.json') | from_json }}"
 postgres_dashboard: "{{ lookup('ansible.builtin.file', 'postgresql-database_rev7.json') | from_json }}"
 logs_dashboard: "{{ lookup('ansible.builtin.file', 'logs.json') | from_json }}"
+
+kube_prometheus_stack_chart_version: 54.0.1 #https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack
+kubernetes_dashboard_chart_version: 6.0.8 #https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard
+loki_stack_chart_version: 2.9.11 #https://artifacthub.io/packages/helm/grafana/loki-stack
