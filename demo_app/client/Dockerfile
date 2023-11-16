@@ -5,8 +5,8 @@ RUN yarn
 COPY . ./
 RUN yarn build
 
-FROM nginx:1.25-alpine
-COPY nginx.conf /etc/nginx/nginx.conf
+FROM nginx:1.21-alpine
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=build-deps /usr/src/app/dist /usr/share/nginx/html
-
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
