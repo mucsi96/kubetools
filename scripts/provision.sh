@@ -15,6 +15,7 @@ export KUBECONFIG=~/.kube/ansible-config
 
 
 ansible-playbook \
+    playbooks/ssh_hardening.yaml \
     playbooks/deploy_cloudflare_tunnel.yaml \
     playbooks/deploy_kubernetes_monitoring.yaml \
     playbooks/deploy_kubernetes_demo.yaml

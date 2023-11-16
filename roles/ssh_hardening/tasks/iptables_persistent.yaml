@@ -21,6 +21,14 @@
   ansible.builtin.include_tasks: iptables_rules.yaml
   vars:
     ip_version: ipv6
+- name: Setup iptables v4 Cloudflare rules
+  ansible.builtin.include_tasks: iptables_cloudflare_rules.yaml
+  vars:
+    ip_version: ipv4
+- name: Setup iptables v6 Cloudflare rules
+  ansible.builtin.include_tasks: iptables_cloudflare_rules.yaml
+  vars:
+    ip_version: ipv6
 - name: Save iptables v4
   become: true
   ansible.builtin.shell:

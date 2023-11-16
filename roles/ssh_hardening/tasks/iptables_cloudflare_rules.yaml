@@ -1,0 +1,64 @@
+# https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deploy-tunnels/tunnel-with-firewall/
+- name: Allow TCP connection to region1.v2.argotunnel.com
+  become: true
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    comment: Allow TCP connection to region1.v2.argotunnel.com
+    protocol: tcp
+    destination: region1.v2.argotunnel.com
+    destination_port: 7844
+    jump: ACCEPT
+    ip_version: "{{ ip_version }}"
+- name: Allow UDP connection to region1.v2.argotunnel.com
+  become: true
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    comment: Allow UDP connection to region1.v2.argotunnel.com
+    protocol: udp
+    destination: region1.v2.argotunnel.com
+    destination_port: 7844
+    jump: ACCEPT
+    ip_version: "{{ ip_version }}"
+
+- name: Allow TCP connection to region2.v2.argotunnel.com
+  become: true
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    comment: Allow TCP connection to region2.v2.argotunnel.com
+    protocol: tcp
+    destination: region2.v2.argotunnel.com
+    destination_port: 7844
+    jump: ACCEPT
+    ip_version: "{{ ip_version }}"
+- name: Allow UDP connection to region2.v2.argotunnel.com
+  become: true
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    comment: Allow UDP connection to region2.v2.argotunnel.com
+    protocol: udp
+    destination: region2.v2.argotunnel.com
+    destination_port: 7844
+    jump: ACCEPT
+    ip_version: "{{ ip_version }}"
+
+- name: Allow TCP connection to api.cloudflare.com
+  become: true
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    comment: Allow TCP connection to api.cloudflare.com
+    protocol: tcp
+    destination: api.cloudflare.com
+    destination_port: 443
+    jump: ACCEPT
+    ip_version: "{{ ip_version }}"
+
+- name: Allow TCP connection to update.argotunnel.com
+  become: true
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    comment: Allow TCP connection to update.argotunnel.com
+    protocol: tcp
+    destination: update.argotunnel.com
+    destination_port: 443
+    jump: ACCEPT
+    ip_version: "{{ ip_version }}"

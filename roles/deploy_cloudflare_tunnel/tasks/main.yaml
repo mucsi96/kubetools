@@ -1,3 +1,6 @@
+- name: Increase UDP buffer size
+  ansible.builtin.import_tasks: increase_udp_buffer_size.yaml
+
 - name: Install cloudflared DNF
   ansible.builtin.import_tasks: install_cloudflared_dnf.yaml
   when: ansible_os_family == 'RedHat'

@@ -1,0 +1,31 @@
+- name: Increase the default receive buffer size to 4194Kb for UDP
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.core.rmem_default'
+    value: '4194304'
+    sysctl_set: true
+    state: present
+
+- name: Increase the default send buffer size to 4194Kb for UDP
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.core.wmem_default'
+    value: '4194304'
+    sysctl_set: true
+    state: present
+
+- name: Increase the maximum receive buffer size to 4194Kb for UDP
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.core.rmem_max'
+    value: '4194304'
+    sysctl_set: true
+    state: present
+
+- name: Increase the maximum send buffer size to 4194Kb for UDP
+  become: true
+  ansible.posix.sysctl:
+    name: 'net.core.wmem_max'
+    value: '4194304'
+    sysctl_set: true
+    state: present
