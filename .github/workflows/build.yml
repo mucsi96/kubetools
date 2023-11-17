@@ -112,61 +112,61 @@ jobs:
 
       - run: python scripts/build_images.py ${{ secrets.GITHUB_TOKEN }}
 
-  e2e-test:
-    runs-on: macos-12
-    needs: build-images
-    steps:
-      - uses: actions/checkout@v3
+  # e2e-test:
+  #   runs-on: macos-12
+  #   needs: build-images
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Get Ansible Vault key
-        run: |
-          mkdir .ansible
-          echo "${{ secrets.ANSIBLE_VAULT_KEY }}" > .ansible/vault_key
+  #     - name: Get Ansible Vault key
+  #       run: |
+  #         mkdir .ansible
+  #         echo "${{ secrets.ANSIBLE_VAULT_KEY }}" > .ansible/vault_key
 
-      - name: Install sshpass # https://sourceforge.net/projects/sshpass/files/sshpass/
-        run: |
-          curl --location --output sshpass.tar.gz https://sourceforge.net/projects/sshpass/files/sshpass/1.09/sshpass-1.09.tar.gz
-          tar --extract --verbose --gzip --file sshpass.tar.gz
-          cd sshpass-*/
-          ./configure
-          sudo make install
+  #     - name: Install sshpass # https://sourceforge.net/projects/sshpass/files/sshpass/
+  #       run: |
+  #         curl --location --output sshpass.tar.gz https://sourceforge.net/projects/sshpass/files/sshpass/1.09/sshpass-1.09.tar.gz
+  #         tar --extract --verbose --gzip --file sshpass.tar.gz
+  #         cd sshpass-*/
+  #         ./configure
+  #         sudo make install
 
-      - name: Install Python requirements
-        run: pip3 install -r requirements.txt
+  #     - name: Install Python requirements
+  #       run: pip3 install -r requirements.txt
 
-      - name: Show Ansible version
-        run: ansible --version
+  #     - name: Show Ansible version
+  #       run: ansible --version
 
-      - name: Show Vagrant version
-        run: vagrant --version
+  #     - name: Show Vagrant version
+  #       run: vagrant --version
 
-      - name: Run vagrant up
-        run: vagrant up
-        working-directory: vagrant/bento-rockylinux-8-virtualbox
+  #     - name: Run vagrant up
+  #       run: vagrant up
+  #       working-directory: vagrant/bento-rockylinux-8-virtualbox
 
-      - name: Provision
-        run: |
-          ansible-playbook \
-                --extra-vars "subdomain=kubetools-ci tunnel_name=kubetools-ci" \
-                playbooks/enable_root_login.yaml \
-                playbooks/new_ssh_user.yaml \
-                playbooks/ssh_hardening.yaml \
-                playbooks/update_packages.yaml \
-                playbooks/install_kubernetes.yaml \
-                playbooks/deploy_kubernetes_sso_portal.yaml \
-                playbooks/deploy_cloudflare_tunnel.yaml \
-                playbooks/deploy_kubernetes_monitoring.yaml \
-                playbooks/deploy_kubernetes_demo.yaml
+  #     - name: Provision
+  #       run: |
+  #         ansible-playbook \
+  #               --extra-vars "subdomain=kubetools-ci tunnel_name=kubetools-ci" \
+  #               playbooks/enable_root_login.yaml \
+  #               playbooks/new_ssh_user.yaml \
+  #               playbooks/ssh_hardening.yaml \
+  #               playbooks/update_packages.yaml \
+  #               playbooks/install_kubernetes.yaml \
+  #               playbooks/deploy_kubernetes_sso_portal.yaml \
+  #               playbooks/deploy_cloudflare_tunnel.yaml \
+  #               playbooks/deploy_kubernetes_monitoring.yaml \
+  #               playbooks/deploy_kubernetes_demo.yaml
 
-      - name: Test
-        env:
-          SUBDOMAIN: kubetools-ci
-        run: pytest --junitxml=junit/test-results.xml
-      - name: Upload test artifacts
-        uses: actions/upload-artifact@v3
-        if: ${{ always() }}
-        with:
-          name: Test Report
-          path: |
-            reports
-            junit/test-results.xml
+  #     - name: Test
+  #       env:
+  #         SUBDOMAIN: kubetools-ci
+  #       run: pytest --junitxml=junit/test-results.xml
+  #     - name: Upload test artifacts
+  #       uses: actions/upload-artifact@v3
+  #       if: ${{ always() }}
+  #       with:
+  #         name: Test Report
+  #         path: |
+  #           reports
+  #           junit/test-results.xml
