@@ -44,3 +44,6 @@
     state: present
     definition: "{{ lookup('ansible.builtin.template', 'traefik_config.yaml') }}"
     wait: true
+
+- name: Install Longhorn
+  ansible.builtin.import_tasks: install_longhorn.yaml

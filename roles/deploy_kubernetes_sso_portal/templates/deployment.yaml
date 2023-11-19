@@ -20,7 +20,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: {{ k8s_name }}
-          image: authelia/authelia:4.30.4
+          image: "authelia/authelia:{{ authelia_version }}"
           volumeMounts:
             - name: config
               mountPath: /config

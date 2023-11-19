@@ -17,8 +17,8 @@ spec:
           image: seleniarm/standalone-chromium:117.0-chromedriver-117.0-grid-4.10.0-20230926
           resources:
             requests:
-              memory: 300Mi
-              cpu: 20m
+              memory: 800Mi
+              cpu: 40m
             limits:
               memory: 1Gi
               cpu: 500m

@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: longhorn-route
+  namespace: longhorn-system
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: HostRegexp(`longhorn.{host:[a-z0-9-.]+}`)
+      middlewares:
+        - name: {{ auth_middelware_name }}
+          namespace: {{ auth_middelware_namespace }}
+      services:
+        - kind: Service
+          name: longhorn-frontend
+          namespace: longhorn-system
+          port: http

@@ -18,7 +18,7 @@ spec:
         image: mucsi96/kubetools-spring-boot-admin:latest
         resources:
           requests:
-            memory: 165Mi
+            memory: 200Mi
             cpu: 20m
           limits:
             memory: 500Mi

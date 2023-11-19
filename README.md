@@ -14,3 +14,24 @@ kubectl get namespace "training-log-pro" -o json \
 ```bash
 kubectl run curl -it --rm --image=curlimages/curl -- sh
 ```
+
+### List containers on K3S
+
+```bash
+sudo k3s crictl ps
+```
+
+### List images on K3S
+
+```bash
+sudo k3s crictl images
+```
+
+### Remove db data
+
+First Remove DB deployment
+
+```bash
+sudo rm -rf /var/lib/rancher/k3s/storage
+sudo k3s crictl rmi postgres:15
+```

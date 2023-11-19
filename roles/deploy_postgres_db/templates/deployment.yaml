@@ -19,7 +19,7 @@ spec:
         image: postgres:15
         resources:
           requests:
-            memory: 165Mi
+            memory: 200Mi
             cpu: 20m
           limits:
             memory: 300Mi
@@ -42,7 +42,7 @@ spec:
                 key: password
         volumeMounts:
           - name: ssv
-            mountPath: /var/lib/postgresql/data
+            mountPath: /var/lib/postgresql
           - name: initdb
             mountPath: /docker-entrypoint-initdb.d
       - name: {{ k8s_name }}-prometheus-exporter
