@@ -1,0 +1,7 @@
+- name: Deploy Longhorn resources
+  delegate_to: localhost
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
+    wait: true
+  with_items:
+    - longhorn/route.yaml

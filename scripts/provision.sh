@@ -15,7 +15,7 @@ export KUBECONFIG=~/.kube/ansible-config
 
 
 ansible-playbook \
-    playbooks/deploy_kubernetes_demo.yaml
+    playbooks/deploy_kubernetes_monitoring.yaml
 
 # ansible-playbook \
 #     playbooks/pull_kube_configs.yaml

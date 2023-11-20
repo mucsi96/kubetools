@@ -40,3 +40,6 @@
 
 - name: Deploy Spring Boot Admin
   ansible.builtin.import_tasks: spring_boot_admin.yaml
+
+- name: Deploy Longhorn UI
+  ansible.builtin.import_tasks: longhorn.yaml

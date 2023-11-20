@@ -2,7 +2,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: longhorn-route
-  namespace: longhorn-system
+  namespace: {{ k8s_namespace }}
 spec:
   entryPoints:
     - web
@@ -12,6 +12,8 @@ spec:
       middlewares:
         - name: {{ auth_middelware_name }}
           namespace: {{ auth_middelware_namespace }}
+        - name: {{ k8s_name }}-authorization
+          namespace: {{ k8s_namespace }}
       services:
         - kind: Service
           name: longhorn-frontend
