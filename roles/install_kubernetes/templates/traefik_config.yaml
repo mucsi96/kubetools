@@ -22,5 +22,6 @@ spec:
     additionalArguments: 
       - --accesslog
       - --entryPoints.web.forwardedHeaders.insecure
+      - --entryPoints.web.http.middlewares=default-rate-limiter
       - --experimental.plugins.pathauth.moduleName=github.com/nilskohrs/pathauth
       - --experimental.plugins.pathauth.version=v0.1.5

@@ -42,8 +42,11 @@
   kubernetes.core.k8s:
     kubeconfig: "{{ k8s_admin_config_path }}"
     state: present
-    definition: "{{ lookup('ansible.builtin.template', 'traefik_config.yaml') }}"
+    definition: "{{ lookup('ansible.builtin.template', item) }}"
     wait: true
+  with_items: 
+    - rate_limiter_middleware.yaml
+    - traefik_config.yaml
 
 - name: Install Longhorn
   ansible.builtin.import_tasks: install_longhorn.yaml
