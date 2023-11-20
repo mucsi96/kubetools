@@ -5,19 +5,19 @@ from argon2 import PasswordHasher
 
 def main():
     fields = {
-        'sso_users': {'type': 'list', 'required': True},
+        'authorized_users': {'type': 'list', 'required': True},
     }
 
     module = AnsibleModule(argument_spec=fields)
-    sso_users = module.params['sso_users']
+    authorized_users = module.params['authorized_users']
     ph = PasswordHasher()
-    usernames = list(map(lambda user: user['username'], sso_users))
+    usernames = list(map(lambda user: user['username'], authorized_users))
     users = list(map(lambda user: {
                  'displayname': user['display_name'],
                  'password': ph.hash(user['password']),
                  'email': user['email'],
                  'groups': user['roles']
-                 }, sso_users))
+                 }, authorized_users))
     
     result = dict(zip(usernames, users))
 

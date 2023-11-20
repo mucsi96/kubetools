@@ -8,7 +8,7 @@ argument_specs:
       auth_middelware_name:
         type: str
         required: true
-      sso_users:
+      authorized_users:
         type: list
         required: true
         elements: dict
@@ -29,3 +29,15 @@ argument_specs:
           email:
             type: str
             required: true
+      open_id_connect_clients:
+        type: list
+        required: true
+        elements: dict
+        options:
+          id:
+            type: str
+            required: true
+          redirect_uris:
+            type: list
+            required: true
+            elements: str

@@ -13,6 +13,10 @@ spring_admin_server_namespace: monitoring
 spring_admin_server_port: 9090
 db_backup_bucket: kubetools-backups
 db_backup_region: us-east-1
+open_id_connect_clients:
+  - id: demo-app
+    redirect_uris:
+      - "https://demo.{{ hostname }}"
 
 k8s_admin_config_path: "~/.kube/admin-config"
 k8s_ansible_config_path: "~/.kube/ansible-config"

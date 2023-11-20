@@ -1,8 +1,0 @@
-- name: Deploy Kubernetes monitoring stack
-  hosts: cluster
-  gather_facts: false
-  vars_files:
-    - ../vars/vault.yaml
-    - ../vars/defaults.yaml
-  roles:
-    - role: deploy_kubernetes_sso_portal

@@ -3,7 +3,7 @@
     name: setup_time_sync
 - name: Get user database
   get_user_database:
-    sso_users: "{{ sso_users }}"
+    authorized_users: "{{ authorized_users }}"
   register: user_database
   delegate_to: localhost
 - name: Create k8s namespace
@@ -13,9 +13,27 @@
     kind: namespace
     name: "{{ k8s_namespace }}"
 
+- name: Generate OpenID Connect issuer private key (4096 bits, rsa)
+  delegate_to: localhost
+  community.crypto.openssh_keypair:
+    path: /tmp/open_id_connect_issuer_private_key
+    private_key_format: pkcs1
+    backend: cryptography
+
+- name: Read private key
+  delegate_to: localhost
+  ansible.builtin.slurp:
+    src: /tmp/open_id_connect_issuer_private_key
+  register: open_id_connect_issuer_private_key_output
+
+- name: Set private key variable
+  ansible.builtin.set_fact:
+    open_id_connect_issuer_private_key: "{{ open_id_connect_issuer_private_key_output.content | b64decode }}"
+
 - name: Get checksums
   ansible.builtin.set_fact:
     secret_checksum: "{{ lookup('ansible.builtin.template', 'secret.yaml') | checksum }}"
+
 - name: Apply K8s resources
   delegate_to: localhost
   kubernetes.core.k8s:

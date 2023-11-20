@@ -1,0 +1,7 @@
+- name: Deploy Authentication provider
+  hosts: cluster
+  vars_files:
+    - ../vars/vault.yaml
+    - ../vars/defaults.yaml
+  roles:
+    - role: deploy_authentication_provider
