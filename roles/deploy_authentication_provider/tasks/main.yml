@@ -26,6 +26,12 @@
     src: /tmp/open_id_connect_issuer_private_key
   register: open_id_connect_issuer_private_key_output
 
+- name: Remove private key file
+  delegate_to: localhost
+  ansible.builtin.file:
+    path: /tmp/open_id_connect_issuer_private_key
+    state: absent
+
 - name: Set private key variable
   ansible.builtin.set_fact:
     open_id_connect_issuer_private_key: "{{ open_id_connect_issuer_private_key_output.content | b64decode }}"

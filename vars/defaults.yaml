@@ -16,7 +16,8 @@ db_backup_region: us-east-1
 open_id_connect_clients:
   - id: demo-app
     redirect_uris:
-      - "https://demo.{{ hostname }}"
+      - http://localhost:4200/post-authorization
+      - "https://demo.{{ hostname }}/post-authorization"
 
 k8s_admin_config_path: "~/.kube/admin-config"
 k8s_ansible_config_path: "~/.kube/ansible-config"

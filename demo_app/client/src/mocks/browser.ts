@@ -7,6 +7,6 @@ export const mocks = [
 ];
 
 const worker = setupWorker(...mocks);
-worker.start();
+worker.start({ onUnhandledRequest: 'bypass'});
 
 export { worker, rest };

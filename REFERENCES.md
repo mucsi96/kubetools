@@ -1,0 +1,5 @@
+- [OpenID Connect Basic Client Implementer's Guide](https://openid.net/specs/openid-connect-basic-1_0.html)
+- [Authelia OpenID Connect Configuration](https://www.authelia.com/configuration/identity-providers/open-id-connect)
+- [Authelia OpenID Connect Integration](https://www.authelia.com/integration/openid-connect/introduction)
+- [oauth4webapi](https://github.com/panva/oauth4webapi/blob/main/docs/README.md)
+- [Best Practices - OAuth for Single Page Applications](https://curity.io/resources/learn/spa-best-practices)
