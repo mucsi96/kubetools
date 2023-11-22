@@ -12,8 +12,4 @@ export class PostAuthorizationComponent implements OnInit {
   ngOnInit(): void {
     this.authService.handlePostAuthorize();
   }
-
-  authozire() {
-    this.authService.authorize();
-  }
 }
