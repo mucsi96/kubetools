@@ -1,6 +1,6 @@
 import { LocationStrategy } from '@angular/common';
-import { Injectable, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Injectable, OnInit, inject } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import {
   AuthorizationServer,
   Client,
@@ -19,7 +19,8 @@ import {
   processDiscoveryResponse,
   validateAuthResponse,
 } from 'oauth4webapi';
-import { postAuthorization } from './app.routes';
+
+const postAuthorizationPath = 'post-authorization';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,7 @@ export class AuthService {
   };
   redirectUri =
     location.origin +
-    this.locationStrategy.prepareExternalUrl('/' + postAuthorization);
+    this.locationStrategy.prepareExternalUrl(postAuthorizationPath);
   authorizationServer?: AuthorizationServer;
   tokenResponse?: OpenIDTokenEndpointResponse;
 
@@ -173,4 +174,21 @@ export async function hasRole(role: string) {
   await authService.authorize({ silent: true });
 
   return authService.getRoles().includes(role);
+}
+
+@Component({
+  selector: 'post-authorization',
+  template: '',
+})
+class PostAuthorizationComponent implements OnInit {
+  constructor(private readonly authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.handlePostAuthorize();
+  }
+}
+
+export const postAuthorizationRoute: Route = {
+  path: postAuthorizationPath,
+  component: PostAuthorizationComponent
 }

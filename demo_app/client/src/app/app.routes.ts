@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
+import {
+  hasRole,
+  postAuthorizationRoute
+} from './auth.service';
 import { MessageComponent } from './message/message.component';
-import { PostAuthorizationComponent } from './postAuthorization.component';
-import { hasRole } from './auth.service';
-
-export const postAuthorization = 'post-authorization';
 
 export const routes: Routes = [
   {
@@ -11,8 +11,5 @@ export const routes: Routes = [
     canActivate: [() => hasRole('user')],
     component: MessageComponent,
   },
-  {
-    path: postAuthorization,
-    component: PostAuthorizationComponent,
-  },
+  postAuthorizationRoute
 ];
