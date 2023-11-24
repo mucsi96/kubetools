@@ -6,12 +6,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
     "@types/node": "^20.9.4",
-    "ts-node": "^10.9.1",
     "typescript": "^5.3.2"
   },
   "dependencies": {
