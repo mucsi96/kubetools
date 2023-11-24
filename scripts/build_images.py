@@ -44,3 +44,12 @@ build_and_push_docker_img(
     docker_password=docker_password,
     github_access_token=github_access_token
 )
+
+build_and_push_docker_img(
+    src=root_directory / 'token_handler',
+    tag_prefix='token_handler',
+    image_name='mucsi96/kubetools-token-handler',
+    docker_username=docker_username,
+    docker_password=docker_password,
+    github_access_token=github_access_token
+)
