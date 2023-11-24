@@ -1,0 +1,61 @@
+import * as tokenService from "./tokenService.js";
+
+import { IncomingMessage, ServerResponse } from "http";
+import {
+  generateCookieString,
+  getBody,
+  parseCookieString,
+  returnError,
+} from "./utils.js";
+
+export async function getToken(req: IncomingMessage, res: ServerResponse) {
+  const { callbackUrl, redirectUri } = await getBody<{
+    callbackUrl?: string;
+    redirectUri?: string;
+  }>(req);
+  const { codeVerifier, nonce, state } = parseCookieString<{
+    codeVerifier: string;
+    state: string;
+    nonce: string;
+  }>(req.headers.cookie);
+
+  if (!callbackUrl) {
+    return returnError(res, 400, "Missing callbackUrl");
+  }
+
+  if (!redirectUri) {
+    return returnError(res, 400, "Missing redirectUri");
+  }
+
+  const { accessToken, expiresIn, refreshToken, roles, userName } =
+    await tokenService.getToken({
+      codeVerifier,
+      state,
+      nonce,
+      callbackUrl,
+      redirectUri,
+    });
+
+  if (!expiresIn) {
+    return returnError(res, 500, "Access token already expired");
+  }
+
+  if (!refreshToken) {
+    return returnError(res, 500, "Refresh token is not returned");
+  }
+
+  res.writeHead(200, {
+    "Content-Type": "application/json",
+    "Set-Cookie": generateCookieString([
+      { name: "accessToken", value: accessToken, maxAge: expiresIn },
+      {
+        name: "refreshToken",
+        value: refreshToken,
+        maxAge: 30 * 24 * 60 * 60,
+      },
+    ]),
+  });
+  res.write(JSON.stringify({ expiresIn, userName, roles }));
+  res.end();
+  return;
+}

@@ -1,4 +1,5 @@
 - [OpenID Connect Basic Client Implementer's Guide](https://openid.net/specs/openid-connect-basic-1_0.html)
+- [Certified OpenID Developer Tools](https://openid.net/certified-open-id-developer-tools/)
 - [Authelia OpenID Connect Configuration](https://www.authelia.com/configuration/identity-providers/open-id-connect)
 - [Authelia OpenID Connect Integration](https://www.authelia.com/integration/openid-connect/introduction)
 - [oauth4webapi](https://github.com/panva/oauth4webapi/blob/main/docs/README.md)
