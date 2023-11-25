@@ -1,9 +1,10 @@
 import http, { IncomingMessage, ServerResponse } from "http";
 import { authorize } from "./authorizeController.js";
-import { returnError } from "./utils.js";
+import { getEnv, returnError } from "./utils.js";
 import { getToken } from "./tokenController.js";
 
 const PORT = process.env.PORT || 8080;
+const BASE_PATH = getEnv("BASE_PATH");
 
 const server = http.createServer(
   async (req: IncomingMessage, res: ServerResponse) => {
@@ -14,11 +15,11 @@ const server = http.createServer(
         return;
       }
 
-      if (req.url === "/authorize" && req.method === "POST") {
+      if (req.url === BASE_PATH + "/authorize" && req.method === "POST") {
         return await authorize(req, res);
       }
 
-      if (req.url === "/get-token" && req.method === "POST") {
+      if (req.url === BASE_PATH + "/get-token" && req.method === "POST") {
         return await getToken(req, res);
       }
 
