@@ -15,6 +15,8 @@ const server = http.createServer(
         return;
       }
 
+      console.log(req.method, req.url);
+
       if (req.url === BASE_PATH + "/authorize" && req.method === "POST") {
         return await authorize(req, res);
       }
@@ -31,7 +33,7 @@ const server = http.createServer(
 );
 
 server.listen(PORT, () => {
-  console.log(`server started on port: ${PORT}`);
+  console.log(`server started on port: ${PORT}. Basepath: ${BASE_PATH}`);
 });
 
 // Graceful shutdown on SIGTERM signal
