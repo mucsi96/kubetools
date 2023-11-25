@@ -19,7 +19,12 @@ export class AuthService {
 
   async authorize() {
     console.log(
-      await (await fetch('/auth/authorize', { method: 'POST' })).json()
+      await (
+        await fetch('/auth/authorize', {
+          method: 'POST',
+          body: JSON.stringify({ redirectUri: this.redirectUri }),
+        })
+      ).json()
     );
 
     // location.href = authorizationUrl.toString();
@@ -27,7 +32,15 @@ export class AuthService {
 
   async handlePostAuthorize() {
     console.log(
-      await (await fetch('/auth/get-token', { method: 'POST' })).json()
+      await (
+        await fetch('/auth/get-token', {
+          method: 'POST',
+          body: JSON.stringify({
+            callbackUrl: location.href.toString(),
+            redirectUri: this.redirectUri,
+          }),
+        })
+      ).json()
     );
 
     this.router.navigate(['']);
