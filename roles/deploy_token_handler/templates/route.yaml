@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ k8s_name }}-route
+  namespace: {{ k8s_namespace }}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: HostRegexp(`{{ host_prefix }}.{host:[a-z0-9-.]+}`) && PathPrefix(`{{ base_path }}`)
+      services:
+        - kind: Service
+          name: {{ k8s_name }}
+          namespace: {{ k8s_namespace }}
+          port: http

@@ -12,6 +12,14 @@
         k8s_name: "{{ db_host }}"
         host_prefix: demo
         db_backup_exclude_tables: []
+    - name: Deploy token handler
+      ansible.builtin.include_role:
+        name: deploy_token_handler
+      vars:
+        host_prefix: demo
+        client_id: open_id_connect_clients[0].id
+        client_secret: open_id_connect_clients[0].secret
+        identity_provider_base_path: https://auth.{{ hostname }}
     - name: Deploy webdriver
       ansible.builtin.include_role:
         name: deploy_webdriver

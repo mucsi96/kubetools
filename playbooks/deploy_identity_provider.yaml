@@ -1,7 +1,7 @@
-- name: Deploy Authentication provider
+- name: Deploy identity provider
   hosts: cluster
   vars_files:
     - ../vars/vault.yaml
     - ../vars/defaults.yaml
   roles:
-    - role: deploy_authentication_provider
+    - role: deploy_identity_provider

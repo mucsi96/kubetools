@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ k8s_name }}
+  namespace: {{ k8s_namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ k8s_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ k8s_name }}
+      annotations:
+        checksum/secret: {{ secret_checksum }}
+    spec:
+      containers:
+      - name: {{ k8s_name }}
+        image: mucsi96/kubetools-token-handler:latest
+        resources:
+          requests:
+            memory: 300Mi
+            cpu: 20m
+          limits:
+            memory: 500Mi
+            cpu: 500m
+        ports:
+        - name: http
+          containerPort: 8080
+        envFrom:
+          - secretRef:
+              name: {{ k8s_name }}
+        env:
+          - name: BASE_PATH
+            value: "{{ base_path }}"
+          - name: IDENTITY_PROVIDER_BASE_PATH
+            value: "{{ identity_provider_base_path }}"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 15
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          failureThreshold: 20
+          periodSeconds: 5
+        lifecycle:
+          preStop:
+            exec:
+              command: ["sh", "-c", "sleep 10"]

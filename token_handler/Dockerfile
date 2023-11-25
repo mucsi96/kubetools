@@ -9,4 +9,4 @@ FROM node:18-alpine
 COPY --from=build-deps /usr/src/app/dist ./
 COPY --from=build-deps /usr/src/app/node_modules ./node_modules
 EXPOSE 8080
-CMD ["node", "dist/index.js"]
+CMD ["node", "index.js"]

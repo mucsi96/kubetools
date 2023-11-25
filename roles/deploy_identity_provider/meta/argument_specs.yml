@@ -37,6 +37,9 @@ argument_specs:
           id:
             type: str
             required: true
+          secret:
+            type: str
+            required: true
           redirect_uris:
             type: list
             required: true

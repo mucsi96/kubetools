@@ -1,0 +1,3 @@
+k8s_name: token-handler
+app_port: 8080
+base_path: /auth

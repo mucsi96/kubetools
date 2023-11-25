@@ -15,6 +15,7 @@ db_backup_bucket: kubetools-backups
 db_backup_region: us-east-1
 open_id_connect_clients:
   - id: demo-app
+    secret: "{{ lookup('ansible.builtin.password', '/dev/null chars=ascii_letters,digits length=72', seed='{{ inventory_hostname }}-open-id-connect-demo-app-client-secret') }}"
     redirect_uris:
       - http://localhost:4200/post-authorization
       - "https://demo.{{ hostname }}/post-authorization"
