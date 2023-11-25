@@ -15,7 +15,6 @@ export KUBECONFIG=~/.kube/ansible-config
 
 
 ansible-playbook \
-    playbooks/deploy_identity_provider.yaml \
     playbooks/deploy_kubernetes_demo.yaml
 
 # ansible-playbook \
