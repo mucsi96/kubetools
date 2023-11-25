@@ -18,7 +18,7 @@ export function getBody<T>(req: IncomingMessage): Promise<T> {
         body += chunk.toString();
       });
       req.on("end", () => {
-        resolve(JSON.parse(body) as T);
+        resolve(body ? JSON.parse(body) : {});
       });
     } catch (error) {
       reject(error);

@@ -25,7 +25,7 @@
     name: deploy_spring_app
   vars:
     k8s_name: "{{ original_k8s_name }}-postgres-backup-tool"
-    image: mucsi96/postgres-backup-tool:28
+    image: mucsi96/postgres-backup-tool
     app_env:
       AWS_S3_ENDPOINT_URL: "{{ db_backup_endpoint_url }}"
       AWS_S3_ACCESS_KEY_ID: "{{ db_backup_access_key_id }}"
@@ -39,8 +39,6 @@
       POSTGRES_PASSWORD: "{{ db_password }}"
       EXCLUDE_TABLES: "{{ db_backup_exclude_tables | join(',') }}"
     base_path: "/db"
-    app_version: !!null
-    tag_prefix: !!null
 - name: Setup backup cron jobs
   delegate_to: localhost
   kubernetes.core.k8s:

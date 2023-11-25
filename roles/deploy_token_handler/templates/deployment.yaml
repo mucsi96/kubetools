@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: {{ k8s_name }}
-        image: mucsi96/kubetools-token-handler:latest
+        image: {{ latest_image }}
         resources:
           requests:
             memory: 300Mi

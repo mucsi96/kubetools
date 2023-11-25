@@ -2,6 +2,6 @@
 argument_specs:
   main:
     options: 
-      tag_prefix:
+      image:
         type: str
         required: true

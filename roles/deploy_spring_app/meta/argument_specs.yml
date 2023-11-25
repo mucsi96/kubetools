@@ -10,8 +10,6 @@ argument_specs:
       image:
         type: str
         required: true
-      tag_prefix:
-        type: str
       app_port:
         type: str
       app_env:
