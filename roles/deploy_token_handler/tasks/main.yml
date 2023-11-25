@@ -19,4 +19,3 @@
     - deployment.yaml
     - service.yaml
     - route.yaml
-    - service_monitor.yaml
