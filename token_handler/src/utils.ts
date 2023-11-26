@@ -36,7 +36,7 @@ export function returnError(
 }
 
 export function generateCookieString(
-  cookies: { name: string; value: string; maxAge: number }[]
+  cookies: { name: string; value?: string; maxAge: number }[]
 ): string[] {
   return cookies
     .map(({ name, value, maxAge }) => {
