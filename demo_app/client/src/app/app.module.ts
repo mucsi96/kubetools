@@ -6,11 +6,17 @@ import { AppComponent } from './app.component';
 import { MessageComponent } from './message/message.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { SigninComponent } from './auth/signin.component';
+import { SigninRedirectCallbackComponent } from './auth/signin-redirect-callback.component';
+import { UserInfoComponent } from './auth/user-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MessageComponent
+    MessageComponent,
+    SigninComponent,
+    SigninRedirectCallbackComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,

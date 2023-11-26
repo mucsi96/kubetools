@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MessageService } from '../message.service';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-message',
@@ -12,6 +12,6 @@ export class MessageComponent {
     private readonly messageService: MessageService,
     private readonly authService: AuthService
   ) {}
-  name = this.authService.getUserName();
+  $name = this.authService.getUserName();
   $message = this.messageService.getMessage();
 }

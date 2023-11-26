@@ -1,0 +1,4 @@
+<section *ngIf="$vm | async as vm">
+  <h1 *ngIf="vm.isSignedIn">Hello {{ vm.userName }}!</h1>
+  <button *ngIf="vm.isSignedIn" (click)="onSignout()" type="button">Sign out</button>
+</section>

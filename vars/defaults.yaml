@@ -19,8 +19,7 @@ open_id_connect_clients:
   - id: "{{ api_client_id }}"
     secret: "{{ api_client_secret }}"
     redirect_uris:
-      - http://localhost:4200/post-authorization
-      - "https://demo.{{ hostname }}/post-authorization"
+      - "https://demo.{{ hostname }}/signin-redirect-callback"
 
 k8s_admin_config_path: "~/.kube/admin-config"
 k8s_ansible_config_path: "~/.kube/ansible-config"
