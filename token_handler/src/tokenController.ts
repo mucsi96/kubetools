@@ -40,9 +40,9 @@ export async function getToken(req: IncomingMessage, res: ServerResponse) {
     return returnError(res, 500, "Access token already expired");
   }
 
-  // if (!refreshToken) {
-  //   return returnError(res, 500, "Refresh token is not returned");
-  // }
+  if (!refreshToken) {
+    return returnError(res, 500, "Refresh token is not returned");
+  }
 
   res.writeHead(200, {
     "Content-Type": "application/json",

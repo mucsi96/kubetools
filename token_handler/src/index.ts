@@ -2,6 +2,7 @@ import http, { IncomingMessage, ServerResponse } from "http";
 import { authorize } from "./authorizeController.js";
 import { getEnv, returnError } from "./utils.js";
 import { getToken } from "./tokenController.js";
+import { getUserInfo } from "./userInfoController.js";
 
 const PORT = process.env.PORT || 8080;
 const BASE_PATH = getEnv("BASE_PATH");
@@ -16,6 +17,10 @@ const server = http.createServer(
       }
 
       console.log(req.method, req.url);
+
+      if (req.url === BASE_PATH + "/user-info" && req.method === "GET") {
+        return await getUserInfo(req, res);
+      }
 
       if (req.url === BASE_PATH + "/authorize" && req.method === "POST") {
         return await authorize(req, res);

@@ -19,6 +19,12 @@ export class AuthService {
     private readonly locationStrategy: LocationStrategy
   ) {}
 
+  async getUserInfo() {
+    this.http.get('/auth/user-info').subscribe((userInfo) => {
+      console.log(userInfo);
+    });
+  }
+
   async authorize() {
     this.http
       .post<{
@@ -55,7 +61,7 @@ export class AuthService {
 
 export async function hasRole(role: string) {
   const authService: AuthService = inject(AuthService);
-  await authService.authorize();
+  await authService.getUserInfo();
 
   return authService.getRoles().includes(role);
 }

@@ -1,11 +1,11 @@
 import {
-    calculatePKCECodeChallenge,
-    generateRandomCodeVerifier,
-    generateRandomNonce,
-    generateRandomState
+  calculatePKCECodeChallenge,
+  generateRandomCodeVerifier,
+  generateRandomNonce,
+  generateRandomState
 } from "oauth4webapi";
+import { client } from "./clientConfig.js";
 import { discover } from "./discoveryService.js";
-import { getEnv } from "./utils.js";
 
 export async function authorize({ redirectUri }: { redirectUri: string }) {
   const authorizationServer = await discover();
@@ -19,7 +19,7 @@ export async function authorize({ redirectUri }: { redirectUri: string }) {
   const nonce = generateRandomNonce();
   const authorizationUrl = new URL(authorizationServer.authorization_endpoint);
 
-  authorizationUrl.searchParams.set("client_id", getEnv("CLIENT_ID"));
+  authorizationUrl.searchParams.set("client_id", client.client_id);
   authorizationUrl.searchParams.set(
     "code_challenge",
     await calculatePKCECodeChallenge(codeVerifier)
@@ -27,7 +27,7 @@ export async function authorize({ redirectUri }: { redirectUri: string }) {
   authorizationUrl.searchParams.set("code_challenge_method", "S256");
   authorizationUrl.searchParams.set("redirect_uri", redirectUri);
   authorizationUrl.searchParams.set("response_type", "code");
-  authorizationUrl.searchParams.set("scope", "openid groups profile email");
+  authorizationUrl.searchParams.set("scope", "openid offline_access groups profile email");
   authorizationUrl.searchParams.set("state", state);
   authorizationUrl.searchParams.set("nonce", nonce);
 

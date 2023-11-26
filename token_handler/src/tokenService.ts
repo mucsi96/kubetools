@@ -1,5 +1,4 @@
 import {
-  Client,
   WWWAuthenticateChallenge,
   authorizationCodeGrantRequest,
   getValidatedIdTokenClaims,
@@ -8,14 +7,8 @@ import {
   processAuthorizationCodeOpenIDResponse,
   validateAuthResponse,
 } from "oauth4webapi";
+import { client } from "./clientConfig.js";
 import { discover } from "./discoveryService.js";
-import { getEnv } from "./utils.js";
-
-const client: Client = {
-  client_id: getEnv("CLIENT_ID"),
-  client_secret: getEnv("CLIENT_SECRET"),
-  token_endpoint_auth_method: "client_secret_basic",
-};
 
 export async function getToken({
   codeVerifier,
@@ -73,9 +66,9 @@ export async function getToken({
     throw new Error("OAuth 2.0 response body error");
   }
 
-  const { name, groups } = getValidatedIdTokenClaims(tokenResponse);
+  const { sub, name, groups } = getValidatedIdTokenClaims(tokenResponse);
 
-  console.log(tokenResponse);
+  console.log(tokenResponse, { sub, name, groups });
 
   return {
     accessToken: tokenResponse.access_token,
