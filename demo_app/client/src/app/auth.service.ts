@@ -2,7 +2,10 @@ import { LocationStrategy } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Injectable, OnInit, inject } from '@angular/core';
 import { Route, Router } from '@angular/router';
+import { UserInfoResponse } from 'oauth4webapi';
+import { EMPTY, catchError, map, of, shareReplay, tap } from 'rxjs';
 
+const authorizationPath = 'login';
 const postAuthorizationPath = 'post-authorization';
 
 @Injectable({
@@ -12,6 +15,7 @@ export class AuthService {
   redirectUri =
     location.origin +
     this.locationStrategy.prepareExternalUrl(postAuthorizationPath);
+  userInfo: UserInfoResponse | undefined;
 
   constructor(
     private readonly http: HttpClient,
@@ -19,10 +23,14 @@ export class AuthService {
     private readonly locationStrategy: LocationStrategy
   ) {}
 
-  async getUserInfo() {
-    this.http.get('/auth/user-info').subscribe((userInfo) => {
-      console.log(userInfo);
-    });
+  getUserInfo() {
+    return this.http.get<UserInfoResponse>('/auth/user-info').pipe(
+      catchError(() => {
+        this.router.navigate([authorizationPath]);
+        return EMPTY;
+      }),
+      shareReplay(1)
+    );
   }
 
   async authorize() {
@@ -37,38 +45,43 @@ export class AuthService {
 
   async handlePostAuthorize() {
     this.http
-      .post<{ expiresIn: number; userName: string; roles: string[] }>(
-        '/auth/get-token',
-        {
-          callbackUrl: location.href.toString(),
-          redirectUri: this.redirectUri,
-        }
-      )
-      .subscribe(({ expiresIn, userName, roles }) => {
-        console.log({ expiresIn, userName, roles });
+      .post<void>('/auth/get-token', {
+        callbackUrl: location.href.toString(),
+        redirectUri: this.redirectUri,
+      })
+      .subscribe(() => {
         this.router.navigate(['']);
       });
   }
 
   getUserName() {
-    return '';
+    return this.getUserInfo().pipe(map((userInfo) => userInfo.name));
   }
 
   getRoles() {
-    return ['user'];
+    return this.getUserInfo().pipe(
+      map((userInfo) => (userInfo['groups'] ?? []) as string[])
+    );
   }
 
-  async hasRole(role: string) {
-    try {
-      await this.getUserInfo();
-    } catch {}
-
-    return this.getRoles().includes(role);
+  hasRole(role: string) {
+    return this.getRoles().pipe(map((roles) => roles.includes(role)));
   }
 }
 
-export async function hasRole(role: string) {
-  return await inject(AuthService).hasRole(role);
+export function hasRole(role: string) {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  return authService.hasRole(role).pipe(
+    tap((authorized) => {
+      if (!authorized) {
+        router.navigate([authorizationPath]);
+      }
+
+      return authorized;
+    })
+  );
 }
 
 @Component({

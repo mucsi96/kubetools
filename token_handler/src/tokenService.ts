@@ -66,14 +66,12 @@ export async function getToken({
     throw new Error("OAuth 2.0 response body error");
   }
 
-  const { sub, name, groups } = getValidatedIdTokenClaims(tokenResponse);
+  const { sub } = getValidatedIdTokenClaims(tokenResponse);
 
   return {
     subject: sub,
     accessToken: tokenResponse.access_token,
     expiresIn: tokenResponse.expires_in,
     refreshToken: tokenResponse.refresh_token,
-    userName: name,
-    roles: groups ?? [],
   };
 }
