@@ -69,6 +69,7 @@ export async function getToken({
   const { sub, name, groups } = getValidatedIdTokenClaims(tokenResponse);
 
   return {
+    subject: sub,
     accessToken: tokenResponse.access_token,
     expiresIn: tokenResponse.expires_in,
     refreshToken: tokenResponse.refresh_token,

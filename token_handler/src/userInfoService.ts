@@ -8,7 +8,13 @@ import {
 import { discover } from "./discoveryService.js";
 import { client } from "./clientConfig.js";
 
-export async function getUserInfo({ accessToken }: { accessToken: string }) {
+export async function getUserInfo({
+  subject,
+  accessToken,
+}: {
+  subject: string;
+  accessToken: string;
+}) {
   const authorizationServer = await discover();
   const response = await userInfoRequest(
     authorizationServer,
@@ -27,7 +33,7 @@ export async function getUserInfo({ accessToken }: { accessToken: string }) {
   const result = await processUserInfoResponse(
     authorizationServer,
     client,
-    skipSubjectCheck,
+    subject,
     response
   );
 

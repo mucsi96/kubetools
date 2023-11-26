@@ -7,15 +7,19 @@ import {
 } from "./utils.js";
 
 export async function getUserInfo(req: IncomingMessage, res: ServerResponse) {
-  const { accessToken } = parseCookieString<{
+  const { accessToken, subject } = parseCookieString<{
     accessToken: string;
   }>(req.headers.cookie);
+
+  if (!subject) {
+    return returnError(res, 400, "Missing subject");
+  }
 
   if (!accessToken) {
     return returnError(res, 400, "Missing accessToken");
   }
 
-  const userInfo = await userInfoService.getUserInfo({ accessToken });
+  const userInfo = await userInfoService.getUserInfo({ subject, accessToken });
 
   res.writeHead(200, {
     "Content-Type": "application/json",
