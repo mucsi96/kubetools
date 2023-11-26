@@ -57,13 +57,18 @@ export class AuthService {
   getRoles() {
     return ['user'];
   }
+
+  async hasRole(role: string) {
+    try {
+      await this.getUserInfo();
+    } catch {}
+
+    return this.getRoles().includes(role);
+  }
 }
 
 export async function hasRole(role: string) {
-  const authService: AuthService = inject(AuthService);
-  await authService.getUserInfo();
-
-  return authService.getRoles().includes(role);
+  return await inject(AuthService).hasRole(role);
 }
 
 @Component({
