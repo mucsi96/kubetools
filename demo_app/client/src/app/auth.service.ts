@@ -78,7 +78,25 @@ class PostAuthorizationComponent implements OnInit {
   }
 }
 
-export const postAuthorizationRoute: Route = {
-  path: postAuthorizationPath,
-  component: PostAuthorizationComponent,
-};
+@Component({
+  selector: 'authorization',
+  template: '<button (click)="onAuthorize()" type="button">Authorize</button>',
+})
+class AuthorizationComponent {
+  constructor(private readonly authService: AuthService) {}
+
+  onAuthorize(): void {
+    this.authService.authorize();
+  }
+}
+
+export const authorizationRoutes: Route[] = [
+  {
+    path: 'login',
+    component: AuthorizationComponent,
+  },
+  {
+    path: postAuthorizationPath,
+    component: PostAuthorizationComponent,
+  },
+];
