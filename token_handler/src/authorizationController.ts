@@ -1,4 +1,4 @@
-import * as authorizeService from "./authorizeService.js";
+import * as authorizeService from "./authorizationService.js";
 
 import { IncomingMessage, ServerResponse } from "http";
 import { generateCookieString, getBody, returnError } from "./utils.js";

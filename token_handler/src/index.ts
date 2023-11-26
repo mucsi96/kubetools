@@ -1,5 +1,5 @@
 import http, { IncomingMessage, ServerResponse } from "http";
-import { authorize } from "./authorizeController.js";
+import { authorize } from "./authorizationController.js";
 import { getEnv, returnError } from "./utils.js";
 import { getToken } from "./tokenController.js";
 import { getUserInfo } from "./userInfoController.js";
