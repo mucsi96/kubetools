@@ -48,9 +48,9 @@ export function generateCookieString(
         `Max-Age=${maxAge}`,
       ];
 
-      return `${name}=${encodeURIComponent(value)}; ${cookieOptions.join(
-        "; "
-      )}`;
+      return `${name}=${
+        value ? encodeURIComponent(value) : ""
+      }; ${cookieOptions.join("; ")}`;
     })
     .filter(Boolean);
 }

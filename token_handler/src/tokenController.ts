@@ -40,13 +40,16 @@ export async function getToken(req: IncomingMessage, res: ServerResponse) {
     return returnError(res, 500, "Access token already expired");
   }
 
-  if (!refreshToken) {
-    return returnError(res, 500, "Refresh token is not returned");
-  }
+  // if (!refreshToken) {
+  //   return returnError(res, 500, "Refresh token is not returned");
+  // }
 
   res.writeHead(200, {
     "Content-Type": "application/json",
     "Set-Cookie": generateCookieString([
+      { name: "codeVerifier", maxAge: 0 },
+      { name: "nonce", maxAge: 0 },
+      { name: "state", maxAge: 0 },
       { name: "accessToken", value: accessToken, maxAge: expiresIn },
       {
         name: "refreshToken",
