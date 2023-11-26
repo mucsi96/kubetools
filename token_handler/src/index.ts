@@ -27,6 +27,7 @@ const server = http.createServer(
 
       return returnError(res, 404, "Route not found");
     } catch (e) {
+      console.log((e as Error).stack);
       return returnError(res, 500, "Something went wrong");
     }
   }
