@@ -1,13 +1,11 @@
 import * as userInfoService from "./userInfoService.js";
 
 import { IncomingMessage, ServerResponse } from "http";
-import {
-  parseCookieString,
-  returnError
-} from "./utils.js";
+import { parseCookieString, returnError } from "./utils.js";
 
 export async function getUserInfo(req: IncomingMessage, res: ServerResponse) {
   const { accessToken, subject } = parseCookieString<{
+    subject: string;
     accessToken: string;
   }>(req.headers.cookie);
 

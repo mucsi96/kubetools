@@ -2,11 +2,10 @@ import {
   WWWAuthenticateChallenge,
   parseWwwAuthenticateChallenges,
   processUserInfoResponse,
-  skipSubjectCheck,
-  userInfoRequest,
+  userInfoRequest
 } from "oauth4webapi";
-import { discover } from "./discoveryService.js";
 import { client } from "./clientConfig.js";
+import { discover } from "./discoveryService.js";
 
 export async function getUserInfo({
   subject,
