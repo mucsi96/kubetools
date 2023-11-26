@@ -13,9 +13,11 @@ spring_admin_server_namespace: monitoring
 spring_admin_server_port: 9090
 db_backup_bucket: kubetools-backups
 db_backup_region: us-east-1
+api_client_id: demo-app
+api_client_secret: "{{ lookup('ansible.builtin.password', '/dev/null chars=ascii_letters,digits length=72', seed='{{ inventory_hostname }}-open-id-connect-demo-app-client-secret') }}"
 open_id_connect_clients:
-  - id: demo-app
-    secret: "{{ lookup('ansible.builtin.password', '/dev/null chars=ascii_letters,digits length=72', seed='{{ inventory_hostname }}-open-id-connect-demo-app-client-secret') }}"
+  - id: "{{ api_client_id }}"
+    secret: "{{ api_client_secret }}"
     redirect_uris:
       - http://localhost:4200/post-authorization
       - "https://demo.{{ hostname }}/post-authorization"

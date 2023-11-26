@@ -17,8 +17,8 @@
         name: deploy_token_handler
       vars:
         host_prefix: demo
-        client_id: open_id_connect_clients[0].id
-        client_secret: open_id_connect_clients[0].secret
+        client_id: "{{ api_client_id }}"
+        client_secret: "{{ api_client_secret }}"
         identity_provider_base_path: https://auth.{{ hostname }}
     - name: Deploy webdriver
       ansible.builtin.include_role:

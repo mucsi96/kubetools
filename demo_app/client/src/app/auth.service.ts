@@ -1,4 +1,5 @@
 import { LocationStrategy } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, Injectable, OnInit, inject } from '@angular/core';
 import { Route, Router } from '@angular/router';
 
@@ -13,37 +14,34 @@ export class AuthService {
     this.locationStrategy.prepareExternalUrl(postAuthorizationPath);
 
   constructor(
+    private readonly http: HttpClient,
     private readonly router: Router,
     private readonly locationStrategy: LocationStrategy
   ) {}
 
   async authorize() {
-    console.log(
-      await (
-        await fetch('/auth/authorize', {
-          method: 'POST',
-          body: JSON.stringify({ redirectUri: this.redirectUri }),
-        })
-      ).json()
-    );
-
-    // location.href = authorizationUrl.toString();
+    this.http
+      .post<{
+        authorizationUrl: string;
+      }>('/auth/authorize', { redirectUri: this.redirectUri })
+      .subscribe(({ authorizationUrl }) => {
+        location.href = authorizationUrl;
+      });
   }
 
   async handlePostAuthorize() {
-    console.log(
-      await (
-        await fetch('/auth/get-token', {
-          method: 'POST',
-          body: JSON.stringify({
-            callbackUrl: location.href.toString(),
-            redirectUri: this.redirectUri,
-          }),
-        })
-      ).json()
-    );
-
-    this.router.navigate(['']);
+    this.http
+      .post<{ expiresIn: number; userName: string; roles: string[] }>(
+        '/auth/get-token',
+        {
+          callbackUrl: location.href.toString(),
+          redirectUri: this.redirectUri,
+        }
+      )
+      .subscribe(({ expiresIn, userName, roles }) => {
+        console.log({ expiresIn, userName, roles });
+        this.router.navigate(['']);
+      });
   }
 
   getUserName() {

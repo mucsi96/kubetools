@@ -10,7 +10,7 @@ export type Message = {
   providedIn: 'root'
 })
 export class MessageService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getMessage(): Observable<Message> {
     return this.http.get<Message>('/api/message');
