@@ -2,6 +2,7 @@ import {
   WWWAuthenticateChallenge,
   parseWwwAuthenticateChallenges,
   processUserInfoResponse,
+  skipSubjectCheck,
   userInfoRequest,
 } from "oauth4webapi";
 import { discover } from "./discoveryService.js";
@@ -26,11 +27,9 @@ export async function getUserInfo({ accessToken }: { accessToken: string }) {
   const result = await processUserInfoResponse(
     authorizationServer,
     client,
-    "",
+    skipSubjectCheck,
     response
   );
-
-  console.log("result", result);
 
   return result;
 }
