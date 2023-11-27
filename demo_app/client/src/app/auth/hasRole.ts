@@ -1,8 +1,8 @@
-import { inject } from "@angular/core";
-import { AuthService } from "./auth.service";
-import { Router } from "@angular/router";
-import { tap } from "rxjs";
-import { RouterTokens } from "../app.routes";
+import { inject } from '@angular/core';
+import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs';
+import { RouterTokens } from '../app.routes';
 
 export function hasRole(role: string) {
   const authService = inject(AuthService);

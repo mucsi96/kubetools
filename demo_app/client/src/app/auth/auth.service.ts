@@ -3,7 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserInfoResponse } from 'oauth4webapi';
-import { EMPTY, catchError, map, shareReplay } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  of,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { RouterTokens } from '../app.routes';
 
 @Injectable({
@@ -15,7 +23,20 @@ export class AuthService {
     this.locationStrategy.prepareExternalUrl(
       RouterTokens.SIGNIN_REDIRECT_CALLBACK
     );
-  userInfo: UserInfoResponse | undefined;
+  signinsAndSignouts = new BehaviorSubject<RouterTokens[] | undefined>(
+    undefined
+  );
+  $userInfo = this.signinsAndSignouts.asObservable().pipe(
+    switchMap((nextRoute) =>
+      this.http.get<UserInfoResponse>('/auth/user-info').pipe(
+        catchError(() => {
+          return of({} as UserInfoResponse);
+        }),
+        tap(() => nextRoute && this.router.navigate(nextRoute))
+      )
+    ),
+    shareReplay(1)
+  );
 
   constructor(
     private readonly http: HttpClient,
@@ -24,13 +45,7 @@ export class AuthService {
   ) {}
 
   getUserInfo() {
-    return this.http.get<UserInfoResponse>('/auth/user-info').pipe(
-      catchError((err) => {
-        this.router.navigate([RouterTokens.SIGNIN]);
-        throw err;
-      }),
-      shareReplay(1)
-    );
+    return this.$userInfo;
   }
 
   async signin() {
@@ -49,9 +64,7 @@ export class AuthService {
         callbackUrl: location.href.toString(),
         redirectUri: this.redirectUri,
       })
-      .subscribe(() => {
-        this.router.navigate([RouterTokens.HOME]);
-      });
+      .subscribe(() => this.signinsAndSignouts.next([RouterTokens.HOME]));
   }
 
   isSignedIn() {
@@ -73,8 +86,8 @@ export class AuthService {
   }
 
   signout() {
-    this.http.post('/auth/logout', {}).subscribe(() => {
-      this.router.navigate([RouterTokens.SIGNIN]);
-    });
+    this.http
+      .post('/auth/logout', {})
+      .subscribe(() => this.signinsAndSignouts.next([RouterTokens.SIGNIN]));
   }
 }

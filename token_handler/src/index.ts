@@ -3,6 +3,7 @@ import { authorize } from "./authorizationController.js";
 import { getEnv, returnError } from "./utils.js";
 import { getToken } from "./tokenController.js";
 import { getUserInfo } from "./userInfoController.js";
+import { logout } from "./logoutController.js";
 
 const PORT = process.env.PORT || 8080;
 const BASE_PATH = getEnv("BASE_PATH");
@@ -25,9 +26,13 @@ const server = http.createServer(
       if (req.url === BASE_PATH + "/authorize" && req.method === "POST") {
         return await authorize(req, res);
       }
-
+      
       if (req.url === BASE_PATH + "/get-token" && req.method === "POST") {
         return await getToken(req, res);
+      }
+
+      if (req.url === BASE_PATH + "/logout" && req.method === "POST") {
+        return await logout(req, res);
       }
 
       return returnError(res, 404, "Route not found");
