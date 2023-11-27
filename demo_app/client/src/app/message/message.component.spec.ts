@@ -1,4 +1,3 @@
-import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { MessageService } from '../message.service';
@@ -12,12 +11,11 @@ describe('MessageComponent', () => {
 
   beforeEach(async () => {
     fakeMessageService = jasmine.createSpyObj('MessageService', {
-      getMessage: of({ message: 'test message' })
-    })
+      getMessage: of({ message: 'test message' }),
+    });
     await TestBed.configureTestingModule({
       declarations: [MessageComponent],
-      imports: [HttpClientModule],
-      providers: [{ provide: MessageService, useValue: fakeMessageService }]
+      providers: [{ provide: MessageService, useValue: fakeMessageService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MessageComponent);

@@ -12,18 +12,14 @@ import { UserInfoComponent } from './auth/user-info.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    MessageComponent,
     SigninComponent,
     SigninRedirectCallbackComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    MessageComponent,
+    AppComponent,
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    RouterModule.forRoot(routes)
-  ],
+  imports: [BrowserModule, HttpClientModule, RouterModule.forRoot(routes)],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,0 +1,103 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "command": "bash",
+      "label": "Provision",
+      "args": ["scripts/provision.sh"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "command": "bash",
+      "label": "Restart tunnel",
+      "args": ["scripts/restart_tunnel.sh"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "close": true
+      }
+    },
+    {
+      "type": "shell",
+      "label": "Start client",
+      "command": "ng",
+      "args": ["serve"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/demo_app/client"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "command": "ng",
+      "label": "Run current client test",
+      "args": ["test", "--include", "**/${fileBasename}", "--no-watch"],
+      "options": {
+        "cwd": "${workspaceFolder}/demo_app/client"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "command": "ng",
+      "label": "Run and watch current client test",
+      "args": ["test", "--include", "**/${fileBasename}"],
+      "options": {
+        "cwd": "${workspaceFolder}/demo_app/client"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "command": "ng",
+      "label": "Run client tests",
+      "args": ["test", "--no-watch"],
+      "options": {
+        "cwd": "${workspaceFolder}/demo_app/client"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Start server",
+      "command": "mvn",
+      "args": ["spring-boot:run", "-P", "local"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/demo_app/server"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Run server tests",
+      "command": "mvn",
+      "args": ["test"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/demo_app/server"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Compile server",
+      "command": "mvn",
+      "args": ["compile"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/demo_app/server"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
