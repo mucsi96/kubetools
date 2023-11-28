@@ -1,11 +1,10 @@
 import {
   WWWAuthenticateChallenge,
   authorizationCodeGrantRequest,
-  getValidatedIdTokenClaims,
   isOAuth2Error,
   parseWwwAuthenticateChallenges,
   processAuthorizationCodeOpenIDResponse,
-  validateAuthResponse,
+  validateAuthResponse
 } from "oauth4webapi";
 import { client } from "./clientConfig.js";
 import { discover } from "./discoveryService.js";
@@ -66,10 +65,7 @@ export async function getToken({
     throw new Error("OAuth 2.0 response body error");
   }
 
-  const { sub } = getValidatedIdTokenClaims(tokenResponse);
-
   return {
-    subject: sub,
     accessToken: tokenResponse.access_token,
     expiresIn: tokenResponse.expires_in,
     refreshToken: tokenResponse.refresh_token,

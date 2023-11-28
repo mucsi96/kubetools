@@ -27,7 +27,7 @@ export async function getToken(req: IncomingMessage, res: ServerResponse) {
     return returnError(res, 400, "Missing redirectUri");
   }
 
-  const { subject, accessToken, expiresIn, refreshToken } =
+  const { accessToken, expiresIn, refreshToken } =
     await tokenService.getToken({
       codeVerifier,
       state,
@@ -50,16 +50,11 @@ export async function getToken(req: IncomingMessage, res: ServerResponse) {
       { name: "codeVerifier", maxAge: 0 },
       { name: "nonce", maxAge: 0 },
       { name: "state", maxAge: 0 },
-      {
-        name: "subject",
-        value: subject,
-        maxAge: expiresIn,
-      },
       { name: "accessToken", value: accessToken, maxAge: expiresIn },
       {
         name: "refreshToken",
         value: refreshToken,
-        maxAge: 30 * 24 * 60 * 60,
+        maxAge: 7 * 24 * 60 * 60,
       },
     ]),
   });
