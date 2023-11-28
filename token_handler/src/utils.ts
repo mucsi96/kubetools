@@ -60,10 +60,13 @@ export function parseCookieString<T>(cookieString?: string): T {
 
   return cookieString.split(`;`).reduce((acc, cookie) => {
     const [name, value] = cookie.split(`=`);
-    console.log({ name, value });
-    return {
-      ...acc,
-      [decodeURIComponent(name.trim())]: decodeURIComponent(value.trim()),
-    };
+    try {
+      return {
+        ...acc,
+        [decodeURIComponent(name.trim())]: decodeURIComponent(value.trim()),
+      };
+    } catch {
+      return acc;
+    }
   }, {}) as T;
 }
