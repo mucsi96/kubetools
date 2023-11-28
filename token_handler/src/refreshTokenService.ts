@@ -4,19 +4,25 @@ import {
   isOAuth2Error,
   parseWwwAuthenticateChallenges,
   processRefreshTokenResponse,
-  refreshTokenGrantRequest
+  refreshTokenGrantRequest,
 } from "oauth4webapi";
 import { client } from "./clientConfig.js";
 import { discover } from "./discoveryService.js";
 
 export async function getFreshToken({
-  refreshToken
+  refreshToken,
 }: {
   refreshToken: string;
 }) {
   const authorizationServer = await discover();
 
-  const response = await refreshTokenGrantRequest(authorizationServer, client, refreshToken);
+  console.log(authorizationServer, client, refreshToken);
+
+  const response = await refreshTokenGrantRequest(
+    authorizationServer,
+    client,
+    refreshToken
+  );
 
   let challenges: WWWAuthenticateChallenge[] | undefined;
 
@@ -30,7 +36,7 @@ export async function getFreshToken({
   const tokenResponse = await processRefreshTokenResponse(
     authorizationServer!,
     client,
-    response,
+    response
   );
 
   if (isOAuth2Error(tokenResponse)) {
