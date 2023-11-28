@@ -59,11 +59,11 @@ export function parseCookieString<T>(cookieString?: string): T {
   if (!cookieString) return {} as T;
 
   return cookieString.split(`;`).reduce((acc, cookie) => {
-    let [name, ...rest] = cookie.split(`=`);
-    name = name?.trim();
-    if (!name) return acc;
-    const value = rest.join(`=`).trim();
-    if (!value) return acc;
-    return { ...acc, [name]: decodeURIComponent(value) };
+    const [name, value] = cookie.split(`=`);
+    console.log({ name, value });
+    return {
+      ...acc,
+      [decodeURIComponent(name.trim())]: decodeURIComponent(value.trim()),
+    };
   }, {}) as T;
 }
