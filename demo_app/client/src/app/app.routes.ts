@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { hasRole } from './auth/hasRole';
-import { SigninRedirectCallbackComponent } from './auth/signin-redirect-callback.component';
-import { SigninComponent } from './auth/signin.component';
 import { MessageComponent } from './message/message.component';
+import { SigninComponent } from './auth/signin.component';
+import { SigninRedirectCallbackComponent } from './auth/signin-redirect-callback.component';
 
 export enum RouterTokens {
   HOME = '',

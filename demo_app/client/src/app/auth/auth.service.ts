@@ -2,7 +2,6 @@ import { LocationStrategy } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserInfoResponse } from 'oauth4webapi';
 import {
   BehaviorSubject,
   catchError,
@@ -14,9 +13,9 @@ import {
 } from 'rxjs';
 import { RouterTokens } from '../app.routes';
 
-@Injectable({
-  providedIn: 'root',
-})
+type UserInfo = { sub: string; name: string; groups: string[] };
+
+@Injectable()
 export class AuthService {
   redirectUri =
     location.origin +
@@ -28,9 +27,9 @@ export class AuthService {
   );
   $userInfo = this.signinsAndSignouts.asObservable().pipe(
     switchMap((nextRoute) =>
-      this.http.get<UserInfoResponse>('/auth/user-info').pipe(
+      this.http.get<UserInfo>('/auth/user-info').pipe(
         catchError(() => {
-          return of({} as UserInfoResponse);
+          return of({} as UserInfo);
         }),
         tap(() => nextRoute && this.router.navigate(nextRoute))
       )
@@ -77,7 +76,7 @@ export class AuthService {
 
   getRoles() {
     return this.getUserInfo().pipe(
-      map((userInfo) => (userInfo['groups'] ?? []) as string[])
+      map((userInfo) => (userInfo.groups ?? []) as string[])
     );
   }
 

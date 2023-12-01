@@ -6,9 +6,7 @@ export type Message = {
   message: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class MessageService {
   constructor(private readonly http: HttpClient) {}
 

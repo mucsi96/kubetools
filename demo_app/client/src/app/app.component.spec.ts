@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { RouterOutlet } from '@angular/router';
+import { UserInfoComponent } from './auth/user-info.component';
 
 @Component({
   standalone: true,
@@ -9,6 +10,13 @@ import { RouterOutlet } from '@angular/router';
   template: '',
 })
 class MockRouterOutlet {}
+
+@Component({
+  standalone: true,
+  selector: 'user-info',
+  template: '',
+})
+class MockUserInfo {}
 
 async function setup() {
   await TestBed.configureTestingModule({
@@ -18,10 +26,10 @@ async function setup() {
 
   TestBed.overrideComponent(AppComponent, {
     remove: {
-      imports: [RouterOutlet],
+      imports: [RouterOutlet, UserInfoComponent],
     },
     add: {
-      imports: [MockRouterOutlet],
+      imports: [MockRouterOutlet, MockUserInfo],
     },
   });
 

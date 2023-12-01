@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { MessageService } from '../message.service';
 
 import { MessageComponent } from './message.component';
+import { MessageService } from './message.service';
 
 describe('MessageComponent', () => {
   let component: MessageComponent;
@@ -14,7 +14,6 @@ describe('MessageComponent', () => {
       getMessage: of({ message: 'test message' }),
     });
     await TestBed.configureTestingModule({
-      declarations: [MessageComponent],
       providers: [{ provide: MessageService, useValue: fakeMessageService }],
     }).compileComponents();
 

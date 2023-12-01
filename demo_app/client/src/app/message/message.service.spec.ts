@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { asyncData } from 'src/testing/async-observable-helpers';
 
 import { Message, MessageService } from './message.service';
+import { of } from 'rxjs';
 
 describe('MessageService', () => {
   let service: MessageService;
@@ -14,7 +14,7 @@ describe('MessageService', () => {
 
   it('should return message', (done: DoneFn) => {
     const expectedMessage: Message = { message: 'test message' };
-    httpClientSpy.get.and.returnValue(asyncData(expectedMessage));
+    httpClientSpy.get.and.returnValue(of(expectedMessage));
     service.getMessage().subscribe({
       next: (data) => {
         expect(data).toEqual(expectedMessage);

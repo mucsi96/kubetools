@@ -1,38 +1,35 @@
-import { rest, setupWorker } from 'msw';
+import { setupWorker } from 'msw/browser';
+import { http, HttpResponse } from 'msw';
 
 export const mocks = [
-  rest.get('/auth/user-info', (_req, res, ctx) => {
+  http.get('/auth/user-info', () => {
     const isSignedIn = !!sessionStorage.getItem('signedIn');
 
     if (!isSignedIn) {
-      return res(ctx.status(400));
+      return new HttpResponse(undefined, { status: 400 });
     }
 
-    return res(
-      ctx.status(200),
-      ctx.json({ name: 'Igor', sub: '123', groups: ['user', 'admin'] })
-    );
+    return HttpResponse.json({
+      name: 'Igor',
+      sub: '123',
+      groups: ['user', 'admin'],
+    });
   }),
-  rest.post('/auth/authorize', (_req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({ authorizationUrl: '/signin-redirect-callback' })
-    );
-  }),
-  rest.post('/auth/get-token', (_req, res, ctx) => {
+  http.post('/auth/authorize', () =>
+    HttpResponse.json({ authorizationUrl: '/signin-redirect-callback' })
+  ),
+  http.post('/auth/get-token', () => {
     sessionStorage.setItem('signedIn', 'true');
-    return res(ctx.status(200));
+    return new HttpResponse();
   }),
-  rest.post('/auth/logout', (_req, res, ctx) => {
+  http.post('/auth/logout', () => {
     sessionStorage.removeItem('signedIn');
-    return res(ctx.status(200));
+    return new HttpResponse();
   }),
-  rest.get('/api/message', (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ message: 'Test message' }));
-  }),
+  http.get('/api/message', () =>
+    HttpResponse.json({ message: 'Test message' })
+  ),
 ];
 
 const worker = setupWorker(...mocks);
 worker.start({ onUnhandledRequest: 'bypass' });
-
-export { worker, rest };
