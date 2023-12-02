@@ -1,8 +1,11 @@
 @if ($vm | async; as vm) {
-<section>
+<nav>
   @if (vm.isSignedIn) {
-  <h1>Hello {{ vm.userName }}!</h1>
-  <button (click)="onSignout()" type="button">Sign out</button>
+  <h1 app-heading>Hello {{ vm.userName }}!</h1>
+  <button app-button color="red" (click)="onSignout()" type="button">Sign out</button>
+  } @else {
+    <h1 app-heading>Demo</h1>
+  <button app-button (click)="onSignin()" type="button">Sign in</button>
   }
-</section>
+</nav>
 }
