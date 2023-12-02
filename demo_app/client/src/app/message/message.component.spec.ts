@@ -25,7 +25,7 @@ describe('MessageComponent', () => {
   it('should display test message', () => {
     expect(component).toBeTruthy();
     const element: HTMLElement = fixture.nativeElement;
-    const message = element.querySelector('p')?.textContent;
+    const message = element.querySelector('h1')?.textContent;
     expect(message).toEqual('test message');
   });
 });
