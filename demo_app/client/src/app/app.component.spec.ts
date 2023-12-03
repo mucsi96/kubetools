@@ -3,6 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { RouterOutlet } from '@angular/router';
 import { UserInfoComponent } from './auth/user-info.component';
+import { AuthService } from './auth/auth.service';
+import { of } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -19,8 +21,11 @@ class MockRouterOutlet {}
 class MockUserInfo {}
 
 async function setup() {
+  const fakeAuthService =jasmine.createSpyObj<AuthService>({ isSignedIn: of(true) });
+
   await TestBed.configureTestingModule({
     providers: [
+      { useValue: fakeAuthService, provide: AuthService }
     ],
   }).compileComponents();
 
