@@ -1,1 +1,5 @@
+@if($loading | async) {
+<div app-loader></div>
+} @else {
 <h1 app-heading>{{ ($message | async)?.message }}</h1>
+}

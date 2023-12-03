@@ -1,6 +1,10 @@
+@if ($loading | async) {
+<div app-loader></div>
+} @else {
 <header app-header>
   <user-info></user-info>
 </header>
 <main app-main>
   <router-outlet></router-outlet>
 </main>
+}

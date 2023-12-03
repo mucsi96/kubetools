@@ -1,8 +1,10 @@
 import { setupWorker } from 'msw/browser';
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 
 export const mocks = [
-  http.get('/auth/user-info', () => {
+  http.get('/auth/user-info', async () => {
+    await delay(600);
+
     const isSignedIn = !!sessionStorage.getItem('signedIn');
 
     if (!isSignedIn) {
@@ -26,9 +28,10 @@ export const mocks = [
     sessionStorage.removeItem('signedIn');
     return new HttpResponse();
   }),
-  http.get('/api/message', () =>
-    HttpResponse.json({ message: 'Test message' })
-  ),
+  http.get('/api/message', async () => {
+    await delay(600);
+    return HttpResponse.json({ message: 'Test message' });
+  }),
 ];
 
 const worker = setupWorker(...mocks);

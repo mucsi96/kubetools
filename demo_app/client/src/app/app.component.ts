@@ -4,6 +4,9 @@ import { RouterOutlet } from '@angular/router';
 import { UserInfoComponent } from './auth/user-info.component';
 import { HeaderComponent } from './common-components/header/header.component';
 import { MainComponent } from './common-components/main/main.component';
+import { AuthService } from './auth/auth.service';
+import { loading } from './utils/loading';
+import { LoaderComponent } from './common-components/loader/loader.component';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +17,12 @@ import { MainComponent } from './common-components/main/main.component';
     UserInfoComponent,
     HeaderComponent,
     MainComponent,
+    LoaderComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(private readonly authService: AuthService) {}
+  $loading = this.authService.isSignedIn().pipe(loading());
+}
