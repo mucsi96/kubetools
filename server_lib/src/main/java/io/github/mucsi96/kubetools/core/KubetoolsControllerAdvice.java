@@ -25,7 +25,7 @@ public class KubetoolsControllerAdvice {
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorResponse> handleException(Exception ex) {
     System.out.println(ex);
-    return ResponseEntity.status(HttpStatus.FORBIDDEN)
-        .body(new ErrorResponse(HttpStatus.FORBIDDEN));
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR));
   }
 }
