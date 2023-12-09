@@ -98,6 +98,39 @@
         "cwd": "${workspaceFolder}/demo_app/server"
       },
       "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Start server lib",
+      "command": "mvn",
+      "args": ["spring-boot:run", "-P", "local"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/server_lib"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Run server lib tests",
+      "command": "mvn",
+      "args": ["test"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/server_lib"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Compile lib server",
+      "command": "mvn",
+      "args": ["compile"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/server_lib"
+      },
+      "problemMatcher": []
     }
   ]
 }

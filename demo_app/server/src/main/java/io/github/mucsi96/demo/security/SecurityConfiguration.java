@@ -6,18 +6,28 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.util.WebUtils;
 
-import io.github.mucsi96.kubetools.security.KubetoolsSecurityConfigurer;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(jsr250Enabled = true)
 public class SecurityConfiguration {
 
+    String bearerTokenResolver(HttpServletRequest request) {
+        Cookie cookie = WebUtils.getCookie(request, "accessToken");
+        return cookie != null ? cookie.getValue() : null;
+    }
+
     @Bean
     SecurityFilterChain securityFilterChain(
-            HttpSecurity http,
-            KubetoolsSecurityConfigurer kubetoolsSecurityConfigurer) throws Exception {
-        return kubetoolsSecurityConfigurer.configure(http).build();
+            HttpSecurity http) throws Exception {
+        return http
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .bearerTokenResolver(this::bearerTokenResolver)
+                        .jwt())
+                .build();
     }
 }

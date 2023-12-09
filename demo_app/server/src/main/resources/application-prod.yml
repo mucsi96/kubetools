@@ -6,6 +6,11 @@ management:
       exposure:
         include: "*"
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${JWK_SET_URI}
   boot:
     admin:
       client:

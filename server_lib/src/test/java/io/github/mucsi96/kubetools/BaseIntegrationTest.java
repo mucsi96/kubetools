@@ -1,26 +1,59 @@
 package io.github.mucsi96.kubetools;
 
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+
+import jakarta.servlet.http.Cookie;
+
 @ActiveProfiles("test")
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class BaseIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
 
-    HttpHeaders getAuthHeaders(String authority) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Remote-User", "rob");
-        headers.add("Remote-Groups", authority);
-        headers.add("Remote-Name", "Robert White");
-        headers.add("Remote-Email", "robert.white@mockemail.com");
-        return headers;
+    @Autowired
+    JWSGenerator jwsGenerator;
+
+    @RegisterExtension
+    static WireMockExtension mockAuthServer = WireMockExtension.newInstance()
+            .options(wireMockConfig().dynamicPort())
+            .build();
+
+    @DynamicPropertySource
+    static void overrideProperties(DynamicPropertyRegistry registry) {
+
+        registry.add("spring.security.oauth2.resourceserver.jwt.jwk-set-uri",
+                () -> mockAuthServer.baseUrl() + "/jwks.json");
+    }
+
+    @BeforeEach
+    public void beforeEach() throws Exception {
+        // return mock JWK response
+        mockAuthServer.stubFor(WireMock.get("/jwks.json")
+                .willReturn(WireMock.aResponse()
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                        .withBody(jwsGenerator.getJwksKeySetJson())));
+    }
+
+    Cookie getAccessTokenCookie(List<String> roles) throws Exception {
+        return new Cookie("accessToken", jwsGenerator.createSignedJwt(roles));
     }
 }

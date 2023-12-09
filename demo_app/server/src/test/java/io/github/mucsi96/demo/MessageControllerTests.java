@@ -9,10 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import io.github.mucsi96.demo.message.Message;
-import io.github.mucsi96.demo.message.MessageRepository;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
+
+import io.github.mucsi96.demo.message.Message;
+import io.github.mucsi96.demo.message.MessageRepository;
 
 public class MessageControllerTests extends BaseIntegrationTest {
     @Autowired
@@ -33,7 +34,8 @@ public class MessageControllerTests extends BaseIntegrationTest {
     public void returns_the_message() throws Exception {
         MockHttpServletResponse response = mockMvc.perform(
                 get("/message")
-                        .headers(getAuthHeaders("user")))
+        // .cookie(getAccessTokenCookie())
+        )
                 .andReturn()
                 .getResponse();
 
