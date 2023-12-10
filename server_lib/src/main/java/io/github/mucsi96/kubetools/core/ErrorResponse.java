@@ -17,19 +17,19 @@ public class ErrorResponse {
         timestamp = LocalDateTime.now();
     }
 
-    ErrorResponse(HttpStatus status) {
+    public ErrorResponse(HttpStatus status) {
         this();
         this.status = status.value();
     }
 
-    ErrorResponse(HttpStatus status, Throwable ex) {
+    public ErrorResponse(HttpStatus status, Throwable ex) {
         this();
         this.status = status.value();
         this.message = "Unexpected error";
         this.debugMessage = ex.getLocalizedMessage();
     }
 
-    ErrorResponse(HttpStatus status, String message, Throwable ex) {
+    public ErrorResponse(HttpStatus status, String message, Throwable ex) {
         this();
         this.status = status.value();
         this.message = message;

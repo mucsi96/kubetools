@@ -12,10 +12,9 @@ import io.github.mucsi96.kubetools.security.KubetoolsSecurityConfigurer;
 public class TestApplication {
 
 	@Bean
-	SecurityFilterChain securityFilterChain(
-			HttpSecurity http,
-			KubetoolsSecurityConfigurer kubetoolsSecurityConfigurer) throws Exception {
-		return kubetoolsSecurityConfigurer.configure(http).build();
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.apply(new KubetoolsSecurityConfigurer());
+		return http.build();
 	}
 
 	public static void main(String[] args) {
