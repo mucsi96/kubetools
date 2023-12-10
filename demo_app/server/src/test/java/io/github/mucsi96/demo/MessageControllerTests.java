@@ -33,9 +33,7 @@ public class MessageControllerTests extends BaseIntegrationTest {
     @Test
     public void returns_the_message() throws Exception {
         MockHttpServletResponse response = mockMvc.perform(
-                get("/message")
-        // .cookie(getAccessTokenCookie())
-        )
+                get("/message"))
                 .andReturn()
                 .getResponse();
 
