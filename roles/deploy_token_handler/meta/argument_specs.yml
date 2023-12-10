@@ -9,7 +9,7 @@ argument_specs:
         required: true
       app_port:
         type: str
-      identity_provider_base_path:
+      hostname:
         type: str
         required: true
       client_id:

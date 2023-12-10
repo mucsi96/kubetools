@@ -1,2 +1,2 @@
-
+jwk_set_uri: https://auth.{{ hostname }}/jwks.json
 spring_admin_server_host: "{{ spring_admin_server_name }}.{{ spring_admin_server_namespace }}"

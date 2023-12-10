@@ -2,6 +2,7 @@ subdomain: kubetools
 k8s_namespace: kubetools
 auth_middelware_name: auth
 auth_middelware_namespace: authelia
+host_prefix: demo
 hostname: "{{ subdomain }}.{{ public_domainname }}"
 db_name: kubetools
 db_host: postgres-db
@@ -19,7 +20,7 @@ open_id_connect_clients:
   - id: "{{ api_client_id }}"
     secret: "{{ api_client_secret }}"
     redirect_uris:
-      - "https://demo.{{ hostname }}/signin-redirect-callback"
+      - "https://{{ host_prefix }}.{{ hostname }}/signin-redirect-callback"
 
 k8s_admin_config_path: "~/.kube/admin-config"
 k8s_ansible_config_path: "~/.kube/ansible-config"

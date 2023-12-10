@@ -10,16 +10,13 @@
         name: deploy_postgres_db
       vars:
         k8s_name: "{{ db_host }}"
-        host_prefix: demo
         db_backup_exclude_tables: []
     - name: Deploy token handler
       ansible.builtin.include_role:
         name: deploy_token_handler
       vars:
-        host_prefix: demo
         client_id: "{{ api_client_id }}"
         client_secret: "{{ api_client_secret }}"
-        identity_provider_base_path: https://auth.{{ hostname }}
     - name: Deploy webdriver
       ansible.builtin.include_role:
         name: deploy_webdriver
@@ -29,7 +26,6 @@
       vars:
         image: mucsi96/kubetools-demo-app-server
         tag_prefix: demo-app-server
-        host_prefix: demo
         base_path: /api
         app_env:
           POSTGRES_DB: "{{ db_name }}"
@@ -44,4 +40,3 @@
       vars:
         image: mucsi96/kubetools-demo-app-client
         tag_prefix: demo-app-client
-        host_prefix: demo

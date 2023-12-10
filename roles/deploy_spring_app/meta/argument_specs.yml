@@ -19,10 +19,7 @@ argument_specs:
         required: true
       base_path:
         type: str
-      auth_middelware_name:
-        type: str
-        required: true
-      auth_middelware_namespace:
+      hostname:
         type: str
         required: true
       spring_actuator_port:

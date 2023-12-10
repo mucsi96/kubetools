@@ -9,9 +9,6 @@ spec:
   routes:
     - kind: Rule
       match: HostRegexp(`{{ host_prefix }}.{host:[a-z0-9-.]+}`) && PathPrefix(`{{ base_path }}`)
-      middlewares:
-        - name: {{ auth_middelware_name }}
-          namespace: {{ auth_middelware_namespace }}
       services:
         - kind: Service
           name: {{ k8s_name }}

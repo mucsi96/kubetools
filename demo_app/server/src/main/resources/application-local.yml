@@ -9,3 +9,6 @@ management:
 spring:
   jmx:
     enabled: true
+springdoc:
+  swagger-ui:
+    path: /

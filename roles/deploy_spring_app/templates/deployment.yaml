@@ -33,6 +33,8 @@ spec:
           - secretRef:
               name: {{ k8s_name }}
         env:
+          - name: JWK_SET_URI
+            value: "{{ jwk_set_uri }}"
           - name: SERVER_SERVLET_CONTEXT_PATH
             value: "{{ base_path }}"
           - name: SPRING_ACTUATOR_PORT
