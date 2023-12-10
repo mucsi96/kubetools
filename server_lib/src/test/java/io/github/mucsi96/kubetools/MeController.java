@@ -8,11 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.annotation.security.RolesAllowed;
 
 @RestController
-@RolesAllowed("user")
 public class MeController {
 
     @GetMapping("/me")
+    @RolesAllowed("user")
     String getMe(@AuthenticationPrincipal Jwt principal) {
+        return principal.getClaimAsString("name");
+    }
+
+    @GetMapping("/admin")
+    @RolesAllowed("admin")
+    String getAdmin(@AuthenticationPrincipal Jwt principal) {
         return principal.getClaimAsString("name");
     }
 }
