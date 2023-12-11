@@ -2,7 +2,9 @@ import {
   WWWAuthenticateChallenge,
   parseWwwAuthenticateChallenges,
   processUserInfoResponse,
-  userInfoRequest
+  userInfoRequest,
+  introspectionRequest,
+  processIntrospectionResponse,
 } from "oauth4webapi";
 import { client } from "./clientConfig.js";
 import { discover } from "./discoveryService.js";
@@ -15,6 +17,14 @@ export async function getUserInfo({
   accessToken: string;
 }) {
   const authorizationServer = await discover();
+  const r = await processIntrospectionResponse(
+    authorizationServer,
+    client,
+    await introspectionRequest(authorizationServer, client, accessToken)
+  );
+
+  console.log('introspectionResponse', r);
+
   const response = await userInfoRequest(
     authorizationServer,
     client,
