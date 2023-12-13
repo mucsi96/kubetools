@@ -3,8 +3,6 @@ package io.github.mucsi96.kubetools;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
@@ -18,8 +16,7 @@ public class SecurityConfigurationTest extends BaseIntegrationTest {
         @Test
         public void returns_logged_in_user_details() throws Exception {
                 MockHttpServletResponse response = mockMvc.perform(
-                                get("/me")
-                                                .cookie(getAccessTokenCookie(List.of("user"))))
+                                get("/me").cookie(getUserAccessToken()))
                                 .andReturn()
                                 .getResponse();
 
@@ -31,8 +28,7 @@ public class SecurityConfigurationTest extends BaseIntegrationTest {
         @Test
         public void returns_forbidden_if_user_has_no_user_authority() throws Exception {
                 MockHttpServletResponse response = mockMvc.perform(
-                                get("/me")
-                                                .cookie(getAccessTokenCookie(List.of("guest"))))
+                                get("/me").cookie(getGuestAccessToken()))
                                 .andReturn()
                                 .getResponse();
 

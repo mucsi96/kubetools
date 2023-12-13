@@ -9,6 +9,4 @@
 - [OAuth 2.0 for Browser-Based Apps](https://www.ietf.org/archive/id/draft-ietf-oauth-browser-based-apps-15.html#name-token-storage-in-a-service-)
 - [Node.js JWT Authentication With HTTP Only Cookie](https://keeplearning.dev/nodejs-jwt-authentication-with-http-only-cookie-5d8a966ac059)
 - [The Token Handler Pattern for Single Page Applications](https://curity.io/resources/learn/the-token-handler-pattern/)
-- [Spring OAuth 2.0 Resource Server JWT](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html)
-- [Spring Boot JWT - How to Secure your REST APIs with Spring Security and Json Web Tokens](https://www.danvega.dev/blog/2022/09/09/spring-security-jwt)
-- [Spring Boot Testing Signed JWT with a mock Authorization Server](https://chancharles.medium.com/spring-boot-testing-signed-jwt-with-a-mock-authorization-server-f2907ec07175)
+- [OAuth 2.0 Resource Server Opaque Token](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/opaque-token.html)

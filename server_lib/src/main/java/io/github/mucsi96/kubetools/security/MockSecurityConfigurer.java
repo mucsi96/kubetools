@@ -1,7 +1,8 @@
 package io.github.mucsi96.kubetools.security;
 
+import java.time.Instant;
 import java.util.Collection;
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,15 +12,19 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.security.oauth2.core.DefaultOAuth2AuthenticatedPrincipal;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2AccessToken.TokenType;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class MockSecurityConfigurer extends AbstractHttpConfigurer<MockSecurityConfigurer, HttpSecurity> {
 
     @Override
@@ -41,14 +46,13 @@ public class MockSecurityConfigurer extends AbstractHttpConfigurer<MockSecurityC
             super((AuthenticationManager) authentication -> {
                 return authentication;
             }, (AuthenticationConverter) request -> {
-                Jwt jwt = Jwt.withTokenValue("token")
-                        .header("alg", "none")
-                        .subject("user")
-                        .claim("name", "Robert White")
-                        .claim("groups", List.of("user"))
-                        .build();
                 Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_user");
-                return new JwtAuthenticationToken(jwt, authorities);
+                DefaultOAuth2AuthenticatedPrincipal principal = new DefaultOAuth2AuthenticatedPrincipal("rob",
+                        Map.of("name", "Robert White", "email", "robert.white@mockemail.com"), authorities);
+
+                return new BearerTokenAuthentication(principal,
+                        new OAuth2AccessToken(TokenType.BEARER, "mock-token", Instant.now(), Instant.now()),
+                        authorities);
             });
 
             this.setSuccessHandler((HttpServletRequest request, HttpServletResponse response,

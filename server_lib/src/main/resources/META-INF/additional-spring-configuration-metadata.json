@@ -1,0 +1,20 @@
+{
+  "properties": [
+    {
+      "name": "kubetools.introspection-uri",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "kubetools.user-info-uri",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "kubetools.client-id",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "kubetools.client-secret",
+      "type": "java.lang.String"
+    }
+  ]
+}
