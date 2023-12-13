@@ -33,8 +33,14 @@ spec:
           - secretRef:
               name: {{ k8s_name }}
         env:
-          - name: JWK_SET_URI
-            value: "{{ jwk_set_uri }}"
+          - name: INTROSPECTION_URI
+            value: "{{ introspection_uri }}"
+          - name: USER_INFO_URI
+            value: "{{ user_info_uri }}"
+          - name: CLIENT_ID
+            value: "{{ client_id }}"
+          - name: CLIENT_SECRET
+            value: "{{ client_secret }}"
           - name: SERVER_SERVLET_CONTEXT_PATH
             value: "{{ base_path }}"
           - name: SPRING_ACTUATOR_PORT

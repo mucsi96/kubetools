@@ -1,2 +1,3 @@
-jwk_set_uri: https://auth.{{ hostname }}/jwks.json
+introspection_uri: https://auth.{{ hostname }}/api/oidc/introspection
+user_info_uri: https://auth.{{ hostname }}/api/oidc/userinfo
 spring_admin_server_host: "{{ spring_admin_server_name }}.{{ spring_admin_server_namespace }}"

@@ -27,6 +27,8 @@
         image: mucsi96/kubetools-demo-app-server
         tag_prefix: demo-app-server
         base_path: /api
+        client_id: "{{ api_client_id }}"
+        client_secret: "{{ api_client_secret }}"
         app_env:
           POSTGRES_DB: "{{ db_name }}"
           POSTGRES_HOSTNAME: "{{ db_host }}"

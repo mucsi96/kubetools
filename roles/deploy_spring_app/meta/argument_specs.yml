@@ -22,6 +22,10 @@ argument_specs:
       hostname:
         type: str
         required: true
+      client_id:
+        type: str
+      client_secret:
+        type: str
       spring_actuator_port:
         type: str
       spring_admin_server_name:
