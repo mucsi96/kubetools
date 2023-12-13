@@ -23,3 +23,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
+kubetools:
+  introspection-uri: ${INTROSPECTION_URI}
+  user-info-uri: ${USER_INFO_URI}
+  client-id: ${CLIENT_ID}
+  client-secret: ${CLIENT_SECRET}

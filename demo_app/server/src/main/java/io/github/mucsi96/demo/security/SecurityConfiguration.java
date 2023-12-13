@@ -3,6 +3,7 @@ package io.github.mucsi96.demo.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -14,15 +15,13 @@ public class SecurityConfiguration {
 
     @Bean
     @Profile("prod")
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.apply(new KubetoolsSecurityConfigurer());
-        return http.build();
+    SecurityFilterChain securityFilterChain(HttpSecurity http, KubetoolsSecurityConfigurer configurer) throws Exception {
+        return http.with(configurer, Customizer.withDefaults()).build();
     }
 
     @Bean
     @Profile("!prod")
-    SecurityFilterChain mockSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.apply(new MockSecurityConfigurer());
-        return http.build();
+    SecurityFilterChain mockSecurityFilterChain(HttpSecurity http, MockSecurityConfigurer configurer) throws Exception {
+        return http.with(configurer, Customizer.withDefaults()).build();
     }
 }

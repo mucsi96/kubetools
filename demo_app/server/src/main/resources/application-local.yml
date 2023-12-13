@@ -12,3 +12,8 @@ spring:
 springdoc:
   swagger-ui:
     path: /
+kubetools:
+  introspection-uri: /
+  user-info-uri: /
+  client-id: clientId
+  client-secret: clientSecret

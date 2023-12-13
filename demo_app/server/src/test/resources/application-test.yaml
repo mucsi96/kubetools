@@ -12,3 +12,8 @@ management:
       show-details: always
       probes:
         enabled: true
+kubetools:
+  introspection-uri: /
+  user-info-uri: /
+  client-id: clientId
+  client-secret: clientSecret
