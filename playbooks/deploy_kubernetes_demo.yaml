@@ -9,7 +9,6 @@
       ansible.builtin.include_role:
         name: deploy_postgres_db
       vars:
-        k8s_name: "{{ db_host }}"
         db_backup_exclude_tables: []
     - name: Deploy token handler
       ansible.builtin.include_role:

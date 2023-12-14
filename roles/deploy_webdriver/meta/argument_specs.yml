@@ -2,10 +2,12 @@
 argument_specs:
   main:
     options:
-      k8s_name:
-        type: str
       k8s_namespace:
         type: str
         required: true
-      app_port:
+      webdriver_host:
         type: str
+        required: true
+      webdriver_port:
+        type: str
+        required: true

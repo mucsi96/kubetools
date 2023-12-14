@@ -11,6 +11,9 @@
     definition: "{{ lookup('ansible.builtin.template', item) }}"
     wait: true
     wait_timeout: 300
+  vars:
+    k8s_name: "{{ webdriver_host }}"
+    app_port: "{{ webdriver_port }}"
   with_items:
     - deployment.yaml
     - service.yaml

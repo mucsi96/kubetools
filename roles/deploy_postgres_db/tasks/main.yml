@@ -8,6 +8,9 @@
   ansible.builtin.set_fact:
     secret_checksum: "{{ lookup('ansible.builtin.template', 'secret.yaml') | checksum }}"
     original_k8s_name: "{{ k8s_name }}"
+  vars:
+    k8s_name: "{{ db_host }}"
+    app_port: "{{ db_port }}"
 - name: Add kubernetes resources
   delegate_to: localhost
   kubernetes.core.k8s:
@@ -20,6 +23,9 @@
     - deployment.yaml
     - service.yaml
     - service_monitor.yaml
+  vars:
+    k8s_name: "{{ db_host }}"
+    app_port: "{{ db_port }}"
 - name: Deploy Postgress backup tool
   ansible.builtin.include_role:
     name: deploy_spring_app
