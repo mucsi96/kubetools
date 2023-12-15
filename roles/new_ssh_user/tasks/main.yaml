@@ -46,6 +46,8 @@
     mode: 0600
   delegate_to: localhost
   when: not private_key_file_stat.stat.exists
+- name: Gather facts
+  ansible.builtin.setup:
 - name: Install sudo package
   become: true
   ansible.builtin.apt:
