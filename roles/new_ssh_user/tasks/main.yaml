@@ -46,6 +46,12 @@
     mode: 0600
   delegate_to: localhost
   when: not private_key_file_stat.stat.exists
+- name: Install sudo package
+  become: true
+  ansible.builtin.apt:
+    name: sudo
+    state: present
+  when: ansible_os_family == 'Debian'
 - name: Make sure we have a 'wheel' group
   ansible.builtin.group:
     name: wheel
