@@ -1,6 +1,11 @@
 # kubetools
 Tools for Kubernetes cluster
 
+Tested on:
+- Rocky Linux 8
+- Ubuntu 22.04 (arm64)
+- Debian 12
+
 ### Remove namespace "stuck" as Terminating
 
 ```bash

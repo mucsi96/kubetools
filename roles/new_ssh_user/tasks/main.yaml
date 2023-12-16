@@ -53,7 +53,9 @@
   ansible.builtin.apt:
     name: sudo
     state: present
-  when: ansible_os_family == 'Debian'
+  when:
+    - _ssh_port_result is succeeded
+    - ansible_os_family == 'Debian'
 - name: Make sure we have a 'wheel' group
   ansible.builtin.group:
     name: wheel
