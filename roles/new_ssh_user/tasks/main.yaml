@@ -48,6 +48,7 @@
   when: not private_key_file_stat.stat.exists
 - name: Gather facts
   ansible.builtin.setup:
+  when: _ssh_port_result is succeeded
 - name: Install sudo package
   become: true
   ansible.builtin.apt:
