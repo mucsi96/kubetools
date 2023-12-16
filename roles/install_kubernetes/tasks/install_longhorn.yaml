@@ -1,3 +1,11 @@
+- name: Install requirements with APT
+  become: true
+  ansible.builtin.apt:
+    name: open-iscsi
+    state: present
+  when:
+    - ansible_os_family == 'Debian'
+
 - name: Create longhorn-system namespace
   delegate_to: localhost
   kubernetes.core.k8s:
