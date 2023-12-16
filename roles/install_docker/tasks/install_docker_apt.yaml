@@ -6,12 +6,8 @@
       - curl
       - gnupg
       - python3-pip
+      - python3-debian
     update_cache: true
-
-- name: Install python-debian
-  become: true
-  ansible.builtin.pip:
-    name: python-debian == 0.1.49
 
 - name: Setup Docker repository
   become: true
