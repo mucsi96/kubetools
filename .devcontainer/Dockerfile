@@ -77,7 +77,7 @@ RUN wget -q "https://github.com/cloudflare/cloudflared/releases/latest/download/
 RUN curl -sSL https://github.com/buildpacks/pack/releases/download/v0.28.0/pack-v0.28.0-linux.tgz | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack
 
 ENV ANSIBLE_CONFIG=${WORKSPACE_HOME}/ansible.cfg
-ENV KUBECONFIG=${USER_HOME}/.kube/admin-config
+ENV KUBECONFIG=${USER_HOME}/.kube/ansible-config
 ENV CHROME_BIN=/usr/bin/chromium
 ENV CHOKIDAR_USEPOLLING=true
 COPY .bashrc ${USER_HOME}
