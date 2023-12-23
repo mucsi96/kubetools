@@ -11,8 +11,8 @@ import org.springframework.test.context.ActiveProfiles;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
-@ActiveProfiles("test")
-public class MockSecurityConfigurationTest extends BaseIntegrationTest {
+@ActiveProfiles("local")
+public class LocalSecurityConfigurationTest extends BaseIntegrationTest {
 
         @Test
         public void returns_logged_in_user_details() throws Exception {

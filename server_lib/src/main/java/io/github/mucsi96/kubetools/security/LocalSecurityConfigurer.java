@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Map;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -25,7 +26,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class MockSecurityConfigurer extends AbstractHttpConfigurer<MockSecurityConfigurer, HttpSecurity> {
+@Profile("local")
+public class LocalSecurityConfigurer extends KubetoolsSecurityConfigurer {
 
     @Override
     public void init(HttpSecurity http) throws Exception {

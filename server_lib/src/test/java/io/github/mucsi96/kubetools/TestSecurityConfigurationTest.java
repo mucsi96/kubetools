@@ -10,13 +10,14 @@ import org.springframework.test.context.ActiveProfiles;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
-@ActiveProfiles("prod")
-public class SecurityConfigurationTest extends BaseIntegrationTest {
+@ActiveProfiles("test")
+public class TestSecurityConfigurationTest extends BaseIntegrationTest {
 
         @Test
+        @WithMockUserRoles("user")
         public void returns_logged_in_user_details() throws Exception {
                 MockHttpServletResponse response = mockMvc.perform(
-                                get("/me").cookie(getUserAccessToken()))
+                                get("/me"))
                                 .andReturn()
                                 .getResponse();
 
@@ -26,26 +27,15 @@ public class SecurityConfigurationTest extends BaseIntegrationTest {
         }
 
         @Test
+        @WithMockUserRoles("guest")
         public void returns_forbidden_if_user_has_no_user_authority() throws Exception {
                 MockHttpServletResponse response = mockMvc.perform(
-                                get("/me").cookie(getGuestAccessToken()))
+                                get("/admin"))
                                 .andReturn()
                                 .getResponse();
 
                 assertThat(response.getStatus()).isEqualTo(403);
                 DocumentContext body = JsonPath.parse(response.getContentAsString());
                 assertThat(body.read("$.status", Integer.class)).isEqualTo(403);
-        }
-
-        @Test
-        public void returns_unauthorized_if_auth_headers_are_missing() throws Exception {
-                MockHttpServletResponse response = mockMvc.perform(
-                                get("/me"))
-                                .andReturn()
-                                .getResponse();
-
-                assertThat(response.getStatus()).isEqualTo(401);
-                DocumentContext body = JsonPath.parse(response.getContentAsString());
-                assertThat(body.read("$.status", Integer.class)).isEqualTo(401);
         }
 }
