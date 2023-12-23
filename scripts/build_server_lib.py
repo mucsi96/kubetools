@@ -47,7 +47,7 @@ with open(maven_settings, 'w') as f:
     ''')
 
 run(['mvn', 'versions:set', f'-DnewVersion={newVersion}'], cwd=src, check=True)
-run(['mvn', 'deploy'], cwd=src, check=True)
+run(['mvn', 'deploy', '-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'], cwd=src, check=True)
 
 release_id = create_release(
     tag_prefix=tag_prefix,
